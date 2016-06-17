@@ -1,0 +1,28 @@
+AppBundle\EntityCollection\TaskCollection:
+    exclusion_policy: ALL
+    properties:
+        entities:
+            expose: true
+            type: array<AppBundle\Entity\Task>
+        offset:
+            expose: true
+            type: integer
+        limit:
+            expose: true
+            type: integer
+#    relations:
+#        -
+#            rel: self
+#            href:
+#                route: get_tasks
+#                absolute: true
+#        -
+#            rel: model
+#            href:
+#                route: get_task
+#                absolute: true
+#                generator: templated_uri
+#                parameters:
+#                    id: "{id}"
+#            attributes:
+#                templated: true

@@ -30,3 +30,6 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
+hautelook_alice:
+    locale: ru_RU
+    persist_once: true

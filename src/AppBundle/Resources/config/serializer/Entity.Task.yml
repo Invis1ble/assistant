@@ -1,0 +1,27 @@
+AppBundle\Entity\Task:
+    exclusion_policy: ALL
+    properties:
+        id:
+            type: string
+        title: ~
+        description: ~
+        rate:
+            type: string
+        createdAt: ~
+#    relations:
+#        -
+#            rel: self
+#            href:
+#                route: get_task
+#                parameters:
+#                    id: expr(object.getId())
+#                absolute: true
+#        -
+#            rel: periods
+#            href:
+#                route: get_tasks_periods
+#                parameters:
+#                    taskId: expr(object.getId())
+#                absolute: true
+#            embed:
+#                content: expr(object.getIntervals())
