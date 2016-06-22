@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\RestExtraBundle\BazingaRestExtraBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
 
             new AppBundle\AppBundle(),
         ];

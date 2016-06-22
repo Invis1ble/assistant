@@ -33,3 +33,10 @@ monolog:
 hautelook_alice:
     locale: ru_RU
     persist_once: true
+
+nelmio_cors:
+    defaults:
+        allow_origin: '*'
+        allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+    paths:
+        '^/': ~
