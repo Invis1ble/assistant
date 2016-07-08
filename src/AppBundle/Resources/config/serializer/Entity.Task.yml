@@ -5,23 +5,22 @@ AppBundle\Entity\Task:
             type: string
         title: ~
         description: ~
-        rate:
-            type: string
+        rate: ~
         createdAt: ~
-#    relations:
-#        -
-#            rel: self
-#            href:
-#                route: get_task
-#                parameters:
-#                    id: expr(object.getId())
-#                absolute: true
-#        -
-#            rel: periods
-#            href:
-#                route: get_tasks_periods
-#                parameters:
-#                    taskId: expr(object.getId())
-#                absolute: true
-#            embed:
-#                content: expr(object.getIntervals())
+    relations:
+        -
+            rel: self
+            href:
+                route: api_get_task
+                parameters:
+                    task: expr(object.getId())
+                absolute: true
+        -
+            rel: periods
+            href:
+                route: api_get_task_periods
+                parameters:
+                    task: expr(object.getId())
+                absolute: true
+            embed:
+                content: expr(object.getPeriods())

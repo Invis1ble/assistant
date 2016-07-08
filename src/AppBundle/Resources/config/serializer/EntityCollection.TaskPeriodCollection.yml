@@ -1,28 +1,25 @@
-AppBundle\EntityCollection\TaskCollection:
+AppBundle\EntityCollection\TaskPeriodCollection:
     exclusion_policy: ALL
     properties:
         entities:
             expose: true
-            type: array<AppBundle\Entity\Task>
-        offset:
-            expose: true
-            type: integer
-        limit:
-            expose: true
-            type: integer
+            type: array<AppBundle\Entity\Period>
     relations:
         -
             rel: self
             href:
-                route: api_get_tasks
-                absolute: true
-        -
-            rel: entity
-            href:
-                route: api_get_task
+                route: api_get_task_periods
                 absolute: true
                 generator: templated_uri
                 parameters:
-                    task: '{id}'
+                    task: expr(object.task.getId().toString())
+        -
+            rel: entity
+            href:
+                route: api_get_period
+                absolute: true
+                generator: templated_uri
+                parameters:
+                    period: '{id}'
             attributes:
                 templated: true

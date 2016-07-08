@@ -71,6 +71,9 @@ stof_doctrine_extensions:
 
 fos_rest:
     param_fetcher_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
     view:
         view_response_listener:
             enabled: true
@@ -79,8 +82,12 @@ fos_rest:
             xml: false
         templating_formats:
             html: false
+    serializer:
+        serialize_null: true
 
 jms_serializer:
     handlers:
         datetime:
             default_format: U
+
+nelmio_api_doc: ~

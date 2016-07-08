@@ -39,4 +39,4 @@ nelmio_cors:
         allow_origin: '*'
         allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
     paths:
-        '^/': ~
+        '^api/': ~

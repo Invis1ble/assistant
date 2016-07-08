@@ -32,7 +32,10 @@
         "doctrine/doctrine-migrations-bundle": "^1.1",
         "ramsey/uuid-doctrine": "^1.2",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "nelmio/cors-bundle": "^1.4"
+        "nelmio/cors-bundle": "^1.4",
+        "nelmio/api-doc-bundle": "^2.13",
+        "hautelook/templated-uri-bundle": "dev-master#abf784feea984783eab0a822541c7aa3f58d445e",
+        "willdurand/hateoas-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

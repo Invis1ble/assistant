@@ -2,8 +2,9 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Task;
 use Doctrine\ORM\EntityRepository;
+
+use AppBundle\Entity\Task;
 
 /**
  * TaskRepository

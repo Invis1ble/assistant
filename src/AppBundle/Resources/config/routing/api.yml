@@ -1,0 +1,15 @@
+tasks:
+    type: rest
+    resource: '@AppBundle/Controller/TaskController.php'
+    name_prefix: api_
+
+task_periods:
+    type: rest
+    resource: '@AppBundle/Controller/TaskPeriodController.php'
+    parent: tasks
+    name_prefix: api_
+
+periods:
+    type: rest
+    resource: '@AppBundle/Controller/PeriodController.php'
+    name_prefix: api_

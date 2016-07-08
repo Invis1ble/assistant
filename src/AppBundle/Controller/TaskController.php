@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Task;
 use AppBundle\EntityCollection\TaskCollection;
@@ -19,6 +20,15 @@ use AppBundle\EntityCollection\TaskCollection;
 class TaskController extends FOSRestController
 {
     /**
+     * List all tasks
+     *
+     * @ApiDoc(
+     *     resource = true,
+     *     statusCodes = {
+     *         200 = "Returned when successful"
+     *     }
+     * )
+     *
      * @Annotations\QueryParam(
      *     name="offset",
      *     requirements="\d+",
@@ -38,7 +48,7 @@ class TaskController extends FOSRestController
      *
      * @return TaskCollection
      */
-    public function getTasksAction(ParamFetcherInterface $paramFetcher)
+    public function getTasksAction(ParamFetcherInterface $paramFetcher): TaskCollection
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
@@ -48,5 +58,33 @@ class TaskController extends FOSRestController
             $offset,
             $limit
         );
+    }
+
+    /**
+     * Get single task
+     *
+     * @ApiDoc(
+     *     statusCodes = {
+     *         200 = "Returned when successful",
+     *         404 = "Returned when the task is not found"
+     *     },
+     *     requirements = {
+     *         {
+     *             "name" = "task",
+     *             "dataType" = "UUID string",
+     *             "description" = "Task ID"
+     *         }
+     *     }
+     * )
+     *
+     * @Annotations\View()
+     *
+     * @param Task $task
+     *
+     * @return Task
+     */
+    public function getTaskAction(Task $task): Task
+    {
+        return $task;
     }
 }
