@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="period.finished_at.not_timestamp">
+                <source>period.finished_at.not_timestamp</source>
+                <target>Некорректный timestamp окончания периода</target>
+            </trans-unit>
+            <trans-unit id="period.started_at.blank">
+                <source>period.started_at.blank</source>
+                <target>Не указано время начала периода</target>
+            </trans-unit>
+            <trans-unit id="period.started_at.not_timestamp">
+                <source>period.started_at.not_timestamp</source>
+                <target>Некорректный timestamp начала периода</target>
+            </trans-unit>
+            <trans-unit id="period.task.blank">
+                <source>period.task.blank</source>
+                <target>Не указана задача</target>
+            </trans-unit>
+            <trans-unit id="task.created_at.not_timestamp">
+                <source>task.created_at.not_timestamp</source>
+                <target>Некорректный timestamp создания задачи</target>
+            </trans-unit>
+            <trans-unit id="task.description.long">
+                <source>task.description.long</source>
+                <target>Длина описания задачи превышает {{ limit }} символа.|Длина описания задачи превышает {{ limit }} символов.|Длина описания задачи превышает {{ limit }} символов.</target>
+            </trans-unit>
+            <trans-unit id="task.title.blank">
+                <source>task.title.blank</source>
+                <target>Не указан заголовок задачи</target>
+            </trans-unit>
+            <trans-unit id="task.title.long">
+                <source>task.title.long</source>
+                <target>Длина заголовка задачи превышает {{ limit }} символа.|Длина заголовка задачи превышает {{ limit }} символов.|Длина заголовка задачи превышает {{ limit }} символов.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,4 +1,10 @@
 services:
     app.data_fixtures_faker_provider.period_provider:
         class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
+        public: false
         tags: [ { name: hautelook_alice.faker.provider } ]
+
+    app.form.type.task_period_form_type:
+        class: AppBundle\Form\Type\TaskPeriodFormType
+        tags:
+            - { name: form.type }

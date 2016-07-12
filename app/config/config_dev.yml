@@ -34,9 +34,12 @@ hautelook_alice:
     locale: ru_RU
     persist_once: true
 
+# TODO: Restrict this before release
 nelmio_cors:
     defaults:
         allow_origin: '*'
         allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+        allow_headers: ['Content-Type']
+        expose_headers: ['Location']
     paths:
         '^api/': ~

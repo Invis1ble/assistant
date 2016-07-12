@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\{
@@ -11,6 +14,7 @@ use AppBundle\Entity\{
     Task
 };
 use AppBundle\EntityCollection\TaskPeriodCollection;
+use AppBundle\Form\Type\TaskPeriodFormType;
 
 /**
  * TaskPeriodController
@@ -50,5 +54,54 @@ class TaskPeriodController extends FOSRestController
             $task,
             $task->getPeriods()->toArray()
         );
+    }
+
+    /**
+     * Creates a new period from the submitted data.
+     *
+     * @ApiDoc(
+     *     statusCodes = {
+     *         201 = "Returned when a new period is created",
+     *         400 = "Returned when the form has errors",
+     *         404 = "Returned when the task is not found"
+     *     }
+     * )
+     *
+     * @Annotations\View()
+     *
+     * @param Request $request
+     * @param Task    $task
+     *
+     * @return View|Form
+     */
+    public function postPeriodAction(Request $request, Task $task)
+    {
+        $period = new Period();
+        $period->setTask($task);
+
+        $form = $this->getForm($period);
+        $form->submit(json_decode($request->getContent(), true));
+
+        if ($form->isValid()) {
+            $om = $this->getDoctrine()->getManager();
+            $om->persist($period);
+            $om->flush();
+
+            return $this->routeRedirectView('api_get_period', [
+                'period' => $period->getId(),
+            ]);
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param Period $period
+     *
+     * @return Form
+     */
+    protected function getForm(Period $period): Form
+    {
+        return $this->createForm(TaskPeriodFormType::class, $period);
     }
 }

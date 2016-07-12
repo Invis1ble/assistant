@@ -60,7 +60,7 @@ class Period
     /**
      * @return DateTime
      */
-    public function getStartedAt(): DateTime
+    public function getStartedAt()
     {
         return $this->startedAt;
     }

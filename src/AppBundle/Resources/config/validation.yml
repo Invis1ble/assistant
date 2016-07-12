@@ -1,0 +1,29 @@
+AppBundle\Entity\Task:
+    properties:
+        title:
+            - NotBlank:
+                message: task.title.blank
+            - Length:
+                max: 65535
+                maxMessage: task.title.long
+        description:
+            - Length:
+                max: 65535
+                maxMessage: task.description.long
+        createdAt:
+            - DateTime:
+                message: task.created_at.not_timestamp
+
+AppBundle\Entity\Period:
+    properties:
+        startedAt:
+            - NotBlank:
+                message: period.started_at.blank
+            - DateTime:
+                message: period.started_at.not_timestamp
+        finishedAt:
+            - DateTime:
+                message: period.finished_at.not_timestamp
+        task:
+            - NotBlank:
+                message: period.task.blank
