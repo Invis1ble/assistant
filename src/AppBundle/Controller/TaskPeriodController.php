@@ -9,9 +9,7 @@ use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use AppBundle\Entity\{
-    Task
-};
+use AppBundle\Entity\Task;
 use AppBundle\EntityCollection\TaskPeriodCollection;
 use AppBundle\Form\Type\TaskPeriodFormType;
 
@@ -68,7 +66,7 @@ class TaskPeriodController extends FOSRestController
      *         {
      *             "name" = "task",
      *             "dataType" = "UUID string",
-     *             "description" = "ID of the task for which periods are created"
+     *             "description" = "ID of the task for which period is created"
      *         }
      *     }
      * )
