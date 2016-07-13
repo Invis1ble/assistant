@@ -76,16 +76,15 @@ class TaskPeriodController extends FOSRestController
      */
     public function postPeriodAction(Request $request, Task $task)
     {
-        $period = new Period();
+        $periodManager = $this->get('app.manager.period_manager');
+        $period = $periodManager->createPeriod();
         $period->setTask($task);
 
-        $form = $this->getForm($period);
+        $form = $this->createForm(TaskPeriodFormType::class, $period);
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
-            $om = $this->getDoctrine()->getManager();
-            $om->persist($period);
-            $om->flush();
+            $periodManager->save($period);
 
             return $this->routeRedirectView('api_get_period', [
                 'period' => $period->getId(),
@@ -93,15 +92,5 @@ class TaskPeriodController extends FOSRestController
         }
 
         return $form;
-    }
-
-    /**
-     * @param Period $period
-     *
-     * @return Form
-     */
-    protected function getForm(Period $period): Form
-    {
-        return $this->createForm(TaskPeriodFormType::class, $period);
     }
 }
