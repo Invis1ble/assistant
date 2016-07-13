@@ -10,7 +10,6 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\{
-    Period,
     Task
 };
 use AppBundle\EntityCollection\TaskPeriodCollection;
@@ -64,6 +63,13 @@ class TaskPeriodController extends FOSRestController
      *         201 = "Returned when a new period is created",
      *         400 = "Returned when the form has errors",
      *         404 = "Returned when the task is not found"
+     *     },
+     *     requirements = {
+     *         {
+     *             "name" = "task",
+     *             "dataType" = "UUID string",
+     *             "description" = "ID of the task for which periods are created"
+     *         }
      *     }
      * )
      *
