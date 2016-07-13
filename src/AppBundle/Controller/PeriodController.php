@@ -23,7 +23,7 @@ class PeriodController extends FOSRestController
      * @ApiDoc(
      *     statusCodes = {
      *         200 = "Returned when successful",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the period is not found"
      *     },
      *     requirements = {
      *         {
