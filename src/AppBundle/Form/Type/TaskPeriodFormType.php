@@ -51,6 +51,9 @@ class TaskPeriodFormType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return 'task_period';
