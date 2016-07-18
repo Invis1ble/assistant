@@ -2,13 +2,17 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Task;
 use AppBundle\EntityCollection\TaskCollection;
+use AppBundle\Form\Type\TaskFormType;
 
 /**
  * TaskController
@@ -86,5 +90,40 @@ class TaskController extends FOSRestController
     public function getTaskAction(Task $task): Task
     {
         return $task;
+    }
+
+    /**
+     * Creates a new task from the submitted data.
+     *
+     * @ApiDoc(
+     *     statusCodes = {
+     *         201 = "Returned when a new task is created",
+     *         400 = "Returned when the form has errors"
+     *     }
+     * )
+     *
+     * @Annotations\View()
+     *
+     * @param Request $request
+     *
+     * @return View|Form
+     */
+    public function postTaskAction(Request $request)
+    {
+        $taskManager = $this->get('app.manager.task_manager');
+        $task = $taskManager->createTask();
+
+        $form = $this->createForm(TaskFormType::class, $task);
+        $form->submit(json_decode($request->getContent(), true));
+
+        if ($form->isValid()) {
+            $taskManager->save($task);
+
+            return $this->routeRedirectView('api_get_task', [
+                'task' => $task->getId(),
+            ]);
+        }
+
+        return $form;
     }
 }

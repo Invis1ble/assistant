@@ -4,6 +4,11 @@ services:
         public: false
         tags: [ { name: hautelook_alice.faker.provider } ]
 
+    app.form.type.task_form_type:
+        class: AppBundle\Form\Type\TaskFormType
+        tags:
+            - { name: form.type }
+
     app.form.type.task_period_form_type:
         class: AppBundle\Form\Type\TaskPeriodFormType
         tags:
@@ -12,6 +17,10 @@ services:
     app.manager.abstract_manager:
         class: AppBundle\Manager\AbstractManager
         arguments: ['@doctrine.orm.entity_manager']
+
+    app.manager.task_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\TaskManager
 
     app.manager.period_manager:
         parent: app.manager.abstract_manager
