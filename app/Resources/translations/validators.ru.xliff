@@ -2,17 +2,17 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
         <body>
-            <trans-unit id="period.finished_at.not_timestamp">
-                <source>period.finished_at.not_timestamp</source>
-                <target>Некорректный timestamp окончания периода</target>
+            <trans-unit id="period.finished_at.invalid">
+                <source>period.finished_at.invalid</source>
+                <target>Некорректное значение окончания периода</target>
             </trans-unit>
             <trans-unit id="period.started_at.blank">
                 <source>period.started_at.blank</source>
                 <target>Не указано время начала периода</target>
             </trans-unit>
-            <trans-unit id="period.started_at.not_timestamp">
-                <source>period.started_at.not_timestamp</source>
-                <target>Некорректный timestamp начала периода</target>
+            <trans-unit id="period.started_at.invalid">
+                <source>period.started_at.invalid</source>
+                <target>Некорректное значение начала периода</target>
             </trans-unit>
             <trans-unit id="period.task.blank">
                 <source>period.task.blank</source>

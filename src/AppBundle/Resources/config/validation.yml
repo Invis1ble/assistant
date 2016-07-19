@@ -19,11 +19,6 @@ AppBundle\Entity\Period:
         startedAt:
             - NotBlank:
                 message: period.started_at.blank
-            - DateTime:
-                message: period.started_at.not_timestamp
-        finishedAt:
-            - DateTime:
-                message: period.finished_at.not_timestamp
         task:
             - NotBlank:
                 message: period.task.blank

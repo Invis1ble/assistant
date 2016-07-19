@@ -58,7 +58,7 @@ class Period
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getStartedAt()
     {
@@ -66,11 +66,11 @@ class Period
     }
 
     /**
-     * @param DateTime $startedAt
+     * @param DateTime|null $startedAt
      *
      * @return Period
      */
-    public function setStartedAt(DateTime $startedAt): Period
+    public function setStartedAt(DateTime $startedAt = null): Period
     {
         $this->startedAt = $startedAt;
 

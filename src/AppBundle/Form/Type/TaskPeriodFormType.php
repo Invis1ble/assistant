@@ -4,7 +4,6 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,11 +16,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TaskPeriodFormType extends AbstractType
 {
+    /**
+     * @var string
+     */
+    protected $translationNamespace = 'form.task_period.';
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $translationNamespace = $this->getTranslationNamespace();
+
         $builder
-            ->add('startedAt', TextType::class)
-            ->add('finishedAt', TextType::class)
+            ->add('startedAt', null, [
+                'html5' => true,
+                'widget' => 'single_text',
+                'invalid_message' => 'period.started_at.invalid',
+                'label' => $translationNamespace . 'label.started_at',
+            ])
+            ->add('finishedAt', null, [
+                'required' => false,
+                'html5' => true,
+                'widget' => 'single_text',
+                'invalid_message' => 'period.finished_at.invalid',
+                'label' => $translationNamespace . 'label.finished_at',
+            ])
         ;
 
         $dateTimeToTimestampTransformer = new DateTimeToTimestampTransformer();
@@ -57,5 +74,25 @@ class TaskPeriodFormType extends AbstractType
     public function getName(): string
     {
         return 'task_period';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTranslationNamespace(): string
+    {
+        return $this->translationNamespace;
+    }
+
+    /**
+     * @param string $translationNamespace
+     *
+     * @return TaskPeriodFormType
+     */
+    public function setTranslationNamespace(string $translationNamespace)
+    {
+        $this->translationNamespace = $translationNamespace;
+
+        return $this;
     }
 }

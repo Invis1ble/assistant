@@ -14,6 +14,14 @@
                 <source>form.task.label.title</source>
                 <target>Заголовок</target>
             </trans-unit>
+            <trans-unit id="form.task_period.label.finished_at">
+                <source>form.task_period.label.finished_at</source>
+                <target>Окончание</target>
+            </trans-unit>
+            <trans-unit id="form.task_period.label.started_at">
+                <source>form.task_period.label.started_at</source>
+                <target>Старт</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
