@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7b9ac840aee01f87674f7ae4ff8a95f8",
-    "content-hash": "c026f10eabd5381b33fb1f0458eb3bc6",
+    "hash": "7d35861e2acfb758c058d8734447838a",
+    "content-hash": "38ff443b5de807d8204ca6fc000684b9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1035,16 +1035,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.17",
+            "version": "v2.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "1a0824035a46be999b9a04a951c9366455bd2585"
+                "reference": "c453c7d695da0dd1c3e713a27ec71a05da355662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/1a0824035a46be999b9a04a951c9366455bd2585",
-                "reference": "1a0824035a46be999b9a04a951c9366455bd2585",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/c453c7d695da0dd1c3e713a27ec71a05da355662",
+                "reference": "c453c7d695da0dd1c3e713a27ec71a05da355662",
                 "shasum": ""
             },
             "require": {
@@ -1110,11 +1110,11 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2016-07-15 13:40:22"
+            "time": "2016-07-19 06:08:11"
         },
         {
             "name": "hautelook/templated-uri-bundle",
-            "version": "dev-master",
+            "version": "2.0.1",
             "target-dir": "Hautelook/TemplatedUriBundle",
             "source": {
                 "type": "git",
@@ -1823,16 +1823,16 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.0.4",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "7e9aa662b8405d6ee09844f66d7f32596902b538"
+                "reference": "510c1e5065c45e4318ddf86faafeda9f69e33014"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/7e9aa662b8405d6ee09844f66d7f32596902b538",
-                "reference": "7e9aa662b8405d6ee09844f66d7f32596902b538",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/510c1e5065c45e4318ddf86faafeda9f69e33014",
+                "reference": "510c1e5065c45e4318ddf86faafeda9f69e33014",
                 "shasum": ""
             },
             "require": {
@@ -1840,8 +1840,8 @@
                 "php": "~7.0"
             },
             "require-dev": {
-                "composer/composer": "^1.0.0-ALPHA11@ALPHA",
-                "phpunit/phpunit": "^5.2.8"
+                "composer/composer": "^1.2.0",
+                "phpunit/phpunit": "^5.4.7"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1853,7 +1853,10 @@
             "autoload": {
                 "psr-4": {
                     "PackageVersions\\": "src/PackageVersions"
-                }
+                },
+                "files": [
+                    "src/PackageVersions/Versions.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1866,7 +1869,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2016-04-23 17:52:40"
+            "time": "2016-07-22 14:47:43"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -3738,9 +3741,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "hautelook/templated-uri-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
