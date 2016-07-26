@@ -83,7 +83,7 @@ class TaskPeriodFormType extends AbstractType
      *
      * @return TaskPeriodFormType
      */
-    public function setTranslationNamespace(string $translationNamespace)
+    public function setTranslationNamespace(string $translationNamespace): TaskPeriodFormType
     {
         $this->translationNamespace = $translationNamespace;
 

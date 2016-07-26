@@ -77,7 +77,7 @@ class TaskFormType extends AbstractType
      *
      * @return TaskFormType
      */
-    public function setTranslationNamespace(string $translationNamespace)
+    public function setTranslationNamespace(string $translationNamespace): TaskFormType
     {
         $this->translationNamespace = $translationNamespace;
 
