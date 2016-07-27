@@ -1,6 +1,12 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
+    encoders:
+        AppBundle\Security\UserInterface:
+            algorithm: bcrypt
+            cost: 15
+
+        FOS\UserBundle\Model\UserInterface: sha512
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -22,3 +28,7 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_control:
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

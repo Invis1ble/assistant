@@ -1,8 +1,20 @@
 services:
-    app.data_fixtures_faker_provider.period_provider:
-        class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
+    app.data_fixtures_faker_provider.abstract_provider:
+        abstract: true
         public: false
-        tags: [ { name: hautelook_alice.faker.provider } ]
+
+    app.data_fixtures_faker_provider.period_provider:
+        parent: app.data_fixtures_faker_provider.abstract_provider
+        class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    app.data_fixtures_faker_provider.user_provider:
+        parent: app.data_fixtures_faker_provider.abstract_provider
+        class: AppBundle\DataFixtures\Faker\Provider\UserProvider
+        arguments: ['@security.encoder_factory']
+        tags:
+            - { name: hautelook_alice.faker.provider }
 
     app.form.type.task_form_type:
         class: AppBundle\Form\Type\TaskFormType
@@ -15,6 +27,7 @@ services:
             - { name: form.type }
 
     app.manager.abstract_manager:
+        abstract: true
         class: AppBundle\Manager\AbstractManager
         arguments: ['@doctrine.orm.entity_manager']
 

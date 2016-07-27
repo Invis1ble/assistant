@@ -55,6 +55,14 @@ class Task
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $rate;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    protected $user;
     
     /**
      * @var Collection
@@ -133,6 +141,26 @@ class Task
     public function setRate(string $rate): Task
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Task
+     */
+    public function setUser(User $user): Task
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -112,6 +112,7 @@ class TaskController extends FOSRestController
     {
         $taskManager = $this->get('app.manager.task_manager');
         $task = $taskManager->createTask();
+        $task->setUser($this->getUser());
 
         $form = $this->createForm(TaskFormType::class, $task);
         $form->submit(json_decode($request->getContent(), true));
