@@ -1,3 +1,26 @@
+AppBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: username
+            message: user.username.already_used
+    properties:
+        username:
+            - NotBlank:
+                message: user.username.blank
+            - Length:
+                min: 2
+                minMessage: user.username.short
+                max: 255
+                maxMessage: user.username.long
+        plainPassword:
+            - NotBlank:
+                message: user.password.blank
+            - Length:
+                min: 6
+                minMessage: user.password.short
+                max: 255
+                maxMessage: user.password.long
+
 AppBundle\Entity\Task:
     properties:
         title:

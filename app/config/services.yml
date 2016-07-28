@@ -1,20 +1,25 @@
 services:
-    app.data_fixtures_faker_provider.abstract_provider:
+    app.data_fixtures.faker.provider.abstract_provider:
         abstract: true
         public: false
 
-    app.data_fixtures_faker_provider.period_provider:
-        parent: app.data_fixtures_faker_provider.abstract_provider
+    app.data_fixtures.faker.provider.period_provider:
+        parent: app.data_fixtures.faker.provider.abstract_provider
         class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
         tags:
             - { name: hautelook_alice.faker.provider }
 
-    app.data_fixtures_faker_provider.user_provider:
-        parent: app.data_fixtures_faker_provider.abstract_provider
+    app.data_fixtures.faker.provider.user_provider:
+        parent: app.data_fixtures.faker.provider.abstract_provider
         class: AppBundle\DataFixtures\Faker\Provider\UserProvider
-        arguments: ['@security.encoder_factory']
+        arguments: ['@security.password_encoder']
         tags:
             - { name: hautelook_alice.faker.provider }
+
+    app.form.type.user_form_type:
+        class: AppBundle\Form\Type\TaskFormType
+        tags:
+            - { name: form.type }
 
     app.form.type.task_form_type:
         class: AppBundle\Form\Type\TaskFormType
@@ -38,3 +43,9 @@ services:
     app.manager.period_manager:
         parent: app.manager.abstract_manager
         class: AppBundle\Manager\PeriodManager
+
+    app.manager.user_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\UserManager
+        calls:
+            - [ setUserPasswordEncoder, [ '@security.password_encoder' ] ]

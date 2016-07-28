@@ -2,6 +2,38 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="user.password.blank">
+                <source>user.password.blank</source>
+                <target>Не указано пароль</target>
+            </trans-unit>
+            <trans-unit id="user.password.long">
+                <source>user.password.long</source>
+                <target>Длина пароля превышает {{ limit }} символа|Длина пароля превышает {{ limit }} символов|Длина пароля превышает {{ limit }} символов</target>
+            </trans-unit>
+            <trans-unit id="user.password.mismatch">
+                <source>user.password.mismatch</source>
+                <target>Пароли не совпадают</target>
+            </trans-unit>
+            <trans-unit id="user.password.short">
+                <source>user.password.short</source>
+                <target>Длина пароля менее {{ limit }} символа|Длина пароля менее {{ limit }} символов|Длина пароля менее {{ limit }} символов</target>
+            </trans-unit>
+            <trans-unit id="user.username.blank">
+                <source>user.username.blank</source>
+                <target>Не указано имя</target>
+            </trans-unit>
+            <trans-unit id="user.username.already_used">
+                <source>user.username.already_used</source>
+                <target>Пользователь с таким именем уже существует</target>
+            </trans-unit>
+            <trans-unit id="user.username.long">
+                <source>user.username.long</source>
+                <target>Длина имени превышает {{ limit }} символа|Длина имени превышает {{ limit }} символов|Длина имени превышает {{ limit }} символов</target>
+            </trans-unit>
+            <trans-unit id="user.username.short">
+                <source>user.username.short</source>
+                <target>Длина имени менее {{ limit }} символа|Длина имени менее {{ limit }} символов|Длина имени менее {{ limit }} символов</target>
+            </trans-unit>
             <trans-unit id="period.finished_at.invalid">
                 <source>period.finished_at.invalid</source>
                 <target>Некорректное значение окончания периода</target>
@@ -24,7 +56,7 @@
             </trans-unit>
             <trans-unit id="task.description.long">
                 <source>task.description.long</source>
-                <target>Длина описания задачи превышает {{ limit }} символа.|Длина описания задачи превышает {{ limit }} символов.|Длина описания задачи превышает {{ limit }} символов.</target>
+                <target>Длина описания задачи превышает {{ limit }} символа|Длина описания задачи превышает {{ limit }} символов|Длина описания задачи превышает {{ limit }} символов</target>
             </trans-unit>
             <trans-unit id="task.title.blank">
                 <source>task.title.blank</source>
@@ -32,7 +64,7 @@
             </trans-unit>
             <trans-unit id="task.title.long">
                 <source>task.title.long</source>
-                <target>Длина заголовка задачи превышает {{ limit }} символа.|Длина заголовка задачи превышает {{ limit }} символов.|Длина заголовка задачи превышает {{ limit }} символов.</target>
+                <target>Длина заголовка задачи превышает {{ limit }} символа|Длина заголовка задачи превышает {{ limit }} символов|Длина заголовка задачи превышает {{ limit }} символов</target>
             </trans-unit>
         </body>
     </file>

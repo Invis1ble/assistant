@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\Faker\Provider;
 
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use AppBundle\Security\UserInterface;
 
@@ -16,13 +16,18 @@ use AppBundle\Security\UserInterface;
 class UserProvider
 {
     /**
-     * @var EncoderFactoryInterface
+     * @var UserPasswordEncoderInterface
      */
-    protected $encoderFactory;
+    protected $userPasswordEncoder;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    /**
+     * UserProvider constructor.
+     *
+     * @param UserPasswordEncoderInterface $userPasswordEncoder
+     */
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
-        $this->encoderFactory = $encoderFactory;
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     /**
@@ -32,15 +37,15 @@ class UserProvider
      */
     public function encodedPassword(UserInterface $user): string
     {
-        return $this->getEncoderFactory()->getEncoder($user)
-            ->encodePassword($user->getPlainPassword(), $user->getSalt());
+        return $this->getUserPasswordEncoder()
+            ->encodePassword($user, $user->getPlainPassword());
     }
 
     /**
-     * @return EncoderFactoryInterface
+     * @return UserPasswordEncoderInterface
      */
-    public function getEncoderFactory(): EncoderFactoryInterface
+    public function getUserPasswordEncoder(): UserPasswordEncoderInterface
     {
-        return $this->encoderFactory;
+        return $this->userPasswordEncoder;
     }
 }

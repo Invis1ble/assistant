@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskPeriodFormType extends AbstractType
+class TaskPeriodFormType extends TranslationNamespaceAwareFormType
 {
     /**
      * @var string
@@ -68,25 +67,5 @@ class TaskPeriodFormType extends AbstractType
     public function getName(): string
     {
         return 'task_period';
-    }
-
-    /**
-     * @return string
-     */
-    public function getTranslationNamespace(): string
-    {
-        return $this->translationNamespace;
-    }
-
-    /**
-     * @param string $translationNamespace
-     *
-     * @return TaskPeriodFormType
-     */
-    public function setTranslationNamespace(string $translationNamespace): TaskPeriodFormType
-    {
-        $this->translationNamespace = $translationNamespace;
-
-        return $this;
     }
 }

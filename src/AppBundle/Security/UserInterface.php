@@ -17,4 +17,11 @@ interface UserInterface extends BaseUserIterface
      * @return string
      */
     public function getPlainPassword(): string;
+
+    /**
+     * @param string $password
+     *
+     * @return UserInterface
+     */
+    public function setPassword(string $password);
 }

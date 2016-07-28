@@ -6,8 +6,6 @@ security:
             algorithm: bcrypt
             cost: 15
 
-        FOS\UserBundle\Model\UserInterface: sha512
-
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
@@ -30,5 +28,6 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
         - { path: ^/api, roles: ROLE_USER }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

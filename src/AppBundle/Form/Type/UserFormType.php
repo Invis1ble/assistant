@@ -2,41 +2,41 @@
 
 namespace AppBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use AppBundle\Entity\Task;
-
 /**
- * TaskFormType
+ * UserFormType
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskFormType extends TranslationNamespaceAwareFormType
+class UserFormType extends TranslationNamespaceAwareFormType
 {
     /**
      * @var string
      */
-    protected $translationNamespace = 'form.task.';
+    protected $translationNamespace = 'form.user.';
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $translationNamespace = $this->getTranslationNamespace();
 
         $builder
-            ->add('title', null, [
-                'label' => $translationNamespace . 'label.title',
+            ->add('username', null, [
+                'label' => $translationNamespace . 'label.username',
             ])
-            ->add('description', null, [
-                'label' => $translationNamespace . 'label.description',
-            ])
-            ->add('rate', MoneyType::class, [
-                'empty_data' => Task::DEFAULT_RATE,
-                'label' => $translationNamespace . 'label.rate',
-                'currency' => 'USD',
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => 'password',
+                'first_options' => [
+                    'label' => $translationNamespace . 'label.password',
+                ],
+                'second_options' => [
+                    'label' => $translationNamespace . 'label.password_repeated',
+                ],
+                'invalid_message' => 'user.password.mismatch',
             ])
         ;
     }
@@ -47,7 +47,7 @@ class TaskFormType extends TranslationNamespaceAwareFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Task',
+            'data_class' => 'AppBundle\Entity\User',
             'intention' => $this->getName(),
 
             // Todo: Fix CSRF protection
@@ -60,6 +60,6 @@ class TaskFormType extends TranslationNamespaceAwareFormType
      */
     public function getName(): string
     {
-        return 'task';
+        return 'user';
     }
 }
