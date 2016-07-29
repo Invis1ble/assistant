@@ -14,9 +14,9 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserIterface;
 interface UserInterface extends BaseUserIterface
 {
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPlainPassword(): string;
+    public function getPlainPassword();
 
     /**
      * @param string $password

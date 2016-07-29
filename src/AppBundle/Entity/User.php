@@ -72,7 +72,7 @@ class User implements UserInterface
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="User", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user", cascade={"remove"})
      */
     protected $tasks;
 
@@ -124,9 +124,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUsername(): string
+    public function getUsername()
     {
         return $this->username;
     }
@@ -144,19 +144,19 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
     /**
-     * @param string $plainPassword
+     * @param string|null $plainPassword
      *
      * @return User
      */
-    public function setPlainPassword(string $plainPassword): User
+    public function setPlainPassword(string $plainPassword = null): User
     {
         $this->plainPassword = $plainPassword;
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +30,7 @@ class UserFormType extends TranslationNamespaceAwareFormType
                 'label' => $translationNamespace . 'label.username',
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'type' => 'password',
+                'type' => PasswordType::class,
                 'first_options' => [
                     'label' => $translationNamespace . 'label.password',
                 ],

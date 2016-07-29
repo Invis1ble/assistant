@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="user.password.blank">
                 <source>user.password.blank</source>
-                <target>Не указано пароль</target>
+                <target>Не указан пароль</target>
             </trans-unit>
             <trans-unit id="user.password.long">
                 <source>user.password.long</source>
