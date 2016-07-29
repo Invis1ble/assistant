@@ -96,6 +96,10 @@ class TaskController extends FOSRestController
      * Creates a new task from the submitted data.
      *
      * @ApiDoc(
+     *     input = {
+     *         "class" = "AppBundle\Form\Type\TaskFormType",
+     *         "name" = ""
+     *     },
      *     statusCodes = {
      *         201 = "Returned when a new task is created",
      *         400 = "Returned when the form has errors"

@@ -25,6 +25,10 @@ class UserController extends FOSRestController
      * Creates a new user from the submitted data.
      *
      * @ApiDoc(
+     *     input = {
+     *         "class" = "AppBundle\Form\Type\UserFormType",
+     *         "name" = ""
+     *     },
      *     statusCodes = {
      *         201 = "Returned when a new user is created",
      *         400 = "Returned when the form has errors"

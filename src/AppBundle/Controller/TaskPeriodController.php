@@ -57,6 +57,10 @@ class TaskPeriodController extends FOSRestController
      * Creates a new period from the submitted data.
      *
      * @ApiDoc(
+     *     input = {
+     *         "class" = "AppBundle\Form\Type\TaskPeriodFormType",
+     *         "name" = ""
+     *     },
      *     statusCodes = {
      *         201 = "Returned when a new period is created",
      *         400 = "Returned when the form has errors",

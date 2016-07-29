@@ -54,6 +54,10 @@ class PeriodController extends FOSRestController
      * Patch existing period from the submitted data.
      *
      * @ApiDoc(
+     *     input = {
+     *         "class" = "AppBundle\Form\Type\TaskPeriodFormType",
+     *         "name" = ""
+     *     },
      *     statusCodes = {
      *         204 = "Returned when successful",
      *         400 = "Returned when the form has errors",
