@@ -34,7 +34,9 @@
         "nelmio/cors-bundle": "^1.4",
         "nelmio/api-doc-bundle": "^2.13",
         "hautelook/templated-uri-bundle": "^2.0",
-        "willdurand/hateoas-bundle": "^1.1"
+        "willdurand/hateoas-bundle": "^1.1",
+        "lexik/jwt-authentication-bundle": "^1.6",
+        "gfreeau/get-jwt-bundle": "2.0.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

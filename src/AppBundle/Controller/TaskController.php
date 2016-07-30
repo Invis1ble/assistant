@@ -29,7 +29,8 @@ class TaskController extends FOSRestController
      * @ApiDoc(
      *     resource = true,
      *     statusCodes = {
-     *         200 = "Returned when successful"
+     *         200 = "Returned when successful",
+     *         401 = "Returned when unauthorized"
      *     }
      * )
      *
@@ -70,7 +71,8 @@ class TaskController extends FOSRestController
      * @ApiDoc(
      *     statusCodes = {
      *         200 = "Returned when successful",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the task is not found",
+     *         401 = "Returned when unauthorized"
      *     },
      *     requirements = {
      *         {
@@ -102,7 +104,8 @@ class TaskController extends FOSRestController
      *     },
      *     statusCodes = {
      *         201 = "Returned when a new task is created",
-     *         400 = "Returned when the form has errors"
+     *         400 = "Returned when the form has errors",
+     *         401 = "Returned when unauthorized"
      *     }
      * )
      *

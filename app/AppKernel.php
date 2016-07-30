@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Hautelook\TemplatedUriBundle\HautelookTemplatedUriBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new Gfreeau\Bundle\GetJWTBundle\GfreeauGetJWTBundle(),
 
             new AppBundle\AppBundle(),
         ];

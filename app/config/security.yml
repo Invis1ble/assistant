@@ -8,14 +8,27 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        database:
+            entity:
+                class: AppBundle:User
+                property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/tokens$
+            provider: database
+            stateless: true
+            gfreeau_get_jwt: ~
+
+        api:
+            pattern: ^/api(?!/users)
+            stateless: true
+            lexik_jwt: ~
 
         main:
             anonymous: ~

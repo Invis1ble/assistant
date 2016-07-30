@@ -1,3 +1,8 @@
+tokens:
+    type: rest
+    resource: '@AppBundle/Controller/TokenController.php'
+    name_prefix: api_
+
 users:
     type: rest
     resource: '@AppBundle/Controller/UserController.php'

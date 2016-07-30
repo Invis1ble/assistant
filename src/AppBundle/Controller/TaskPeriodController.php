@@ -28,7 +28,8 @@ class TaskPeriodController extends FOSRestController
      * @ApiDoc(
      *     statusCodes = {
      *         200 = "Returned when successful",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the task is not found",
+     *         401 = "Returned when unauthorized"
      *     },
      *     requirements = {
      *         {
@@ -64,7 +65,8 @@ class TaskPeriodController extends FOSRestController
      *     statusCodes = {
      *         201 = "Returned when a new period is created",
      *         400 = "Returned when the form has errors",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the task is not found",
+     *         401 = "Returned when unauthorized"
      *     },
      *     requirements = {
      *         {

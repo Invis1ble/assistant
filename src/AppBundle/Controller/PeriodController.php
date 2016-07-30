@@ -28,7 +28,8 @@ class PeriodController extends FOSRestController
      * @ApiDoc(
      *     statusCodes = {
      *         200 = "Returned when successful",
-     *         404 = "Returned when the period is not found"
+     *         404 = "Returned when the period is not found",
+     *         401 = "Returned when unauthorized"
      *     },
      *     requirements = {
      *         {
@@ -61,7 +62,8 @@ class PeriodController extends FOSRestController
      *     statusCodes = {
      *         204 = "Returned when successful",
      *         400 = "Returned when the form has errors",
-     *         404 = "Returned when the period is not found"
+     *         404 = "Returned when the period is not found",
+     *         401 = "Returned when unauthorized"
      *     },
      *     requirements = {
      *         {
