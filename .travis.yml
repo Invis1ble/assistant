@@ -13,7 +13,7 @@ before_script:
     - cp app/config/parameters_travis.yml app/config/parameters.yml
     - composer install
     - bin/console doctrine:database:create --env=test
-    - bin/console doctrine:migrations:migrate --no-interatcion --env=test
+    - bin/console doctrine:migrations:migrate --no-interaction --env=test
 
 script:
     - vendor/phpunit/phpunit/phpunit --configuration phpunit.xml
