@@ -26,6 +26,7 @@ class PeriodController extends FOSRestController
      * Get single period
      *
      * @ApiDoc(
+     *     resource = true,
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         404 = "Returned when the period is not found",

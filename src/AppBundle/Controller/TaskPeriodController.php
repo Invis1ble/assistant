@@ -26,6 +26,7 @@ class TaskPeriodController extends FOSRestController
      * List task's periods
      *
      * @ApiDoc(
+     *     resource = true,
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         404 = "Returned when the task is not found",

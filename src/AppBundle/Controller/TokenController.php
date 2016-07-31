@@ -16,7 +16,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class TokenController extends FOSRestController
 {
     /**
-     * Creates a new token from the submitted data and returns it.
+     * Creates a new JSON Web Token from the submitted data and returns it.
      *
      * @ApiDoc(
      *     input = {
