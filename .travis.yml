@@ -16,4 +16,4 @@ before_script:
     - bin/console doctrine:migrations:migrate --no-interaction --env=test
 
 script:
-    - vendor/phpunit/phpunit/phpunit --configuration phpunit.xml
+    - vendor/bin/phpunit --configuration phpunit.xml
