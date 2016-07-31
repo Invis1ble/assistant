@@ -25,8 +25,12 @@ security:
             stateless: true
             gfreeau_get_jwt: ~
 
+        api_users:
+            pattern: ^/api/users$
+            anonymous: ~
+
         api:
-            pattern: ^/api(?!/users)
+            pattern: ^/api
             stateless: true
             lexik_jwt: ~
 
@@ -41,6 +45,6 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
+        - { path: ^/api/users$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST ] }
         - { path: ^/api, roles: ROLE_USER }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

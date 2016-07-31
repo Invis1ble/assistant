@@ -5,11 +5,11 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+use AppBundle\Entity\User;
 use AppBundle\Form\Type\UserFormType;
 
 /**
@@ -58,5 +58,35 @@ class UserController extends FOSRestController
         }
 
         return $form;
+    }
+
+    /**
+     * Get single user
+     *
+     * @ApiDoc(
+     *     resource = true,
+     *     statusCodes = {
+     *         200 = "Returned when successful",
+     *         404 = "Returned when the user is not found",
+     *         401 = "Returned when unauthorized"
+     *     },
+     *     requirements = {
+     *         {
+     *             "name" = "user",
+     *             "dataType" = "UUID string",
+     *             "description" = "User ID"
+     *         }
+     *     }
+     * )
+     *
+     * @Annotations\View()
+     *
+     * @param User $user
+     *
+     * @return User
+     */
+    public function getUserAction(User $user): User
+    {
+        return $user;
     }
 }
