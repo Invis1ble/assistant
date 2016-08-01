@@ -21,7 +21,7 @@ class Task
 {
     use CreatedAtTrait;
 
-    const DEFAULT_RATE = 20;
+    const DEFAULT_RATE = '20.00';
     
     const NUM_ITEMS = 10;
 
@@ -50,7 +50,7 @@ class Task
     protected $description;
 
     /**
-     * @var float
+     * @var string
      *
      * @ORM\Column(type="decimal", scale=2)
      */
@@ -126,19 +126,19 @@ class Task
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getRate(): float
+    public function getRate(): string
     {
         return $this->rate;
     }
 
     /**
-     * @param float $rate
+     * @param string $rate
      *
      * @return Task
      */
-    public function setRate(float $rate): Task
+    public function setRate(string $rate): Task
     {
         $this->rate = $rate;
 
