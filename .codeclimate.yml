@@ -3,5 +3,10 @@ languages:
     JavaScript: false
     PHP: true
     Python: false
+
 exclude_paths:
-    - "var/SymfonyRequirements.php"
+    - "app/**/*"
+    - "bin/**/*"
+    - "var/**/*"
+    - "vendor/**/*"
+    - "web/**/*"
