@@ -75,6 +75,8 @@ class PeriodController extends FOSRestController
      *     }
      * )
      *
+     * @Annotations\View()
+     *
      * @param Request $request
      * @param Period  $period
      *
