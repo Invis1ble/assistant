@@ -5,12 +5,9 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityRepository;
 
 use AppBundle\Entity\User;
-use AppBundle\Manager\UserManager;
 
 /**
  * ApiTestCase
@@ -29,28 +26,17 @@ abstract class ApiTestCase extends WebTestCase
     protected function setUp()
     {
         $this->client = static::createClient();
-        $this->purgeDatabase();
     }
 
     /**
      * @param string $username
-     * @param string $password
      *
      * @return User
      */
-    protected function createUser(string $username, string $password): User
+    protected function getUser(string $username): User
     {
-        $userManager = $this->getService('app.manager.user_manager');
-        /* @var $userManager UserManager */
-
-        $user = $userManager->createUser();
-
-        $user->setUsername($username);
-        $user->setPlainPassword($password);
-
-        $userManager->save($user);
-
-        return $user;
+        return $this->getRepository('AppBundle:User')
+            ->findOneBy(['username' => $username]);
     }
 
     /**
@@ -76,6 +62,19 @@ abstract class ApiTestCase extends WebTestCase
     protected function post(string $uri, array $data = [], string $username = null, string $password = null): Client
     {
         return $this->request('POST', $uri, [], [], [], json_encode($data), true, $username, $password);
+    }
+
+    /**
+     * @param string      $uri
+     * @param array       $data
+     * @param string|null $username
+     * @param string|null $password
+     *
+     * @return Client
+     */
+    protected function patch(string $uri, array $data = [], string $username = null, string $password = null): Client
+    {
+        return $this->request('PATCH', $uri, [], [], [], json_encode($data), true, $username, $password);
     }
 
     /**
@@ -126,24 +125,6 @@ abstract class ApiTestCase extends WebTestCase
         return $this->client;
     }
 
-    protected function purgeDatabase()
-    {
-        $doctrine = $this->getService('doctrine');
-        /* @var $doctrine ManagerRegistry */
-
-        $connection = $doctrine->getConnection();
-        /* @var $connection Connection */
-
-        $connection->exec('SET foreign_key_checks = 0');
-
-        $purger = new ORMPurger($doctrine->getManager());
-
-        $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
-        $purger->purge();
-
-        $connection->exec('SET foreign_key_checks = 1');
-    }
-
     /**
      * @param string $id
      *
@@ -155,24 +136,110 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
+     * @param string $persistentObject
+     *
+     * @return EntityRepository
+     */
+    protected function getRepository(string $persistentObject): EntityRepository
+    {
+        return $this->getService('doctrine')
+            ->getRepository($persistentObject);
+    }
+
+    /**
+     * @return string UUID v4 stub
+     */
+    protected function getUUID4stub(): string
+    {
+        return '00000000-0000-4000-a000-000000000000';
+    }
+
+    /**
      * @param Response $response
      */
-    protected function assertHasLocation(Response $response)
+    protected function assertResponseHasLocationHeader(Response $response)
     {
         $this->assertTrue(
             $response->headers->has('Location'),
-            'Location is present'
+            'Failed asserting that "Location" header is present.'
         );
     }
 
     /**
      * @param Response $response
      */
-    protected function assertContentTypeIsJson(Response $response)
+    protected function assertResponseContentTypeIsJson(Response $response)
     {
+        $contentType = $response->headers->get('Content-Type');
+
         $this->assertTrue(
             $response->headers->contains('Content-Type', 'application/json'),
-            'Content-Type is application/json'
+            'Failed asserting that "Content-Type" header is "application/json", ' .
+            ($contentType === null ? 'none' : ('"' . $response->headers->get('Content-Type') . '"')) . ' given.'
         );
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertResponseContainsEntities(Response $response)
+    {
+        $this->assertObjectHasAttribute(
+            'entities',
+            json_decode($response->getContent()),
+            'Failed asserting that response contains "entities".'
+        );
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertOk(Response $response)
+    {
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertCreated(Response $response)
+    {
+        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
+        $this->assertResponseHasLocationHeader($response);
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertValidationFailed(Response $response)
+    {
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
+
+        $this->assertObjectHasAttribute(
+            'errors',
+            json_decode($response->getContent()),
+            'Failed asserting that response contains "errors".'
+        );
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertUnauthorized(Response $response)
+    {
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
+    }
+
+    /**
+     * @param Response $response
+     */
+    protected function assertNotFound(Response $response)
+    {
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
     }
 }

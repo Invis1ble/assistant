@@ -13,41 +13,33 @@ class UserControllerTest extends ApiTestCase
 {
     public function testPostUser()
     {
-        $client = $this->post('/api/users');
+        $this->assertValidationFailed(
+            $this->post('/api/users')->getResponse()
+        );
 
-        $response = $client->getResponse();
-        $this->assertEquals(400, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-
-        $client = $this->post('/api/users', [
-            'username' => 'bob',
-            'plainPassword' => [
-                'first' => '111111',
-                'second' => '111111',
-            ],
-        ]);
-
-        $response = $client->getResponse();
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-        $this->assertHasLocation($response);
+        $this->assertCreated(
+            $this->post('/api/users', [
+                'username' => 'dave',
+                'plainPassword' => [
+                    'first' => 'alice_plain_password',
+                    'second' => 'alice_plain_password',
+                ],
+            ])
+                ->getResponse()
+        );
     }
 
     public function testGetUser()
     {
-        $plainPassword = '111111';
-        $user = $this->createUser('alice', $plainPassword);
+        $user = $this->getUser('alice');
 
-        $client = $this->get('/api/users/' . $user->getId());
+        $this->assertUnauthorized(
+            $this->get('/api/users/' . $user->getId())->getResponse()
+        );
 
-        $response = $client->getResponse();
-        $this->assertEquals(401, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-
-        $client = $this->get('/api/users/' . $user->getId(), $user->getUsername(), $plainPassword);
-
-        $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
+        $this->assertOk(
+            $this->get('/api/users/' . $user->getId(), $user->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
     }
 }

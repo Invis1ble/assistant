@@ -2,6 +2,8 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Entity\Task;
+
 /**
  * TaskControllerTest
  *
@@ -11,30 +13,67 @@ namespace Tests\AppBundle\Controller;
  */
 class TaskControllerTest extends ApiTestCase
 {
+    public function testGetTasks()
+    {
+        $this->assertUnauthorized(
+            $this->get('/api/tasks')
+                ->getResponse()
+        );
+
+        $user = $this->getUser('alice');
+
+        $client = $this->get('/api/tasks', $user->getUsername(), 'alice_plain_password');
+
+        $response = $client->getResponse();
+        $this->assertOk($response);
+        $this->assertResponseContainsEntities($response);
+    }
+
+    public function testGetTask()
+    {
+        $uuid4 = $this->getUUID4stub();
+
+        $this->assertUnauthorized(
+            $this->get('/api/tasks/' . $uuid4)
+                ->getResponse()
+        );
+
+        $user = $this->getUser('alice');
+
+        $this->assertNotFound(
+            $this->get('/api/tasks/' . $uuid4, $user->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $task = $user->getTasks()
+            ->get(0);
+        /* @var $task Task */
+
+        $this->assertOk(
+            $this->get('/api/tasks/' . $task->getId(), $user->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+    }
+
     public function testPostTask()
     {
-        $client = $this->post('/api/tasks');
+        $this->assertUnauthorized(
+            $this->post('/api/tasks')
+                ->getResponse()
+        );
 
-        $response = $client->getResponse();
-        $this->assertEquals(401, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
+        $user = $this->getUser('alice');
 
-        $plainPassword = '111111';
-        $user = $this->createUser('alice', $plainPassword);
+        $this->assertValidationFailed(
+            $this->post('/api/tasks', [], $user->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
 
-        $client = $this->post('/api/tasks', [], $user->getUsername(), $plainPassword);
-
-        $response = $client->getResponse();
-        $this->assertEquals(400, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-
-        $client = $this->post('/api/tasks', [
-            'title' => 'Test title',
-        ], $user->getUsername(), $plainPassword);
-
-        $response = $client->getResponse();
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-        $this->assertHasLocation($response);
+        $this->assertCreated(
+            $this->post('/api/tasks', [
+                'title' => 'Alice\'s new task',
+            ], $user->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
     }
 }

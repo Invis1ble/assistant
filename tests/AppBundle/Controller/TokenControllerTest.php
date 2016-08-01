@@ -13,27 +13,23 @@ class TokenControllerTest extends ApiTestCase
 {
     public function testPostToken()
     {
-        $plainPassword = '111111';
-        $user = $this->createUser('alice', $plainPassword);
+        $user = $this->getUser('alice');
 
-        $client = $this->post('/api/tokens', [
+        $this->assertUnauthorized(
+            $this->post('/api/tokens', [
+                'username' => $user->getUsername(),
+                'password' => 'invalid_password',
+            ])
+                ->getResponse()
+        );
+
+        $response = $this->post('/api/tokens', [
             'username' => $user->getUsername(),
-            'password' => '222222',
-        ]);
+            'password' => 'alice_plain_password',
+        ])
+            ->getResponse();
 
-        $response = $client->getResponse();
-        $this->assertEquals(401, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
-
-        $client = $this->post('/api/tokens', [
-            'username' => $user->getUsername(),
-            'password' => $plainPassword,
-        ]);
-
-        $response = $client->getResponse();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContentTypeIsJson($response);
+        $this->assertOk($response);
         $this->assertObjectHasAttribute('token', json_decode($response->getContent()));
     }
 }
