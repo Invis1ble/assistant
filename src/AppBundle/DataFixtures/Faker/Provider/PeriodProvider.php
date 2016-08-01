@@ -24,8 +24,8 @@ class PeriodProvider
     {
         $task = $period->getTask();
 
-        $filteredPeriods = array_filter($task->getPeriods()->toArray(), function (Period $p) use ($period) {
-            return $p !== $period;
+        $filteredPeriods = array_filter($task->getPeriods()->toArray(), function (Period $taskPeriod) use ($period) {
+            return $taskPeriod !== $period;
         });
 
         if (empty($filteredPeriods)) {

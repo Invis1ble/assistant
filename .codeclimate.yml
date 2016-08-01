@@ -1,12 +1,19 @@
-languages:
-    Ruby: false
-    JavaScript: false
-    PHP: true
-    Python: false
-
+engines:
+    duplication:
+        enabled: true
+        config:
+            languages:
+                - php
+    fixme:
+        enabled: true
+    phpmd:
+        enabled: true
+ratings:
+    paths:
+        - "**.php"
 exclude_paths:
-    - "app/**/*"
-    - "bin/**/*"
-    - "var/**/*"
-    - "vendor/**/*"
-    - "web/**/*"
+    - app/**/*
+    - bin/**/*
+    - var/**/*
+    - vendor/**/*
+    - web/**/*
