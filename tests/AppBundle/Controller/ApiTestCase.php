@@ -131,13 +131,12 @@ abstract class ApiTestCase extends WebTestCase
         $doctrine = $this->getService('doctrine');
         /* @var $doctrine ManagerRegistry */
 
-        $om = $doctrine->getManager();
         $connection = $doctrine->getConnection();
         /* @var $connection Connection */
 
         $connection->exec('SET foreign_key_checks = 0');
 
-        $purger = new ORMPurger($om);
+        $purger = new ORMPurger($doctrine->getManager());
 
         $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
         $purger->purge();
