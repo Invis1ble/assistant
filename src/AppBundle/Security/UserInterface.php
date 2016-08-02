@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-use Symfony\Component\Security\Core\User\UserInterface as BaseUserIterface;
+use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 /**
  * UserInterface
@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserIterface;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-interface UserInterface extends BaseUserIterface
+interface UserInterface extends BaseUserInterface
 {
     /**
      * @return string|null
