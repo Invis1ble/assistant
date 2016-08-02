@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use AppBundle\Entity\User;
 use AppBundle\Entity\Task;
 
 /**
@@ -16,15 +17,16 @@ use AppBundle\Entity\Task;
 class TaskRepository extends EntityRepository
 {
     /**
-     * @param int $limit
-     * @param int $offset
+     * @param User $user
+     * @param int  $limit
+     * @param int  $offset
      *
      * @return Task[]
      */
-    public function findLatest(int $limit = Task::NUM_ITEMS, int $offset = null): array
+    public function findLatest(User $user, int $limit = Task::NUM_ITEMS, int $offset = null): array
     {
         return $this->findBy(
-            [],
+            ['user' => $user],
             ['createdAt' => 'DESC'],
             $limit,
             $offset

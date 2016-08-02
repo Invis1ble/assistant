@@ -67,8 +67,9 @@ class UserController extends FOSRestController
      *     resource = true,
      *     statusCodes = {
      *         200 = "Returned when successful",
-     *         404 = "Returned when the user is not found",
-     *         401 = "Returned when unauthorized"
+     *         401 = "Returned when unauthorized",
+     *         403 = "Returned when not permitted",
+     *         404 = "Returned when the user is not found"
      *     },
      *     requirements = {
      *         {
@@ -87,6 +88,8 @@ class UserController extends FOSRestController
      */
     public function getUserAction(User $user): User
     {
+        $this->denyAccessUnlessGranted('show', $user);
+
         return $user;
     }
 }

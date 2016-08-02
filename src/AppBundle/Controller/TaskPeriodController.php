@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
@@ -27,19 +28,22 @@ class TaskPeriodController extends FOSRestController
      *
      * @ApiDoc(
      *     resource = true,
-     *     statusCodes = {
-     *         200 = "Returned when successful",
-     *         404 = "Returned when the task is not found",
-     *         401 = "Returned when unauthorized"
-     *     },
      *     requirements = {
      *         {
      *             "name" = "task",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the task for which periods are requested"
      *         }
+     *     },
+     *     statusCodes = {
+     *         200 = "Returned when successful",
+     *         401 = "Returned when unauthorized",
+     *         403 = "Returned when not permitted",
+     *         404 = "Returned when the task is not found"
      *     }
      * )
+     *
+     * @Security("is_granted('period_list', task)")
      *
      * @Annotations\View()
      *
@@ -63,20 +67,23 @@ class TaskPeriodController extends FOSRestController
      *         "class" = "AppBundle\Form\Type\TaskPeriodFormType",
      *         "name" = ""
      *     },
-     *     statusCodes = {
-     *         201 = "Returned when a new period is created",
-     *         400 = "Returned when the form has errors",
-     *         404 = "Returned when the task is not found",
-     *         401 = "Returned when unauthorized"
-     *     },
      *     requirements = {
      *         {
      *             "name" = "task",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the task for which period is created"
      *         }
+     *     },
+     *     statusCodes = {
+     *         201 = "Returned when a new period is created",
+     *         400 = "Returned when the form has errors",
+     *         401 = "Returned when unauthorized",
+     *         403 = "Returned when not permitted",
+     *         404 = "Returned when the task is not found"
      *     }
      * )
+     *
+     * @Security("is_granted('period_create', task)")
      *
      * @Annotations\View()
      *

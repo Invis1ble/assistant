@@ -18,20 +18,29 @@ class PeriodControllerTest extends ApiTestCase
     {
         $uuid4 = $this->getUUID4stub();
 
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $alicePeriod = $this->getPeriod($alice);
+        $bobPeriod = $this->getPeriod($bob);
+
         $this->assertUnauthorized(
             $this->get('/api/periods/' . $uuid4)
                 ->getResponse()
         );
 
-        $user = $this->getUser('alice');
-
         $this->assertNotFound(
-            $this->get('/api/periods/' . $uuid4, $user->getUsername(), 'alice_plain_password')
+            $this->get('/api/periods/' . $uuid4, $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertForbidden(
+            $this->get('/api/periods/' . $bobPeriod->getId(), $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertOk(
-            $this->get('/api/periods/' . $this->getPeriod($user)->getId(), $user->getUsername(), 'alice_plain_password')
+            $this->get('/api/periods/' . $alicePeriod->getId(), $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
     }
@@ -40,32 +49,39 @@ class PeriodControllerTest extends ApiTestCase
     {
         $uuid4 = $this->getUUID4stub();
 
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $alicePeriod = $this->getPeriod($alice);
+        $bobPeriod = $this->getPeriod($bob);
+
         $this->assertUnauthorized(
             $this->patch('/api/periods/' . $uuid4)
                 ->getResponse()
         );
 
-        $user = $this->getUser('alice');
-
         $this->assertNotFound(
-            $this->patch('/api/periods/' . $uuid4, [], $user->getUsername(), 'alice_plain_password')
+            $this->patch('/api/periods/' . $uuid4, [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
-        $period = $this->getPeriod($user);
+        $this->assertForbidden(
+            $this->patch('/api/periods/' . $bobPeriod->getId(), [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
 
         $this->assertValidationFailed(
-            $this->patch('/api/periods/' . $period->getId(), [
+            $this->patch('/api/periods/' . $alicePeriod->getId(), [
                 'startedAt' => 'invalid_timestamp',
-            ], $user->getUsername(), 'alice_plain_password')
+            ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertEquals(
             204,
-            $this->patch('/api/periods/' . $period->getId(), [
-                'startedAt' => $period->getStartedAt()->getTimestamp() - 1,
-            ], $user->getUsername(), 'alice_plain_password')
+            $this->patch('/api/periods/' . $alicePeriod->getId(), [
+                'startedAt' => $alicePeriod->getStartedAt()->getTimestamp() - 1,
+            ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
                 ->getStatusCode()
         );

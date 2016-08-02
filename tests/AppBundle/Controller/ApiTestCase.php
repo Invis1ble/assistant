@@ -237,6 +237,15 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * @param Response $response
      */
+    protected function assertForbidden(Response $response)
+    {
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertResponseContentTypeIsJson($response);
+    }
+
+    /**
+     * @param Response $response
+     */
     protected function assertNotFound(Response $response)
     {
         $this->assertEquals(404, $response->getStatusCode());

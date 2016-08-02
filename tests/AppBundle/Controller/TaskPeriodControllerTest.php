@@ -17,23 +17,33 @@ class TaskPeriodControllerTest extends ApiTestCase
     {
         $uuid4 = $this->getUUID4stub();
 
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $aliceTask = $alice->getTasks()
+            ->get(0);
+        /* @var $aliceTask Task */
+
+        $bobTask = $bob->getTasks()
+            ->get(0);
+        /* @var $bobTask Task */
+
         $this->assertUnauthorized(
             $this->get('/api/tasks/' . $uuid4 . '/periods')
                 ->getResponse()
         );
 
-        $user = $this->getUser('alice');
-
         $this->assertNotFound(
-            $this->get('/api/tasks/' . $uuid4 . '/periods', $user->getUsername(), 'alice_plain_password')
+            $this->get('/api/tasks/' . $uuid4 . '/periods', $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
-        $task = $user->getTasks()
-            ->get(0);
-        /* @var $task Task */
+        $this->assertForbidden(
+            $this->get('/api/tasks/' . $bobTask->getId() . '/periods', $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
 
-        $response = $this->get('/api/tasks/' . $task->getId() . '/periods', $user->getUsername(), 'alice_plain_password')
+        $response = $this->get('/api/tasks/' . $aliceTask->getId() . '/periods', $alice->getUsername(), 'alice_plain_password')
             ->getResponse();
 
         $this->assertOk($response);
@@ -44,31 +54,41 @@ class TaskPeriodControllerTest extends ApiTestCase
     {
         $uuid4 = $this->getUUID4stub();
 
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $aliceTask = $alice->getTasks()
+            ->get(0);
+        /* @var $aliceTask Task */
+
+        $bobTask = $bob->getTasks()
+            ->get(0);
+        /* @var $bobTask Task */
+
         $this->assertUnauthorized(
             $this->post('/api/tasks/' . $uuid4 . '/periods')
                 ->getResponse()
         );
 
-        $user = $this->getUser('alice');
-
         $this->assertNotFound(
-            $this->post('/api/tasks/' . $uuid4 . '/periods', [], $user->getUsername(), 'alice_plain_password')
+            $this->post('/api/tasks/' . $uuid4 . '/periods', [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
-        $task = $user->getTasks()
-            ->get(0);
-        /* @var $task Task */
+        $this->assertForbidden(
+            $this->post('/api/tasks/' . $bobTask->getId() . '/periods', [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
 
         $this->assertValidationFailed(
-            $this->post('/api/tasks/' . $task->getId() . '/periods', [], $user->getUsername(), 'alice_plain_password')
+            $this->post('/api/tasks/' . $aliceTask->getId() . '/periods', [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertCreated(
-            $this->post('/api/tasks/' . $task->getId() . '/periods', [
+            $this->post('/api/tasks/' . $aliceTask->getId() . '/periods', [
                 'startedAt' => time(),
-            ], $user->getUsername(), 'alice_plain_password')
+            ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
     }

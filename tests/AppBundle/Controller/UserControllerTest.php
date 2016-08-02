@@ -14,7 +14,8 @@ class UserControllerTest extends ApiTestCase
     public function testPostUser()
     {
         $this->assertValidationFailed(
-            $this->post('/api/users')->getResponse()
+            $this->post('/api/users')
+                ->getResponse()
         );
 
         $this->assertCreated(
@@ -31,14 +32,28 @@ class UserControllerTest extends ApiTestCase
 
     public function testGetUser()
     {
-        $user = $this->getUser('alice');
+        $uuid4 = $this->getUUID4stub();
+
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
 
         $this->assertUnauthorized(
-            $this->get('/api/users/' . $user->getId())->getResponse()
+            $this->get('/api/users/' . $uuid4)
+                ->getResponse()
+        );
+
+        $this->assertNotFound(
+            $this->get('/api/users/' . $uuid4, $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertForbidden(
+            $this->get('/api/users/' . $bob->getId(), $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
         );
 
         $this->assertOk(
-            $this->get('/api/users/' . $user->getId(), $user->getUsername(), 'alice_plain_password')
+            $this->get('/api/users/' . $alice->getId(), $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
     }

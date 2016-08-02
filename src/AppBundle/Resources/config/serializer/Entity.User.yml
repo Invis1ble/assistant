@@ -16,7 +16,9 @@ AppBundle\Entity\User:
         -
             rel: tasks
             href:
-                route: api_get_tasks
+                route: api_get_user_tasks
+                parameters:
+                    user: expr(object.getId())
                 absolute: true
             embed:
                 content: expr(object.getTasks())

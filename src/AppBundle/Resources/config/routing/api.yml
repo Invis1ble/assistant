@@ -8,6 +8,12 @@ users:
     resource: '@AppBundle/Controller/UserController.php'
     name_prefix: api_
 
+user_tasks:
+    type: rest
+    resource: '@AppBundle/Controller/UserTaskController.php'
+    parent: users
+    name_prefix: api_
+
 tasks:
     type: rest
     resource: '@AppBundle/Controller/TaskController.php'

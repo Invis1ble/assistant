@@ -54,3 +54,38 @@ services:
         class: AppBundle\Manager\UserManager
         calls:
             - [ setUserPasswordEncoder, [ '@security.password_encoder' ] ]
+
+    app.security.authorization.voter.abstract_voter:
+        abstract: true
+        arguments: ['@security.access.decision_manager']
+        public: false
+
+    app.security.authorization.voter.user_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\UserVoter
+        tags:
+           - { name: security.voter }
+
+    app.security.authorization.voter.user_task_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\UserTaskVoter
+        tags:
+           - { name: security.voter }
+
+    app.security.authorization.voter.task_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\TaskVoter
+        tags:
+           - { name: security.voter }
+
+    app.security.authorization.voter.task_period_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\TaskPeriodVoter
+        tags:
+           - { name: security.voter }
+
+    app.security.authorization.voter.period_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\PeriodVoter
+        tags:
+           - { name: security.voter }
