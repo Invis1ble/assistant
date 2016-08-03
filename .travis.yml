@@ -19,7 +19,7 @@ before_script:
     - composer require --dev codeclimate/php-test-reporter
     - bin/console doctrine:database:create --env=test
     - bin/console doctrine:migrations:migrate --no-interaction --env=test
-    - bin/console hautelook_alice:doctrine:fixtures:load --no-interaction --env=test
+    - bin/console hautelook_alice:doctrine:fixtures:load --no-interaction --env=test -vvv
 
 script:
     - vendor/bin/phpunit --configuration phpunit.xml --coverage-clover build/logs/clover.xml
