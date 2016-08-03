@@ -33,7 +33,7 @@ class UserManager extends AbstractManager
      * @param UserInterface $user
      * @param bool          $andFlush
      */
-    public function save(UserInterface $user, $andFlush = true)
+    public function save(UserInterface $user, bool $andFlush = true)
     {
         $this->updatePassword($user);
         $this->objectManager->persist($user);

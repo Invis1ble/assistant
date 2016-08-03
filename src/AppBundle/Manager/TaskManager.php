@@ -25,7 +25,7 @@ class TaskManager extends AbstractManager
      * @param Task $task
      * @param bool $andFlush
      */
-    public function save(Task $task, $andFlush = true)
+    public function save(Task $task, bool $andFlush = true)
     {
         $this->objectManager->persist($task);
 

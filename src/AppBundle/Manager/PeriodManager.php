@@ -25,7 +25,7 @@ class PeriodManager extends AbstractManager
      * @param Period $period
      * @param bool   $andFlush
      */
-    public function save(Period $period, $andFlush = true)
+    public function save(Period $period, bool $andFlush = true)
     {
         $this->objectManager->persist($period);
 
