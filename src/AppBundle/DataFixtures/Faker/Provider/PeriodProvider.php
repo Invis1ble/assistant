@@ -24,14 +24,13 @@ class PeriodProvider extends DateTimeProvider
     public static function startedAt(Period $period): DateTime
     {
         $task = $period->getTask();
-        $periods = $task->getPeriods();
+        $periods = clone $task->getPeriods();
+        $periods->removeElement($period);
 
-        if ($periods->count() === 1) {
+        if ($periods->isEmpty()) {
             return static::dateTimeBetween($task->getCreatedAt());
         }
 
-        $periods = clone $periods;
-        $periods->removeElement($period);
         $periods = $periods->toArray();
         /* @var $periods Period[] */
 
