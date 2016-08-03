@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
-
 use AppBundle\Security\Authorization\Voter\PeriodVoter;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Period;
@@ -29,8 +27,7 @@ class PeriodVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
-        $aliceToken = new JWTUserToken($alice->getRoles());
-        $aliceToken->setUser($alice);
+        $aliceToken = $this->createJWTToken($alice);
 
         $aliceTask = new Task();
         $aliceTask->setUser($alice);
@@ -44,14 +41,18 @@ class PeriodVoterTest extends AbstractVoterTestCase
         $bobTaskPeriod = new Period();
         $bobTaskPeriod->setTask($bobTask);
 
+        $anonymousToken = $this->createAnonymousToken();
+
         return [
             [$aliceToken, $aliceTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $aliceTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), PeriodVoter::SHOW, PeriodVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTaskPeriod, 'not_supported_attribute', PeriodVoter::ACCESS_ABSTAIN],
 
             [$aliceToken, $aliceTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), PeriodVoter::EDIT, PeriodVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTaskPeriod, 'not_supported_attribute', PeriodVoter::ACCESS_ABSTAIN],
         ];

@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
-
 use AppBundle\Entity\User;
 use AppBundle\Security\Authorization\Voter\UserTaskVoter;
 
@@ -27,17 +25,19 @@ class UserTaskVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
-        $aliceToken = new JWTUserToken($alice->getRoles());
-        $aliceToken->setUser($alice);
+        $aliceToken = $this->createJWTToken($alice);
+        $anonymousToken = $this->createAnonymousToken();
 
         return [
             [$aliceToken, $alice, UserTaskVoter::LIST, UserTaskVoter::ACCESS_GRANTED],
             [$aliceToken, $bob, UserTaskVoter::LIST, UserTaskVoter::ACCESS_DENIED],
+            [$anonymousToken, $bob, UserTaskVoter::LIST, UserTaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserTaskVoter::LIST, UserTaskVoter::ACCESS_ABSTAIN],
             [$aliceToken, $alice, 'not_supported_attribute', UserTaskVoter::ACCESS_ABSTAIN],
 
             [$aliceToken, $alice, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_GRANTED],
             [$aliceToken, $bob, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_DENIED],
+            [$anonymousToken, $bob, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserTaskVoter::CREATE, UserTaskVoter::ACCESS_ABSTAIN],
             [$aliceToken, $alice, 'not_supported_attribute', UserTaskVoter::ACCESS_ABSTAIN],
         ];

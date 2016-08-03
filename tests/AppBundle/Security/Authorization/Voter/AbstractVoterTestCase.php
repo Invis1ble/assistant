@@ -2,10 +2,12 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 
 /**
  * AbstractVoterTestCase
@@ -50,6 +52,27 @@ abstract class AbstractVoterTestCase extends KernelTestCase
             $this->getVoter()->vote($token, $subject, [$attribute]),
             $decision
         );
+    }
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return JWTUserToken
+     */
+    protected function createJWTToken(UserInterface $user): JWTUserToken
+    {
+        $token = new JWTUserToken($user->getRoles());
+        $token->setUser($user);
+
+        return $token;
+    }
+
+    /**
+     * @return AnonymousToken
+     */
+    protected function createAnonymousToken(): AnonymousToken
+    {
+        return new AnonymousToken('foo', 'anonymous');
     }
 
     abstract protected function populateVariables();

@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
-
 use AppBundle\Security\Authorization\Voter\TaskPeriodVoter;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Task;
@@ -28,8 +26,7 @@ class TaskPeriodVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
-        $aliceToken = new JWTUserToken($alice->getRoles());
-        $aliceToken->setUser($alice);
+        $aliceToken = $this->createJWTToken($alice);
 
         $aliceTask = new Task();
         $aliceTask->setUser($alice);
@@ -37,14 +34,18 @@ class TaskPeriodVoterTest extends AbstractVoterTestCase
         $bobTask = new Task();
         $bobTask->setUser($bob);
 
+        $anonymousToken = $this->createAnonymousToken();
+
         return [
             [$aliceToken, $aliceTask, TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTask, TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTask, TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskPeriodVoter::ACCESS_ABSTAIN],
 
             [$aliceToken, $aliceTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskPeriodVoter::ACCESS_ABSTAIN],
         ];

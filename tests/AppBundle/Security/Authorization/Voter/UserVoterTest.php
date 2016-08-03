@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
-
 use AppBundle\Security\Authorization\Voter\UserVoter;
 use AppBundle\Entity\User;
 
@@ -27,12 +25,13 @@ class UserVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
-        $aliceToken = new JWTUserToken($alice->getRoles());
-        $aliceToken->setUser($alice);
+        $aliceToken = $this->createJWTToken($alice);
+        $anonymousToken = $this->createAnonymousToken();
 
         return [
             [$aliceToken, $alice, UserVoter::SHOW, UserVoter::ACCESS_GRANTED],
             [$aliceToken, $bob, UserVoter::SHOW, UserVoter::ACCESS_DENIED],
+            [$anonymousToken, $bob, UserVoter::SHOW, UserVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserVoter::SHOW, UserVoter::ACCESS_ABSTAIN],
             [$aliceToken, $alice, 'not_supported_attribute', UserVoter::ACCESS_ABSTAIN],
         ];

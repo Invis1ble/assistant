@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
-
 use AppBundle\Security\Authorization\Voter\TaskVoter;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Task;
@@ -28,8 +26,7 @@ class TaskVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
-        $aliceToken = new JWTUserToken($alice->getRoles());
-        $aliceToken->setUser($alice);
+        $aliceToken = $this->createJWTToken($alice);
 
         $aliceTask = new Task();
         $aliceTask->setUser($alice);
@@ -37,9 +34,12 @@ class TaskVoterTest extends AbstractVoterTestCase
         $bobTask = new Task();
         $bobTask->setUser($bob);
 
+        $anonymousToken = $this->createAnonymousToken();
+
         return [
             [$aliceToken, $aliceTask, TaskVoter::SHOW, TaskVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTask, TaskVoter::SHOW, TaskVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTask, TaskVoter::SHOW, TaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskVoter::SHOW, TaskVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskVoter::ACCESS_ABSTAIN],
         ];
