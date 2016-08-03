@@ -2,7 +2,7 @@ AppBundle\Entity\Period:
     alice_period_{1..30}:
         setTaskAndAddSelfToPeriodsCollection: ['@alice_task*']
         startedAt: <startedAt(@self)>
-        finishedAt: <finishedAt(@self)>
+        finishedAt: <dateTimeBetween(@self->startedAt)>
     alice_runned_period:
         task: '@alice_task*'
         startedAt: <startedAt(@self)>
@@ -10,7 +10,7 @@ AppBundle\Entity\Period:
     bob_period_{1..30}:
         setTaskAndAddSelfToPeriodsCollection: ['@bob_task*']
         startedAt: <startedAt(@self)>
-        finishedAt: <finishedAt(@self)>
+        finishedAt: <dateTimeBetween(@self->startedAt)>
     bob_runned_period:
         task: '@bob_task*'
         startedAt: <startedAt(@self)>

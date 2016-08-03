@@ -2,9 +2,10 @@
 
 namespace AppBundle\DataFixtures\Faker\Provider;
 
-use AppBundle\Entity\Period;
 use DateTime;
-use LogicException;
+use Faker\Provider\DateTime as DateTimeProvider;
+
+use AppBundle\Entity\Period;
 
 /**
  * PeriodProvider
@@ -13,7 +14,7 @@ use LogicException;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class PeriodProvider
+class PeriodProvider extends DateTimeProvider
 {
     /**
      * @param Period $period
@@ -23,54 +24,21 @@ class PeriodProvider
     public static function startedAt(Period $period): DateTime
     {
         $task = $period->getTask();
+        $periods = $task->getPeriods();
 
-        $filteredPeriods = array_filter($task->getPeriods()->toArray(), function (Period $taskPeriod) use ($period) {
-            return $taskPeriod !== $period;
-        });
-
-        if (empty($filteredPeriods)) {
-            $fromDate = $task->getCreatedAt();
-        } else {
-            /* @var $filteredPeriods Period[] */
-
-            usort($filteredPeriods, function (Period $period1, Period $period2) {
-                $period1FinishedAt = $period1->getFinishedAt();
-                $period2FinishedAt = $period2->getFinishedAt();
-
-                if ($period1FinishedAt === $period2FinishedAt) {
-                    return 0;
-                }
-
-                return $period1FinishedAt < $period2FinishedAt ? 1 : -1;
-            });
-
-            $lastPeriodFinishedAt = $filteredPeriods[0]->getFinishedAt();
-
-            if (null === $lastPeriodFinishedAt) {
-                throw new LogicException('Last period should be finished');
-            }
-
-            $fromDate = $lastPeriodFinishedAt;
+        if ($periods->count() === 1) {
+            return static::dateTimeBetween($task->getCreatedAt());
         }
 
-        $fromTimestamp = $fromDate->getTimestamp();
-        $toTimestamp = time();
+        $periods = clone $periods;
+        $periods->removeElement($period);
+        $periods = $periods->toArray();
+        /* @var $periods Period[] */
 
-        return new DateTime('@' . mt_rand($fromTimestamp, $toTimestamp));
-    }
+        usort($periods, function (Period $period1, Period $period2) {
+            return $period2->getFinishedAt() <=> $period1->getFinishedAt();
+        });
 
-    /**
-     * @param Period $period
-     *
-     * @return DateTime
-     */
-    public static function finishedAt(Period $period): DateTime
-    {
-        $fromTimestamp = $period->getStartedAt()
-            ->getTimestamp();
-        
-        $toTimestamp = time();
-        
-        return new DateTime('@' . mt_rand($fromTimestamp, $toTimestamp));
+        return static::dateTimeBetween($periods[0]->getFinishedAt());
     }
 }
