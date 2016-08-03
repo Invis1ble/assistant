@@ -16,7 +16,6 @@ before_script:
     - openssl rsa -passin pass:1111 -pubout -in var/jwt/private.pem -out var/jwt/public.pem
     - cp app/config/parameters_travis.yml app/config/parameters.yml
     - composer install
-    - composer require --dev codeclimate/php-test-reporter
     - bin/console doctrine:database:create --env=test
     - bin/console doctrine:migrations:migrate --no-interaction --env=test
     - bin/console hautelook_alice:doctrine:fixtures:load --no-interaction --env=test -vvv
