@@ -72,7 +72,7 @@ class UserTaskController extends FOSRestController
         $limit = $paramFetcher->get('limit');
 
         return new UserTaskCollection(
-            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatest($user, $limit, $offset),
+            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatestCreatedBy($user, $limit, $offset),
             $user,
             $offset,
             $limit

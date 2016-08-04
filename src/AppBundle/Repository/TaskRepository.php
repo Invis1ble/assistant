@@ -23,7 +23,7 @@ class TaskRepository extends EntityRepository
      *
      * @return Task[]
      */
-    public function findLatest(User $user, int $limit = Task::NUM_ITEMS, int $offset = null): array
+    public function findLatestCreatedBy(User $user, int $limit = Task::NUM_ITEMS, int $offset = null): array
     {
         return $this->findBy(
             ['user' => $user],
