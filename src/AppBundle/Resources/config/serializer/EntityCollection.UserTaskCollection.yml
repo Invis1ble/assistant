@@ -16,7 +16,7 @@ AppBundle\EntityCollection\UserTaskCollection:
             href:
                 route: api_get_user_tasks
                 parameters:
-                    user: expr(object.user.getId().toString())
+                    user: expr(object.getUser().getId().toString())
                 absolute: true
         -
             rel: entity

@@ -14,17 +14,12 @@ use AppBundle\Entity\{
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskPeriodCollection
+class TaskPeriodCollection extends AbstractEntityCollection
 {
-    /**
-     * @var Period[]
-     */
-    public $entities;
-
     /**
      * @var Task
      */
-    public $task;
+    protected $task;
 
     /**
      * TaskCollection constructor.
@@ -34,7 +29,27 @@ class TaskPeriodCollection
      */
     public function __construct(Task $task, array $entities = [])
     {
+        $this->setTask($task);
+        $this->setEntities($entities);
+    }
+
+    /**
+     * @return Task
+     */
+    public function getTask(): Task
+    {
+        return $this->task;
+    }
+
+    /**
+     * @param Task $task
+     *
+     * @return TaskPeriodCollection
+     */
+    public function setTask(Task $task): TaskPeriodCollection
+    {
         $this->task = $task;
-        $this->entities = $entities;
+
+        return $this;
     }
 }
