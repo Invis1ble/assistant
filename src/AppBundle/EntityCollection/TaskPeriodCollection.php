@@ -24,10 +24,10 @@ class TaskPeriodCollection extends AbstractEntityCollection
     /**
      * TaskCollection constructor.
      *
-     * @param Task     $task
      * @param Period[] $entities
+     * @param Task     $task
      */
-    public function __construct(Task $task, array $entities = [])
+    public function __construct(array $entities = [], Task $task)
     {
         $this->setTask($task);
         $this->setEntities($entities);

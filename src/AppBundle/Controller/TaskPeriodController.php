@@ -54,8 +54,8 @@ class TaskPeriodController extends FOSRestController
     public function getPeriodsAction(Task $task): TaskPeriodCollection
     {
         return new TaskPeriodCollection(
-            $task,
-            $task->getPeriods()->toArray()
+            $task->getPeriods()->toArray(),
+            $task
         );
     }
 
