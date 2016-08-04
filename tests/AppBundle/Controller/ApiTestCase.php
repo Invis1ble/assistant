@@ -8,6 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Doctrine\ORM\EntityRepository;
 
 use AppBundle\Entity\User;
+use Tests\AppBundle\Controller\Constraint\{
+    ResponseContentTypeIsJson,
+    ResponseHasLocationHeader,
+    ResponseStatusCodeIs,
+    ResponseContains
+};
 
 /**
  * ApiTestCase
@@ -156,99 +162,184 @@ abstract class ApiTestCase extends WebTestCase
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertResponseHasLocationHeader(Response $response)
+    public static function assertResponseContentTypeIsJson(Response $response, string $message = '')
     {
-        $this->assertTrue(
-            $response->headers->has('Location'),
-            'Failed asserting that "Location" header is present.'
+        static::assertThat($response, static::responseContentTypeIsJson(), $message);
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertResponseHasLocationHeader(Response $response, string $message = '')
+    {
+        static::assertThat($response, static::responseHasLocationHeader(), $message);
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertResponseContainsEntities(Response $response, string $message = '')
+    {
+        static::assertThat($response, static::responseContains('entities'), $message);
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertResponseContainsErrors(Response $response, string $message = '')
+    {
+        static::assertThat($response, static::responseContains('errors'), $message);
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertOk(Response $response, string $message = '')
+    {
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_OK),
+                static::responseContentTypeIsJson()
+            ),
+            $message
         );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertResponseContentTypeIsJson(Response $response)
+    public static function assertCreated(Response $response, string $message = '')
     {
-        $contentType = $response->headers->get('Content-Type');
-
-        $this->assertTrue(
-            $response->headers->contains('Content-Type', 'application/json'),
-            'Failed asserting that "Content-Type" header is "application/json", ' .
-            ($contentType === null ? 'none' : ('"' . $response->headers->get('Content-Type') . '"')) . ' given.'
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_CREATED),
+                static::responseContentTypeIsJson(),
+                static::responseHasLocationHeader()
+            ),
+            $message
         );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertResponseContainsEntities(Response $response)
+    public static function assertNoContent(Response $response, string $message = '')
     {
-        $this->assertObjectHasAttribute(
-            'entities',
-            json_decode($response->getContent()),
-            'Failed asserting that response contains "entities".'
+        static::assertThat(
+            $response,
+            static::responseStatusCodeIs(Response::HTTP_NO_CONTENT),
+            $message
         );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertOk(Response $response)
+    public static function assertValidationFailed(Response $response, string $message = '')
     {
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
-    }
-
-    /**
-     * @param Response $response
-     */
-    protected function assertCreated(Response $response)
-    {
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
-        $this->assertResponseHasLocationHeader($response);
-    }
-
-    /**
-     * @param Response $response
-     */
-    protected function assertValidationFailed(Response $response)
-    {
-        $this->assertEquals(400, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
-
-        $this->assertObjectHasAttribute(
-            'errors',
-            json_decode($response->getContent()),
-            'Failed asserting that response contains "errors".'
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_BAD_REQUEST),
+                static::responseContentTypeIsJson(),
+                static::responseContains('errors')
+            ),
+            $message
         );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertUnauthorized(Response $response)
+    public static function assertUnauthorized(Response $response, string $message = '')
     {
-        $this->assertEquals(401, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_UNAUTHORIZED),
+                static::responseContentTypeIsJson()
+            ),
+            $message
+        );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertForbidden(Response $response)
+    public static function assertForbidden(Response $response, string $message = '')
     {
-        $this->assertEquals(403, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_FORBIDDEN),
+                static::responseContentTypeIsJson()
+            ),
+            $message
+        );
     }
 
     /**
      * @param Response $response
+     * @param string   $message
      */
-    protected function assertNotFound(Response $response)
+    public static function assertNotFound(Response $response, string $message = '')
     {
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertResponseContentTypeIsJson($response);
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_NOT_FOUND),
+                static::responseContentTypeIsJson()
+            ),
+            $message
+        );
+    }
+
+    /**
+     * @return ResponseContentTypeIsJson
+     */
+    public static function responseContentTypeIsJson(): ResponseContentTypeIsJson
+    {
+        return new ResponseContentTypeIsJson();
+    }
+
+    /**
+     * @return ResponseHasLocationHeader
+     */
+    public static function responseHasLocationHeader(): ResponseHasLocationHeader
+    {
+        return new ResponseHasLocationHeader();
+    }
+
+    /**
+     * @param int $expectedStatusCode
+     *
+     * @return ResponseStatusCodeIs
+     */
+    public static function responseStatusCodeIs(int $expectedStatusCode): ResponseStatusCodeIs
+    {
+        return new ResponseStatusCodeIs($expectedStatusCode);
+    }
+
+    /**
+     * @param string $expectedContent
+     *
+     * @return ResponseContains
+     */
+    public static function responseContains(string $expectedContent): ResponseContains
+    {
+        return new ResponseContains($expectedContent);
     }
 }

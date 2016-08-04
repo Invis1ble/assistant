@@ -77,13 +77,11 @@ class PeriodControllerTest extends ApiTestCase
                 ->getResponse()
         );
 
-        $this->assertEquals(
-            204,
+        $this->assertNoContent(
             $this->patch('/api/periods/' . $alicePeriod->getId(), [
                 'startedAt' => $alicePeriod->getStartedAt()->getTimestamp() - 1,
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
-                ->getStatusCode()
         );
     }
 
