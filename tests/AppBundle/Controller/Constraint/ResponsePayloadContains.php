@@ -4,6 +4,8 @@ namespace Tests\AppBundle\Controller\Constraint;
 
 use PHPUnit_Framework_Constraint;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * ResponsePayloadContains
@@ -17,18 +19,18 @@ class ResponsePayloadContains extends PHPUnit_Framework_Constraint
     /**
      * @var string
      */
-    protected $expectedContent;
+    protected $expectedContentPath;
 
     /**
      * ResponseStatusCodeIs constructor.
      *
-     * @param string $expectedContent
+     * @param string $expectedContentPath
      */
-    public function __construct(string $expectedContent)
+    public function __construct(string $expectedContentPath)
     {
         parent::__construct();
 
-        $this->setExpectedContent($expectedContent);
+        $this->setExpectedContentPath($expectedContentPath);
     }
 
     /**
@@ -38,10 +40,14 @@ class ResponsePayloadContains extends PHPUnit_Framework_Constraint
      */
     public function matches($response)
     {
-        return array_key_exists(
-            $this->getExpectedContent(),
-            json_decode($response->getContent(), true)
-        );
+        try {
+            PropertyAccess::createPropertyAccessor()
+                ->getValue(json_decode($response->getContent()), $this->getExpectedContentPath());
+
+            return true;
+        } catch (NoSuchPropertyException $exception) {
+            return false;
+        }
     }
 
     /**
@@ -60,25 +66,25 @@ class ResponsePayloadContains extends PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return 'contains "' . $this->getExpectedContent() . '"';
+        return 'contains "' . $this->getExpectedContentPath() . '"';
     }
 
     /**
      * @return string
      */
-    public function getExpectedContent(): string
+    public function getExpectedContentPath(): string
     {
-        return $this->expectedContent;
+        return $this->expectedContentPath;
     }
 
     /**
-     * @param string $expectedContent
+     * @param string $expectedContentPath
      *
      * @return ResponsePayloadContains
      */
-    public function setExpectedContent(string $expectedContent): ResponsePayloadContains
+    public function setExpectedContentPath(string $expectedContentPath): ResponsePayloadContains
     {
-        $this->expectedContent = $expectedContent;
+        $this->expectedContentPath = $expectedContentPath;
 
         return $this;
     }

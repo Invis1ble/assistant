@@ -12,7 +12,8 @@ use Tests\AppBundle\Controller\Constraint\{
     ResponseContentTypeIsJson,
     ResponseHasLocationHeader,
     ResponseStatusCodeIs,
-    ResponsePayloadContains
+    ResponsePayloadContains,
+    ResponseItemEquals
 };
 
 /**
@@ -179,17 +180,33 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @param string   $expectedContent
+     * @param string   $expectedContentPath
      * @param Response $response
      * @param string   $message
      */
     public static function assertResponsePayloadContains(
-        string $expectedContent,
+        string $expectedContentPath,
         Response $response,
         string $message = ''
     )
     {
-        static::assertThat($response, static::responsePayloadContains($expectedContent), $message);
+        static::assertThat($response, static::responsePayloadContains($expectedContentPath), $message);
+    }
+
+    /**
+     * @param string   $path
+     * @param mixed    $expectedValue
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertResponseItemEquals(
+        string $path,
+        $expectedValue,
+        Response $response,
+        string $message = ''
+    )
+    {
+        static::assertThat($response, static::responseItemEquals($path, $expectedValue), $message);
     }
 
     /**
@@ -330,12 +347,23 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @param string $expectedContent
+     * @param string $expectedContentPath
      *
      * @return ResponsePayloadContains
      */
-    public static function responsePayloadContains(string $expectedContent): ResponsePayloadContains
+    public static function responsePayloadContains(string $expectedContentPath): ResponsePayloadContains
     {
-        return new ResponsePayloadContains($expectedContent);
+        return new ResponsePayloadContains($expectedContentPath);
+    }
+
+    /**
+     * @param string $path
+     * @param mixed  $expectedValue
+     *
+     * @return ResponseItemEquals
+     */
+    public static function responseItemEquals(string $path, $expectedValue): ResponseItemEquals
+    {
+        return new ResponseItemEquals($path, $expectedValue);
     }
 }
