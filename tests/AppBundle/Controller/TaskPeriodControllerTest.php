@@ -47,7 +47,7 @@ class TaskPeriodControllerTest extends ApiTestCase
             ->getResponse();
 
         $this->assertOk($response);
-        $this->assertResponseContainsEntities($response);
+        $this->assertResponsePayloadContains('entities', $response);
     }
 
     public function testPostPeriod()

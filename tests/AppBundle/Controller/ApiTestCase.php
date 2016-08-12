@@ -12,7 +12,7 @@ use Tests\AppBundle\Controller\Constraint\{
     ResponseContentTypeIsJson,
     ResponseHasLocationHeader,
     ResponseStatusCodeIs,
-    ResponseContains
+    ResponsePayloadContains
 };
 
 /**
@@ -179,30 +179,17 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
+     * @param string   $expectedContent
      * @param Response $response
      * @param string   $message
      */
-    public static function assertResponseContainsEntities(Response $response, string $message = '')
+    public static function assertResponsePayloadContains(
+        string $expectedContent,
+        Response $response,
+        string $message = ''
+    )
     {
-        static::assertThat($response, static::responseContains('entities'), $message);
-    }
-
-    /**
-     * @param Response $response
-     * @param string   $message
-     */
-    public static function assertResponseContainsErrors(Response $response, string $message = '')
-    {
-        static::assertThat($response, static::responseContains('errors'), $message);
-    }
-
-    /**
-     * @param Response $response
-     * @param string   $message
-     */
-    public static function assertResponseContainsToken(Response $response, string $message = '')
-    {
-        static::assertThat($response, static::responseContains('token'), $message);
+        static::assertThat($response, static::responsePayloadContains($expectedContent), $message);
     }
 
     /**
@@ -262,7 +249,7 @@ abstract class ApiTestCase extends WebTestCase
             static::logicalAnd(
                 static::responseStatusCodeIs(Response::HTTP_BAD_REQUEST),
                 static::responseContentTypeIsJson(),
-                static::responseContains('errors')
+                static::responsePayloadContains('errors')
             ),
             $message
         );
@@ -345,10 +332,10 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * @param string $expectedContent
      *
-     * @return ResponseContains
+     * @return ResponsePayloadContains
      */
-    public static function responseContains(string $expectedContent): ResponseContains
+    public static function responsePayloadContains(string $expectedContent): ResponsePayloadContains
     {
-        return new ResponseContains($expectedContent);
+        return new ResponsePayloadContains($expectedContent);
     }
 }

@@ -38,7 +38,7 @@ class UserTaskControllerTest extends ApiTestCase
         $response = $client->getResponse();
 
         $this->assertOk($response);
-        $this->assertResponseContainsEntities($response);
+        $this->assertResponsePayloadContains('entities', $response);
     }
 
     public function testPostTask()

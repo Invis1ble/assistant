@@ -30,6 +30,6 @@ class TokenControllerTest extends ApiTestCase
             ->getResponse();
 
         $this->assertOk($response);
-        $this->assertResponseContainsToken($response);
+        $this->assertResponsePayloadContains('token', $response);
     }
 }

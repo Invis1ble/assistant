@@ -6,13 +6,13 @@ use PHPUnit_Framework_Constraint;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * ResponseContains
+ * ResponsePayloadContains
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class ResponseContains extends PHPUnit_Framework_Constraint
+class ResponsePayloadContains extends PHPUnit_Framework_Constraint
 {
     /**
      * @var string
@@ -74,9 +74,9 @@ class ResponseContains extends PHPUnit_Framework_Constraint
     /**
      * @param string $expectedContent
      *
-     * @return ResponseContains
+     * @return ResponsePayloadContains
      */
-    public function setExpectedContent(string $expectedContent): ResponseContains
+    public function setExpectedContent(string $expectedContent): ResponsePayloadContains
     {
         $this->expectedContent = $expectedContent;
 
