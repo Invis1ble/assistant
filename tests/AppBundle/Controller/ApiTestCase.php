@@ -200,6 +200,15 @@ abstract class ApiTestCase extends WebTestCase
      * @param Response $response
      * @param string   $message
      */
+    public static function assertResponseContainsToken(Response $response, string $message = '')
+    {
+        static::assertThat($response, static::responseContains('token'), $message);
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
     public static function assertOk(Response $response, string $message = '')
     {
         static::assertThat(
