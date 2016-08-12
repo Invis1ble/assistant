@@ -1,5 +1,5 @@
 AppBundle\Entity\User:
-    user:
+    alice:
         username: alice
         plainPassword: 111111
         password: <encodedPassword(@self)>
