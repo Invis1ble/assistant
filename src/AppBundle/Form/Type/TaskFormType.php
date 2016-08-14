@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use AppBundle\Entity\Task;
+use Utils\TranslationNamespaceAwareTrait;
 
 /**
  * TaskFormType
@@ -15,12 +16,9 @@ use AppBundle\Entity\Task;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskFormType extends TranslationNamespaceAwareFormType
+class TaskFormType extends DisabledCsrfProtectionFormType
 {
-    /**
-     * @var string
-     */
-    protected $translationNamespace = 'form.task.';
+    use TranslationNamespaceAwareTrait;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -46,12 +44,11 @@ class TaskFormType extends TranslationNamespaceAwareFormType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Task',
             'intention' => $this->getName(),
-
-            // Todo: Fix CSRF protection
-            'csrf_protection' => false,
         ]);
     }
 

@@ -1,22 +1,20 @@
 <?php
 
-namespace AppBundle\Form\Type;
-
-use Symfony\Component\Form\AbstractType;
+namespace Utils;
 
 /**
- * TranslationNamespaceAwareFormType
+ * TranslationNamespaceAwareTrait
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-abstract class TranslationNamespaceAwareFormType extends AbstractType
+trait TranslationNamespaceAwareTrait
 {
     /**
      * @var string
      */
-    protected $translationNamespace;
+    protected $translationNamespace = '';
 
     /**
      * @return string
@@ -29,9 +27,9 @@ abstract class TranslationNamespaceAwareFormType extends AbstractType
     /**
      * @param string $translationNamespace
      *
-     * @return TranslationNamespaceAwareFormType
+     * @return $this
      */
-    public function setTranslationNamespace(string $translationNamespace): TranslationNamespaceAwareFormType
+    public function setTranslationNamespace(string $translationNamespace)
     {
         $this->translationNamespace = $translationNamespace;
 

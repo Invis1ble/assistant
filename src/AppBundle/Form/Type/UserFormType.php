@@ -7,6 +7,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Utils\TranslationNamespaceAwareTrait;
+
 /**
  * UserFormType
  *
@@ -14,12 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class UserFormType extends TranslationNamespaceAwareFormType
+class UserFormType extends DisabledCsrfProtectionFormType
 {
-    /**
-     * @var string
-     */
-    protected $translationNamespace = 'form.user.';
+    use TranslationNamespaceAwareTrait;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -47,12 +46,11 @@ class UserFormType extends TranslationNamespaceAwareFormType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User',
             'intention' => $this->getName(),
-
-            // Todo: Fix CSRF protection
-            'csrf_protection' => false,
         ]);
     }
 

@@ -18,21 +18,28 @@ services:
 
     app.form.type.user_form_type:
         class: AppBundle\Form\Type\UserFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.user.' ] ]
         tags:
             - { name: form.type }
 
     app.form.type.authentication_form_type:
+        parent: app.form.type.user_form_type
         class: AppBundle\Form\Type\AuthenticationFormType
         tags:
             - { name: form.type }
 
     app.form.type.task_form_type:
         class: AppBundle\Form\Type\TaskFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.task.' ] ]
         tags:
             - { name: form.type }
 
     app.form.type.task_period_form_type:
         class: AppBundle\Form\Type\TaskPeriodFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.task_period.' ] ]
         tags:
             - { name: form.type }
 
