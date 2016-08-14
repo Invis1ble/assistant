@@ -246,11 +246,14 @@ abstract class ApiTestCase extends WebTestCase
      * @param Response $response
      * @param string   $message
      */
-    public static function assertNoContent(Response $response, string $message = '')
+    public static function assertPatched(Response $response, string $message = '')
     {
         static::assertThat(
             $response,
-            static::responseStatusCodeIs(Response::HTTP_NO_CONTENT),
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_NO_CONTENT),
+                static::responseHasLocationHeader()
+            ),
             $message
         );
     }

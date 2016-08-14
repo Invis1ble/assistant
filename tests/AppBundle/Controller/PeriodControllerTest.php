@@ -2,8 +2,10 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Period;
-use AppBundle\Entity\User;
+use AppBundle\Entity\{
+    Period,
+    User
+};
 
 /**
  * PeriodControllerTest
@@ -77,7 +79,7 @@ class PeriodControllerTest extends ApiTestCase
                 ->getResponse()
         );
 
-        $this->assertNoContent(
+        $this->assertPatched(
             $this->patch('/api/periods/' . $alicePeriod->getId(), [
                 'startedAt' => $alicePeriod->getStartedAt()->getTimestamp() - 1,
             ], $alice->getUsername(), 'alice_plain_password')

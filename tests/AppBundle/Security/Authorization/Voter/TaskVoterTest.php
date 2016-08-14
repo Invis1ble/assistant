@@ -3,8 +3,10 @@
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Security\Authorization\Voter\TaskVoter;
-use AppBundle\Entity\User;
-use AppBundle\Entity\Task;
+use AppBundle\Entity\{
+    Task,
+    User
+};
 
 /**
  * TaskVoterTest
@@ -41,6 +43,12 @@ class TaskVoterTest extends AbstractVoterTestCase
             [$aliceToken, $bobTask, TaskVoter::SHOW, TaskVoter::ACCESS_DENIED],
             [$anonymousToken, $bobTask, TaskVoter::SHOW, TaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskVoter::SHOW, TaskVoter::ACCESS_ABSTAIN],
+            [$aliceToken, $aliceTask, 'not_supported_attribute', TaskVoter::ACCESS_ABSTAIN],
+
+            [$aliceToken, $aliceTask, TaskVoter::EDIT, TaskVoter::ACCESS_GRANTED],
+            [$aliceToken, $bobTask, TaskVoter::EDIT, TaskVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTask, TaskVoter::EDIT, TaskVoter::ACCESS_DENIED],
+            [$aliceToken, new \stdClass(), TaskVoter::EDIT, TaskVoter::ACCESS_ABSTAIN],
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskVoter::ACCESS_ABSTAIN],
         ];
     }

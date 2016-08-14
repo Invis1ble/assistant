@@ -36,7 +36,7 @@ class Task
     protected $id;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="text")
      */
@@ -94,11 +94,11 @@ class Task
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      *
      * @return Task
      */
-    public function setTitle(string $title): Task
+    public function setTitle(string $title = null): Task
     {
         $this->title = $title;
 

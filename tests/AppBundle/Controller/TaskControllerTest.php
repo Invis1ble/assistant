@@ -2,7 +2,10 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Task;
+use AppBundle\Entity\{
+    Task,
+    User
+};
 
 /**
  * TaskControllerTest
@@ -20,13 +23,8 @@ class TaskControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $alice->getTasks()
-            ->get(0);
-        /* @var $aliceTask Task */
-
-        $bobTask = $bob->getTasks()
-            ->get(0);
-        /* @var $bobTask Task */
+        $aliceTask = $this->getTask($alice);
+        $bobTask = $this->getTask($bob);
 
         $this->assertUnauthorized(
             $this->get('/api/tasks/' . $uuid4)
@@ -47,5 +45,56 @@ class TaskControllerTest extends ApiTestCase
             $this->get('/api/tasks/' . $aliceTask->getId(), $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
+    }
+
+    public function testPatchTask()
+    {
+        $uuid4 = $this->getUUID4stub();
+
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $aliceTask = $this->getTask($alice);
+        $bobTask = $this->getTask($bob);
+
+        $this->assertUnauthorized(
+            $this->patch('/api/tasks/' . $uuid4)
+                ->getResponse()
+        );
+
+        $this->assertNotFound(
+            $this->patch('/api/tasks/' . $uuid4, [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertForbidden(
+            $this->patch('/api/tasks/' . $bobTask->getId(), [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertValidationFailed(
+            $this->patch('/api/tasks/' . $aliceTask->getId(), [
+                'title' => '',
+            ], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertPatched(
+            $this->patch('/api/tasks/' . $aliceTask->getId(), [
+                'title' => 'Updated title',
+            ], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Task|null
+     */
+    protected function getTask(User $user)
+    {
+        return $user->getTasks()
+            ->get(0);
     }
 }

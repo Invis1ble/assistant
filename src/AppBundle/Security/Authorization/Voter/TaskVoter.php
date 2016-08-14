@@ -18,6 +18,7 @@ use AppBundle\Entity\Task;
 class TaskVoter extends Voter
 {
     const SHOW = 'show';
+    const EDIT = 'edit';
 
     /**
      * Determines if the attribute and subject are supported by this voter.
@@ -33,6 +34,7 @@ class TaskVoter extends Voter
 
         if (!in_array($attribute, [
             self::SHOW,
+            self::EDIT,
         ])) {
             return false;
         }
@@ -63,6 +65,13 @@ class TaskVoter extends Voter
 
         switch ($attribute) {
             case self::SHOW:
+                if ($user->getUsername() === $task->getUser()->getUsername()) {
+                    return true;
+                }
+
+                break;
+
+            case self::EDIT:
                 if ($user->getUsername() === $task->getUser()->getUsername()) {
                     return true;
                 }
