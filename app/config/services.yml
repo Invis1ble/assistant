@@ -1,12 +1,4 @@
 services:
-    hautelook_alice.bare_faker:
-        class: Faker\Generator
-        factory: [ Faker\Factory, create ]
-        lazy: true
-        arguments: ['%hautelook_alice.locale%']
-        calls:
-            - [ seed, [ '%hautelook_alice.seed%' ] ]
-
     app.data_fixtures.faker.provider.abstract_provider:
         abstract: true
         public: false
@@ -14,7 +6,6 @@ services:
     app.data_fixtures.faker.provider.period_provider:
         parent: app.data_fixtures.faker.provider.abstract_provider
         class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
-        arguments: ['@hautelook_alice.bare_faker']
         tags:
             - { name: hautelook_alice.faker.provider }
 

@@ -14,7 +14,7 @@ use AppBundle\Entity\Period;
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class PeriodProvider extends DateTimeProvider
+class PeriodProvider
 {
     /**
      * @param Period $period
@@ -28,7 +28,7 @@ class PeriodProvider extends DateTimeProvider
         $periods->removeElement($period);
 
         if ($periods->isEmpty()) {
-            return static::dateTimeBetween($task->getCreatedAt());
+            return DateTimeProvider::dateTimeBetween($task->getCreatedAt());
         }
 
         $periods = $periods->toArray();
@@ -38,6 +38,6 @@ class PeriodProvider extends DateTimeProvider
             return $period2->getFinishedAt() <=> $period1->getFinishedAt();
         });
 
-        return static::dateTimeBetween($periods[0]->getFinishedAt());
+        return DateTimeProvider::dateTimeBetween($periods[0]->getFinishedAt());
     }
 }
