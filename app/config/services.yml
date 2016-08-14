@@ -17,7 +17,7 @@ services:
             - { name: hautelook_alice.faker.provider }
 
     app.form.type.user_form_type:
-        class: AppBundle\Form\Type\TaskFormType
+        class: AppBundle\Form\Type\UserFormType
         tags:
             - { name: form.type }
 
