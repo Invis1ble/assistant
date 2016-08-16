@@ -34,6 +34,10 @@
                 <source>user.username.short</source>
                 <target>Длина имени менее {{ limit }} символа|Длина имени менее {{ limit }} символов|Длина имени менее {{ limit }} символов</target>
             </trans-unit>
+            <trans-unit id="period.finished_at.before_start">
+                <source>period.finished_at.before_start</source>
+                <target>Некорректный значение окончания задачи</target>
+            </trans-unit>
             <trans-unit id="period.finished_at.invalid">
                 <source>period.finished_at.invalid</source>
                 <target>Некорректное значение окончания периода</target>

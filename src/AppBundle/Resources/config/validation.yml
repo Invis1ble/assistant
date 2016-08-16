@@ -38,6 +38,9 @@ AppBundle\Entity\Task:
                 message: task.created_at.not_timestamp
 
 AppBundle\Entity\Period:
+    constraints:
+        - AppBundle\Validator\Constraints\PeriodFinishedAfterStart:
+            message: period.finished_at.before_start
     properties:
         startedAt:
             - NotBlank:
