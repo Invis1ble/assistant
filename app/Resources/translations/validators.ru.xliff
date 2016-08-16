@@ -36,7 +36,7 @@
             </trans-unit>
             <trans-unit id="period.finished_at.before_start">
                 <source>period.finished_at.before_start</source>
-                <target>Некорректный значение окончания задачи</target>
+                <target>Некорректный значение окончания периода</target>
             </trans-unit>
             <trans-unit id="period.finished_at.invalid">
                 <source>period.finished_at.invalid</source>
