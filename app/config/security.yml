@@ -27,6 +27,7 @@ security:
 
         api_users:
             pattern: ^/api/users$
+            methods: [POST]
             anonymous: ~
 
         api:
