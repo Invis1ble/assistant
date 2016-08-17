@@ -2,11 +2,6 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\{
-    Task,
-    User
-};
-
 /**
  * TaskControllerTest
  *
@@ -16,6 +11,8 @@ use AppBundle\Entity\{
  */
 class TaskControllerTest extends ApiTestCase
 {
+    use GetUserTaskTrait;
+
     public function testGetTask()
     {
         $uuid4 = $this->getUUID4stub();
@@ -23,8 +20,8 @@ class TaskControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $this->getTask($alice);
-        $bobTask = $this->getTask($bob);
+        $aliceTask = $this->getUserTask($alice);
+        $bobTask = $this->getUserTask($bob);
 
         $this->assertUnauthorized(
             $this->get('/api/tasks/' . $uuid4)
@@ -54,8 +51,8 @@ class TaskControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $this->getTask($alice);
-        $bobTask = $this->getTask($bob);
+        $aliceTask = $this->getUserTask($alice);
+        $bobTask = $this->getUserTask($bob);
 
         $this->assertUnauthorized(
             $this->patch('/api/tasks/' . $uuid4)
@@ -85,16 +82,5 @@ class TaskControllerTest extends ApiTestCase
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return Task|null
-     */
-    protected function getTask(User $user)
-    {
-        return $user->getTasks()
-            ->get(0);
     }
 }

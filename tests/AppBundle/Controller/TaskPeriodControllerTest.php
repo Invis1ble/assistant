@@ -2,8 +2,6 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Task;
-
 /**
  * TaskPeriodControllerTest
  *
@@ -13,6 +11,8 @@ use AppBundle\Entity\Task;
  */
 class TaskPeriodControllerTest extends ApiTestCase
 {
+    use GetUserTaskTrait;
+
     public function testGetPeriods()
     {
         $uuid4 = $this->getUUID4stub();
@@ -20,13 +20,8 @@ class TaskPeriodControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $alice->getTasks()
-            ->get(0);
-        /* @var $aliceTask Task */
-
-        $bobTask = $bob->getTasks()
-            ->get(0);
-        /* @var $bobTask Task */
+        $aliceTask = $this->getUserTask($alice);
+        $bobTask = $this->getUserTask($bob);
 
         $this->assertUnauthorized(
             $this->get('/api/tasks/' . $uuid4 . '/periods')
@@ -57,13 +52,8 @@ class TaskPeriodControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $alice->getTasks()
-            ->get(0);
-        /* @var $aliceTask Task */
-
-        $bobTask = $bob->getTasks()
-            ->get(0);
-        /* @var $bobTask Task */
+        $aliceTask = $this->getUserTask($alice);
+        $bobTask = $this->getUserTask($bob);
 
         $this->assertUnauthorized(
             $this->post('/api/tasks/' . $uuid4 . '/periods')
