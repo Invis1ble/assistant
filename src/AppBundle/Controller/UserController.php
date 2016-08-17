@@ -71,6 +71,13 @@ class UserController extends FOSRestController
      *         403 = "Returned when not permitted",
      *         404 = "Returned when the user is not found"
      *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
      *     requirements = {
      *         {
      *             "name" = "user",

@@ -35,6 +35,13 @@ class PeriodController extends FOSRestController
      *             "description" = "Period ID"
      *         }
      *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
@@ -69,6 +76,13 @@ class PeriodController extends FOSRestController
      *             "name" = "period",
      *             "dataType" = "UUID string",
      *             "description" = "Period ID"
+     *         }
+     *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
      *         }
      *     },
      *     statusCodes = {

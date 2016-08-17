@@ -35,6 +35,13 @@ class TaskPeriodController extends FOSRestController
      *             "description" = "ID of the task for which periods are requested"
      *         }
      *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
@@ -72,6 +79,13 @@ class TaskPeriodController extends FOSRestController
      *             "name" = "task",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the task for which period is created"
+     *         }
+     *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
      *         }
      *     },
      *     statusCodes = {

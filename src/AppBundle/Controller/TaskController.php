@@ -34,6 +34,13 @@ class TaskController extends FOSRestController
      *         403 = "Returned when not permitted",
      *         404 = "Returned when the task is not found"
      *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
      *     requirements = {
      *         {
      *             "name" = "task",
@@ -69,6 +76,13 @@ class TaskController extends FOSRestController
      *             "name" = "task",
      *             "dataType" = "UUID string",
      *             "description" = "Task ID"
+     *         }
+     *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
      *         }
      *     },
      *     statusCodes = {

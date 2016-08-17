@@ -36,6 +36,13 @@ class UserTaskController extends FOSRestController
      *             "description" = "ID of the user for which tasks are requested"
      *         }
      *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
@@ -92,6 +99,13 @@ class UserTaskController extends FOSRestController
      *             "name" = "user",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the user for which tasks are requested"
+     *         }
+     *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
      *         }
      *     },
      *     statusCodes = {
