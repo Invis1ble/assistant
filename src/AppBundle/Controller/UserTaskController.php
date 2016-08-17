@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
@@ -31,7 +32,7 @@ class UserTaskController extends FOSRestController
      *     resource = true,
      *     requirements = {
      *         {
-     *             "name" = "user",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the user for which tasks are requested"
      *         }
@@ -51,6 +52,10 @@ class UserTaskController extends FOSRestController
      *     }
      * )
      *
+     * @Annotations\Route(path="users/{id}/tasks")
+     *
+     * @Security("is_granted('task_list', fetchedUser)")
+     *
      * @Annotations\QueryParam(
      *     name="offset",
      *     requirements="\d+",
@@ -67,20 +72,18 @@ class UserTaskController extends FOSRestController
      * @Annotations\View()
      *
      * @param ParamFetcherInterface $paramFetcher
-     * @param User                  $user
+     * @param User                  $fetchedUser
      *
      * @return UserTaskCollection
      */
-    public function getTasksAction(ParamFetcherInterface $paramFetcher, User $user): UserTaskCollection
+    public function getTasksAction(ParamFetcherInterface $paramFetcher, User $fetchedUser): UserTaskCollection
     {
-        $this->denyAccessUnlessGranted('task_list', $user);
-
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
 
         return new UserTaskCollection(
-            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatestCreatedBy($user, $limit, $offset),
-            $user,
+            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatestCreatedBy($fetchedUser, $limit, $offset),
+            $fetchedUser,
             $offset,
             $limit
         );
@@ -96,7 +99,7 @@ class UserTaskController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "user",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the user for which tasks are requested"
      *         }
@@ -117,20 +120,22 @@ class UserTaskController extends FOSRestController
      *     }
      * )
      *
+     * @Annotations\Route(path="users/{id}/tasks")
+     *
+     * @Security("is_granted('task_create', fetchedUser)")
+     *
      * @Annotations\View()
      *
      * @param Request $request
-     * @param User    $user
+     * @param User    $fetchedUser
      *
      * @return View|Form
      */
-    public function postTaskAction(Request $request, User $user)
+    public function postTaskAction(Request $request, User $fetchedUser)
     {
-        $this->denyAccessUnlessGranted('task_create', $user);
-
         $taskManager = $this->get('app.manager.task_manager');
         $task = $taskManager->createTask();
-        $task->setUser($user);
+        $task->setUser($fetchedUser);
 
         $form = $this->createForm(TaskFormType::class, $task);
         $form->submit(json_decode($request->getContent(), true));
@@ -139,7 +144,7 @@ class UserTaskController extends FOSRestController
             $taskManager->save($task);
 
             return $this->routeRedirectView('api_get_task', [
-                'task' => $task->getId(),
+                'id' => $task->getId(),
             ]);
         }
 

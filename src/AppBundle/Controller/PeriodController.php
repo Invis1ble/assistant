@@ -30,7 +30,7 @@ class PeriodController extends FOSRestController
      *     resource = true,
      *     requirements = {
      *         {
-     *             "name" = "period",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "Period ID"
      *         }
@@ -49,6 +49,8 @@ class PeriodController extends FOSRestController
      *         404 = "Returned when the period is not found"
      *     }
      * )
+     *
+     * @Annotations\Route(path="periods/{id}")
      *
      * @Security("is_granted('show', period)")
      *
@@ -73,7 +75,7 @@ class PeriodController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "period",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "Period ID"
      *         }
@@ -93,6 +95,8 @@ class PeriodController extends FOSRestController
      *     }
      * )
      *
+     * @Annotations\Route(path="periods/{id}")
+     *
      * @Security("is_granted('edit', period)")
      *
      * @Annotations\View()
@@ -111,7 +115,7 @@ class PeriodController extends FOSRestController
             $this->get('app.manager.period_manager')->save($period);
 
             return $this->routeRedirectView('api_get_period', [
-                'period' => $period->getId(),
+                'id' => $period->getId(),
             ], Response::HTTP_NO_CONTENT);
         }
 

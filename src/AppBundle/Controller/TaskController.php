@@ -43,12 +43,14 @@ class TaskController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "task",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "Task ID"
      *         }
      *     }
      * )
+     *
+     * @Annotations\Route(path="tasks/{id}")
      *
      * @Security("is_granted('show', task)")
      *
@@ -73,7 +75,7 @@ class TaskController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "task",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "Task ID"
      *         }
@@ -93,6 +95,8 @@ class TaskController extends FOSRestController
      *     }
      * )
      *
+     * @Annotations\Route(path="tasks/{id}")
+     *
      * @Security("is_granted('edit', task)")
      *
      * @Annotations\View()
@@ -111,7 +115,7 @@ class TaskController extends FOSRestController
             $this->get('app.manager.task_manager')->save($task);
 
             return $this->routeRedirectView('api_get_task', [
-                'task' => $task->getId(),
+                'id' => $task->getId(),
             ], Response::HTTP_NO_CONTENT);
         }
 

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
@@ -53,7 +54,7 @@ class UserController extends FOSRestController
             $userManager->save($user);
 
             return $this->routeRedirectView('api_get_user', [
-                'user' => $user->getId(),
+                'id' => $user->getId(),
             ]);
         }
 
@@ -80,23 +81,25 @@ class UserController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "user",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "User ID"
      *         }
      *     }
      * )
      *
+     * @Annotations\Route(path="users/{id}")
+     *
+     * @Security("is_granted('show', fetchedUser)")
+     *
      * @Annotations\View()
      *
-     * @param User $user
+     * @param User $fetchedUser
      *
      * @return User
      */
-    public function getUserAction(User $user): User
+    public function getUserAction(User $fetchedUser): User
     {
-        $this->denyAccessUnlessGranted('show', $user);
-
-        return $user;
+        return $fetchedUser;
     }
 }

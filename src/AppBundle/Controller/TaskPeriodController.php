@@ -30,7 +30,7 @@ class TaskPeriodController extends FOSRestController
      *     resource = true,
      *     requirements = {
      *         {
-     *             "name" = "task",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the task for which periods are requested"
      *         }
@@ -49,6 +49,8 @@ class TaskPeriodController extends FOSRestController
      *         404 = "Returned when the task is not found"
      *     }
      * )
+     *
+     * @Annotations\Route(path="tasks/{id}/periods")
      *
      * @Security("is_granted('period_list', task)")
      *
@@ -76,7 +78,7 @@ class TaskPeriodController extends FOSRestController
      *     },
      *     requirements = {
      *         {
-     *             "name" = "task",
+     *             "name" = "id",
      *             "dataType" = "UUID string",
      *             "description" = "ID of the task for which period is created"
      *         }
@@ -96,6 +98,8 @@ class TaskPeriodController extends FOSRestController
      *         404 = "Returned when the task is not found"
      *     }
      * )
+     *
+     * @Annotations\Route(path="tasks/{id}/periods")
      *
      * @Security("is_granted('period_create', task)")
      *
@@ -119,7 +123,7 @@ class TaskPeriodController extends FOSRestController
             $periodManager->save($period);
 
             return $this->routeRedirectView('api_get_period', [
-                'period' => $period->getId(),
+                'id' => $period->getId(),
             ]);
         }
 

@@ -16,7 +16,7 @@ AppBundle\EntityCollection\UserTaskCollection:
             href:
                 route: api_get_user_tasks
                 parameters:
-                    user: expr(object.getUser().getId().toString())
+                    id: expr(object.getUser().getId().toString())
                 absolute: true
         -
             rel: entity
@@ -25,6 +25,6 @@ AppBundle\EntityCollection\UserTaskCollection:
                 absolute: true
                 generator: templated_uri
                 parameters:
-                    task: '{id}'
+                    id: '{id}'
             attributes:
                 templated: true

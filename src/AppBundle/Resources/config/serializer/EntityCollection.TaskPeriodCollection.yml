@@ -12,7 +12,7 @@ AppBundle\EntityCollection\TaskPeriodCollection:
                 absolute: true
                 generator: templated_uri
                 parameters:
-                    task: expr(object.getTask().getId().toString())
+                    id: expr(object.getTask().getId().toString())
         -
             rel: entity
             href:
@@ -20,6 +20,6 @@ AppBundle\EntityCollection\TaskPeriodCollection:
                 absolute: true
                 generator: templated_uri
                 parameters:
-                    period: '{id}'
+                    id: '{id}'
             attributes:
                 templated: true

@@ -11,14 +11,14 @@ AppBundle\Entity\Period:
             href:
                 route: api_get_period
                 parameters:
-                    period: expr(object.getId())
+                    id: expr(object.getId())
                 absolute: true
         -
             rel: task
             href:
                 route: api_get_task
                 parameters:
-                    task: expr(object.getTask().getId())
+                    id: expr(object.getTask().getId())
                 absolute: true
             embed:
                 content: expr(object.getTask())
