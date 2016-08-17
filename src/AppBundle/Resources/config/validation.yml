@@ -39,8 +39,8 @@ AppBundle\Entity\Task:
 
 AppBundle\Entity\Period:
     constraints:
-        - AppBundle\Validator\Constraints\PeriodFinishedAfterStart:
-            message: period.finished_at.before_start
+        - AppBundle\Validator\Constraints\PeriodIsCoherent:
+            message: period.incoherent
     properties:
         startedAt:
             - NotBlank:

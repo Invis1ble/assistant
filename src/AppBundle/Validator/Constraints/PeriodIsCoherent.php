@@ -5,7 +5,7 @@ namespace AppBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * PeriodFinishedAfterStart
+ * PeriodIsCoherent
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
@@ -13,12 +13,12 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Annotation
  */
-class PeriodFinishedAfterStart extends Constraint
+class PeriodIsCoherent extends Constraint
 {
     /**
      * @var string
      */
-    public $message = 'The finish time of the period should be greater than start time.';
+    public $message = 'Period is incoherent.';
 
     /**
      * @return string

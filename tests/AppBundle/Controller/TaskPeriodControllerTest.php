@@ -2,6 +2,11 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Entity\{
+    Task,
+    User
+};
+
 /**
  * TaskPeriodControllerTest
  *
@@ -52,8 +57,8 @@ class TaskPeriodControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
-        $aliceTask = $this->getUserTask($alice);
-        $bobTask = $this->getUserTask($bob);
+        $aliceTask = $this->getInactiveUserTask($alice);
+        $bobTask = $this->getInactiveUserTask($bob);
 
         $this->assertUnauthorized(
             $this->post('/api/tasks/' . $uuid4 . '/periods')
@@ -81,5 +86,33 @@ class TaskPeriodControllerTest extends ApiTestCase
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Task|null
+     */
+    protected function getInactiveUserTask(User $user)
+    {
+        $alias = 'task';
+
+        $queryBuilder = $this->getRepository('AppBundle:Task')
+            ->createQueryBuilder($alias)
+        ;
+
+        return $queryBuilder
+            ->addSelect($queryBuilder->expr()->count($alias . '__periods.id') . ' HIDDEN ' . $alias . '__periods__count')
+            ->leftJoin($alias . '.periods', $alias . '__periods')
+            ->andWhere($queryBuilder->expr()->isNull($alias . '__periods.finishedAt'))
+            ->andWhere($alias . '.user = :' . $alias . '__user')
+            ->setParameter($alias . '__user', $user)
+            ->addGroupBy($alias . '.id')
+            ->andHaving($alias . '__periods__count = :' . $alias . '__periods__count')
+            ->setParameter($alias . '__periods__count', 0)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 }

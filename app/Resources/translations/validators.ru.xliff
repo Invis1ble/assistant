@@ -34,13 +34,13 @@
                 <source>user.username.short</source>
                 <target>Длина имени менее {{ limit }} символа|Длина имени менее {{ limit }} символов|Длина имени менее {{ limit }} символов</target>
             </trans-unit>
-            <trans-unit id="period.finished_at.before_start">
-                <source>period.finished_at.before_start</source>
-                <target>Некорректный значение окончания периода</target>
-            </trans-unit>
             <trans-unit id="period.finished_at.invalid">
                 <source>period.finished_at.invalid</source>
                 <target>Некорректное значение окончания периода</target>
+            </trans-unit>
+            <trans-unit id="period.incoherent">
+                <source>period.incoherent</source>
+                <target>Некорректный период</target>
             </trans-unit>
             <trans-unit id="period.started_at.blank">
                 <source>period.started_at.blank</source>
