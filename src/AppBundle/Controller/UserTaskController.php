@@ -141,7 +141,7 @@ class UserTaskController extends FOSRestController
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
-            $taskManager->save($task);
+            $taskManager->saveAndFlush($task);
 
             return $this->routeRedirectView('api_get_task', [
                 'id' => $task->getId(),

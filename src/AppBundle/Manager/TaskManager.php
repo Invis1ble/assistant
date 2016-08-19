@@ -28,15 +28,19 @@ class TaskManager extends AbstractManager
 
     /**
      * @param Task $task
-     * @param bool $andFlush
      */
-    public function save(Task $task, bool $andFlush = true)
+    public function save(Task $task)
     {
         $this->objectManager->persist($task);
+    }
 
-        if ($andFlush) {
-            $this->objectManager->flush();
-        }
+    /**
+     * @param Task $task
+     */
+    public function saveAndFlush(Task $task)
+    {
+        $this->objectManager->persist($task);
+        $this->objectManager->flush();
     }
 
     public function remove(Task $task, bool $andFlush = true)

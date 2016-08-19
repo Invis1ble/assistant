@@ -112,7 +112,7 @@ class TaskController extends FOSRestController
         $form->submit(json_decode($request->getContent(), true), false);
 
         if ($form->isValid()) {
-            $this->get('app.manager.task_manager')->save($task);
+            $this->get('app.manager.task_manager')->saveAndFlush($task);
 
             return $this->routeRedirectView('api_get_task', [
                 'id' => $task->getId(),
