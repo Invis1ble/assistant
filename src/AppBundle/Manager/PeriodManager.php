@@ -33,4 +33,17 @@ class PeriodManager extends AbstractManager
             $this->objectManager->flush();
         }
     }
+
+    /**
+     * @param Period $period
+     * @param bool   $andFlush
+     */
+    public function remove(Period $period, bool $andFlush = true)
+    {
+        $this->objectManager->remove($period);
+
+        if ($andFlush) {
+            $this->objectManager->flush();
+        }
+    }
 }

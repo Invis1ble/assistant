@@ -85,6 +85,19 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
+     * @param string      $uri
+     * @param array       $data
+     * @param string|null $username
+     * @param string|null $password
+     *
+     * @return Client
+     */
+    protected function delete(string $uri, array $data = [], string $username = null, string $password = null): Client
+    {
+        return $this->request('DELETE', $uri, [], [], [], json_encode($data), true, $username, $password);
+    }
+
+    /**
      * @param string      $method
      * @param string      $uri
      * @param array       $parameters
@@ -247,6 +260,22 @@ abstract class ApiTestCase extends WebTestCase
      * @param string   $message
      */
     public static function assertPatched(Response $response, string $message = '')
+    {
+        static::assertThat(
+            $response,
+            static::logicalAnd(
+                static::responseStatusCodeIs(Response::HTTP_NO_CONTENT),
+                static::responseHasLocationHeader()
+            ),
+            $message
+        );
+    }
+
+    /**
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertDeleted(Response $response, string $message = '')
     {
         static::assertThat(
             $response,

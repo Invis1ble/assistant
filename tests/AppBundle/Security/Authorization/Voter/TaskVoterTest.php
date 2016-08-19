@@ -51,6 +51,11 @@ class TaskVoterTest extends AbstractVoterTestCase
             [$anonymousToken, $bobTask, TaskVoter::EDIT, TaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskVoter::EDIT, TaskVoter::ACCESS_ABSTAIN],
 
+            [$aliceToken, $aliceTask, TaskVoter::DELETE, TaskVoter::ACCESS_GRANTED],
+            [$aliceToken, $bobTask, TaskVoter::DELETE, TaskVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobTask, TaskVoter::DELETE, TaskVoter::ACCESS_DENIED],
+            [$aliceToken, new \stdClass(), TaskVoter::DELETE, TaskVoter::ACCESS_ABSTAIN],
+
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskVoter::ACCESS_ABSTAIN],
         ];
     }

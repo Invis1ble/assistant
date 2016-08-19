@@ -19,6 +19,7 @@ class TaskVoter extends Voter
 {
     const SHOW = 'show';
     const EDIT = 'edit';
+    const DELETE = 'delete';
 
     /**
      * Determines if the attribute and subject are supported by this voter.
@@ -35,6 +36,7 @@ class TaskVoter extends Voter
         if (!in_array($attribute, [
             self::SHOW,
             self::EDIT,
+            self::DELETE,
         ])) {
             return false;
         }
@@ -72,6 +74,13 @@ class TaskVoter extends Voter
                 break;
 
             case self::EDIT:
+                if ($user->getUsername() === $task->getUser()->getUsername()) {
+                    return true;
+                }
+
+                break;
+
+            case self::DELETE:
                 if ($user->getUsername() === $task->getUser()->getUsername()) {
                     return true;
                 }

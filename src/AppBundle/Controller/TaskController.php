@@ -121,4 +121,48 @@ class TaskController extends FOSRestController
 
         return $form;
     }
+
+    /**
+     * Deletes a task.
+     *
+     * @ApiDoc(
+     *     requirements = {
+     *         {
+     *             "name" = "id",
+     *             "dataType" = "UUID string",
+     *             "description" = "Task ID"
+     *         }
+     *     },
+     *     headers = {
+     *         {
+     *             "name" = "Authorization",
+     *             "default" = "Bearer ",
+     *             "description" = "Authorization JSON Web Token",
+     *         }
+     *     },
+     *     statusCodes = {
+     *         204 = "Returned when successful",
+     *         401 = "Returned when unauthorized",
+     *         404 = "Returned when the task is not found"
+     *     }
+     * )
+     *
+     * @Annotations\Route(path="tasks/{id}")
+     *
+     * @Security("is_granted('delete', task)")
+     *
+     * @Annotations\View()
+     *
+     * @param Task $task
+     *
+     * @return View
+     */
+    public function deleteTaskAction(Task $task)
+    {
+        $this->get('app.manager.task_manager')->remove($task);
+
+        return $this->routeRedirectView('api_get_user_tasks', [
+            'id' => $task->getUser()->getId(),
+        ], Response::HTTP_NO_CONTENT);
+    }
 }

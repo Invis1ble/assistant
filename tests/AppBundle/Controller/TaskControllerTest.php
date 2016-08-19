@@ -85,4 +85,35 @@ class TaskControllerTest extends ApiTestCase
                 ->getResponse()
         );
     }
+
+    public function testDeleteTask()
+    {
+        $uuid4 = $this->getUUID4stub();
+
+        $alice = $this->getUser('alice');
+        $bob = $this->getUser('bob');
+
+        $aliceTask = $this->getUserTask($alice);
+        $bobTask = $this->getUserTask($bob);
+
+        $this->assertUnauthorized(
+            $this->delete('/api/tasks/' . $uuid4)
+                ->getResponse()
+        );
+
+        $this->assertNotFound(
+            $this->delete('/api/tasks/' . $uuid4, [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertForbidden(
+            $this->delete('/api/tasks/' . $bobTask->getId(), [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+
+        $this->assertDeleted(
+            $this->delete('/api/tasks/' . $aliceTask->getId(), [], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
+    }
 }
