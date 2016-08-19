@@ -73,6 +73,7 @@ class UserTaskControllerTest extends ApiTestCase
         $this->assertCreated(
             $this->post('/api/users/' . $alice->getId() . '/tasks', [
                 'title' => 'Alice\'s new task',
+                'description' => 'Description of the task',
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
