@@ -112,7 +112,7 @@ class PeriodController extends FOSRestController
         $form->submit(json_decode($request->getContent(), true), false);
 
         if ($form->isValid()) {
-            $this->get('app.manager.period_manager')->save($period);
+            $this->get('app.manager.period_manager')->saveAndFlush($period);
 
             return $this->routeRedirectView('api_get_period', [
                 'id' => $period->getId(),

@@ -120,7 +120,7 @@ class TaskPeriodController extends FOSRestController
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
-            $periodManager->save($period);
+            $periodManager->saveAndFlush($period);
 
             return $this->routeRedirectView('api_get_period', [
                 'id' => $period->getId(),
