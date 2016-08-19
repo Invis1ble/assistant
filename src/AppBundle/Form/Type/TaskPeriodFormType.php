@@ -23,7 +23,7 @@ class TaskPeriodFormType extends DisabledCsrfProtectionFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $translationNamespace = $this->getTranslationNamespace();
-        $dateTimeToTimestampTransformer = new DateTimeToTimestampTransformer();
+        $transformer = new DateTimeToTimestampTransformer();
 
         $builder
             ->add(
@@ -32,7 +32,7 @@ class TaskPeriodFormType extends DisabledCsrfProtectionFormType
                         'invalid_message' => 'period.started_at.invalid',
                         'label' => $translationNamespace . 'label.started_at',
                     ])
-                    ->addModelTransformer($dateTimeToTimestampTransformer)
+                    ->addModelTransformer($transformer)
             )
             ->add(
                 $builder
@@ -41,7 +41,7 @@ class TaskPeriodFormType extends DisabledCsrfProtectionFormType
                         'invalid_message' => 'period.finished_at.invalid',
                         'label' => $translationNamespace . 'label.finished_at',
                     ])
-                    ->addModelTransformer($dateTimeToTimestampTransformer)
+                    ->addModelTransformer($transformer)
             )
         ;
     }
