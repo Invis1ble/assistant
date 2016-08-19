@@ -35,12 +35,12 @@ class UserTaskVoterTest extends AbstractVoterTestCase
             [$aliceToken, $bob, UserTaskVoter::LIST, UserTaskVoter::ACCESS_DENIED],
             [$anonymousToken, $bob, UserTaskVoter::LIST, UserTaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserTaskVoter::LIST, UserTaskVoter::ACCESS_ABSTAIN],
-            [$aliceToken, $alice, 'not_supported_attribute', UserTaskVoter::ACCESS_ABSTAIN],
 
             [$aliceToken, $alice, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_GRANTED],
             [$aliceToken, $bob, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_DENIED],
             [$anonymousToken, $bob, UserTaskVoter::CREATE, UserTaskVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserTaskVoter::CREATE, UserTaskVoter::ACCESS_ABSTAIN],
+
             [$aliceToken, $alice, 'not_supported_attribute', UserTaskVoter::ACCESS_ABSTAIN],
         ];
     }

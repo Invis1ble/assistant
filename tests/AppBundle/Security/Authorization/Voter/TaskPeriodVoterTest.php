@@ -43,12 +43,12 @@ class TaskPeriodVoterTest extends AbstractVoterTestCase
             [$aliceToken, $bobTask, TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_DENIED],
             [$anonymousToken, $bobTask, TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskPeriodVoter::LIST, TaskPeriodVoter::ACCESS_ABSTAIN],
-            [$aliceToken, $aliceTask, 'not_supported_attribute', TaskPeriodVoter::ACCESS_ABSTAIN],
 
             [$aliceToken, $aliceTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_GRANTED],
             [$aliceToken, $bobTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_DENIED],
             [$anonymousToken, $bobTask, TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), TaskPeriodVoter::CREATE, TaskPeriodVoter::ACCESS_ABSTAIN],
+
             [$aliceToken, $aliceTask, 'not_supported_attribute', TaskPeriodVoter::ACCESS_ABSTAIN],
         ];
     }

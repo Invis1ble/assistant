@@ -35,6 +35,7 @@ class UserVoterTest extends AbstractVoterTestCase
             [$aliceToken, $bob, UserVoter::SHOW, UserVoter::ACCESS_DENIED],
             [$anonymousToken, $bob, UserVoter::SHOW, UserVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), UserVoter::SHOW, UserVoter::ACCESS_ABSTAIN],
+
             [$aliceToken, $alice, 'not_supported_attribute', UserVoter::ACCESS_ABSTAIN],
         ];
     }
