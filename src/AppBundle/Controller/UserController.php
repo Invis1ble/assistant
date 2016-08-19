@@ -51,7 +51,7 @@ class UserController extends FOSRestController
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
-            $userManager->save($user);
+            $userManager->saveAndFlush($user);
 
             return $this->routeRedirectView('api_get_user', [
                 'id' => $user->getId(),
