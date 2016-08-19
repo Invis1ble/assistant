@@ -43,17 +43,25 @@ class TaskManager extends AbstractManager
         $this->objectManager->flush();
     }
 
-    public function remove(Task $task, bool $andFlush = true)
+    /**
+     * @param Task $task
+     */
+    public function remove(Task $task)
     {
         foreach ($task->getPeriods() as $period) {
             $this->getPeriodManager()->remove($period);
         }
 
         $this->objectManager->remove($task);
+    }
 
-        if ($andFlush) {
-            $this->objectManager->flush();
-        }
+    /**
+     * @param Task $task
+     */
+    public function removeAndFlush(Task $task)
+    {
+        $this->remove($task);
+        $this->objectManager->flush();
     }
 
     /**

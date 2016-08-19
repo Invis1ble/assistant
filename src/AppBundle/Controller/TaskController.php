@@ -159,7 +159,7 @@ class TaskController extends FOSRestController
      */
     public function deleteTaskAction(Task $task)
     {
-        $this->get('app.manager.task_manager')->remove($task);
+        $this->get('app.manager.task_manager')->removeAndFlush($task);
 
         return $this->routeRedirectView('api_get_user_tasks', [
             'id' => $task->getUser()->getId(),
