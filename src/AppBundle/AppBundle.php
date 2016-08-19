@@ -5,7 +5,7 @@ namespace AppBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-use AppBundle\Service\CompilerPass\TestEnvironmentCompilerPass;
+use AppBundle\Service\CompilerPass\HideTestableDefinitionsPass;
 
 /**
  * AppBundle
@@ -23,8 +23,8 @@ class AppBundle extends Bundle
     {
         parent::build($container);
 
-        if ($container->getParameter('kernel.environment') === 'test') {
-            $container->addCompilerPass(new TestEnvironmentCompilerPass());
+        if ($container->getParameter('kernel.environment') !== 'test') {
+            $container->addCompilerPass(new HideTestableDefinitionsPass());
         }
     }
 }
