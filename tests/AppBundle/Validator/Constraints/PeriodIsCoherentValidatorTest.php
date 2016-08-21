@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Validator\Constraints;
 
 use DateTime;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
 use AppBundle\Entity\{
@@ -127,6 +128,14 @@ class PeriodIsCoherentValidatorTest extends AbstractConstraintValidatorTest
     public function testThrowsUnexpectedTypeExceptionIfValueIsNotAPeriod()
     {
         $this->validator->validate('some value', $this->createConstraint([]));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
+     */
+    public function testThrowsUnexpectedTypeExceptionIfUnacceptableConstraintPassed()
+    {
+        $this->validator->validate(new Period(), new class extends Constraint {});
     }
 
     /**
