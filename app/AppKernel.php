@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Gfreeau\Bundle\GetJWTBundle\GfreeauGetJWTBundle(),
+            new Nelmio\SecurityBundle\NelmioSecurityBundle(),
 
             new AppBundle\AppBundle(),
         ];

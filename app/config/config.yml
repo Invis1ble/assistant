@@ -90,6 +90,10 @@ jms_serializer:
         datetime:
             default_format: U
 
+nelmio_security:
+    forced_ssl:
+        hsts_max_age: 2592000 # 30 days
+
 nelmio_api_doc:
     sandbox:
         body_format:

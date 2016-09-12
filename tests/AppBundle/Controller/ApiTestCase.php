@@ -32,7 +32,9 @@ abstract class ApiTestCase extends WebTestCase
 
     protected function setUp()
     {
-        $this->client = static::createClient();
+        $this->client = static::createClient([], [
+            'HTTPS' => 'on',
+        ]);
     }
 
     /**
