@@ -90,6 +90,12 @@ jms_serializer:
         datetime:
             default_format: U
 
+nelmio_cors:
+    defaults:
+        allow_methods: ['POST', 'PUT', 'PATCH', 'GET', 'DELETE']
+        allow_headers: ['Content-Type', 'Authorization']
+        expose_headers: ['Location']
+
 nelmio_security:
     forced_ssl:
         hsts_max_age: 2592000 # 30 days
