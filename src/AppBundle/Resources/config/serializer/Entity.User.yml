@@ -12,13 +12,11 @@ AppBundle\Entity\User:
                 route: api_get_user
                 parameters:
                     id: expr(object.getId())
-                absolute: true
         -
             rel: tasks
             href:
                 route: api_get_user_tasks
                 parameters:
                     id: expr(object.getId())
-                absolute: true
             embed:
                 content: expr(object.getTasks())

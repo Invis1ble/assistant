@@ -9,7 +9,6 @@ AppBundle\EntityCollection\TaskPeriodCollection:
             rel: self
             href:
                 route: api_get_task_periods
-                absolute: true
                 generator: templated_uri
                 parameters:
                     id: expr(object.getTask().getId().toString())
@@ -17,7 +16,6 @@ AppBundle\EntityCollection\TaskPeriodCollection:
             rel: entity
             href:
                 route: api_get_period
-                absolute: true
                 generator: templated_uri
                 parameters:
                     id: '{id}'

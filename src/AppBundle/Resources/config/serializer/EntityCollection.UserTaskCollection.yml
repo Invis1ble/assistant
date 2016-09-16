@@ -17,12 +17,10 @@ AppBundle\EntityCollection\UserTaskCollection:
                 route: api_get_user_tasks
                 parameters:
                     id: expr(object.getUser().getId().toString())
-                absolute: true
         -
             rel: entity
             href:
                 route: api_get_task
-                absolute: true
                 generator: templated_uri
                 parameters:
                     id: '{id}'
