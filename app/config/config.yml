@@ -84,6 +84,9 @@ fos_rest:
             html: false
     serializer:
         serialize_null: true
+    exception:
+        enabled: true
+        exception_controller: app.controller.exception_controller:showAction
 
 jms_serializer:
     handlers:

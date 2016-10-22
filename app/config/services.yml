@@ -109,3 +109,7 @@ services:
            - name: kernel.event_listener
              event: lexik_jwt_authentication.on_authentication_success
              method: onAuthenticationSuccessResponse
+
+    app.controller.exception_controller:
+        parent: fos_rest.exception.controller
+        class: AppBundle\Controller\ExceptionController
