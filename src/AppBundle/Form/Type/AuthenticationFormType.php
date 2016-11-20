@@ -27,4 +27,12 @@ class AuthenticationFormType extends UserFormType
             ])
         ;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'authentication';
+    }
 }
