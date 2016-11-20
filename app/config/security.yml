@@ -25,7 +25,7 @@ security:
             stateless: true
             gfreeau_get_jwt: ~
 
-        api_users:
+        registration:
             pattern: ^/api/users$
             methods: [POST]
             anonymous: ~
