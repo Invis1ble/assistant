@@ -11,7 +11,7 @@ addons:
         repo_token: $CODECLIMATE_REPO_TOKEN
 
 before_script:
-    - mkdir -p var/jwt
+    - mkdir var/jwt
     - openssl genrsa -passout pass:1111 -out var/jwt/private.pem -aes256 4096
     - openssl rsa -passin pass:1111 -pubout -in var/jwt/private.pem -out var/jwt/public.pem
     - cp app/config/parameters_travis.yml app/config/parameters.yml
