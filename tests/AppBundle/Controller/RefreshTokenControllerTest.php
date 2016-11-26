@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\Controller;
 
 /**
- * TokenControllerTest
+ * RefreshTokenControllerTest
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
@@ -11,29 +11,29 @@ namespace Tests\AppBundle\Controller;
  *
  * @group smoke
  */
-class TokenControllerTest extends ApiTestCase
+class RefreshTokenControllerTest extends ApiTestCase
 {
-    public function testPostToken()
+    public function testPostRefreshToken()
     {
         $alice = $this->getUser('alice');
 
         $this->assertUnauthorized(
-            $this->post('/api/tokens', [
-                'username' => $alice->getUsername(),
-                'password' => 'invalid_password',
+            $this->post('/api/refresh-tokens', [
+                'refresh_token' => 'invalid_refresh_token',
             ])
                 ->getResponse()
         );
 
-        $response = $this->post('/api/tokens', [
-            'username' => $alice->getUsername(),
-            'password' => 'alice_plain_password',
-        ])
-            ->getResponse();
+        $response = $this
+            ->request('POST', '/api/refresh-tokens', [], [], [], json_encode([
+                'refresh_token' => $this->createToken($alice->getUsername(), 'alice_plain_password')
+                    ->getRefreshToken(),
+            ]))
+            ->getResponse()
+        ;
 
         $this->assertOk($response);
         $this->assertResponsePayloadContains('token', $response);
         $this->assertResponsePayloadContains('refresh_token', $response);
-        $this->assertResponseItemEquals('data.id', $alice->getId()->toString(), $response);
     }
 }

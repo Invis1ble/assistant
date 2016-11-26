@@ -37,7 +37,8 @@
         "willdurand/hateoas-bundle": "^1.1",
         "lexik/jwt-authentication-bundle": "^1.6",
         "gfreeau/get-jwt-bundle": "2.0.x-dev",
-        "nelmio/security-bundle": "^2.0"
+        "nelmio/security-bundle": "^2.0",
+        "gesdinet/jwt-refresh-token-bundle": "^0.1.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

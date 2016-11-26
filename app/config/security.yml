@@ -27,8 +27,14 @@ security:
 
         registration:
             pattern: ^/api/users$
-            methods: [POST]
+            methods: [ POST ]
             anonymous: ~
+
+        token_refreshing:
+            pattern: ^/api/refresh-tokens$
+            methods: [ POST ]
+            anonymous: ~
+            stateless: true
 
         api:
             pattern: ^/api
@@ -47,5 +53,6 @@ security:
 
     access_control:
         - { path: ^/api/users$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST ] }
+        - { path: ^/api/refresh-tokens$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST ] }
         - { path: ^/api, roles: ROLE_USER }
         - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

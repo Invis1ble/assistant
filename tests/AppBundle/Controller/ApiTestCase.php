@@ -2,11 +2,14 @@
 
 namespace Tests\AppBundle\Controller;
 
+use RuntimeException;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Doctrine\ORM\EntityRepository;
 
+use AppBundle\Entity\TokenContainer;
 use AppBundle\Entity\User;
 use Tests\AppBundle\Controller\Constraint\{
     ResponseContentTypeIsJson,
@@ -125,18 +128,8 @@ abstract class ApiTestCase extends WebTestCase
     ): Client
     {
         if (null !== $username && null !== $password) {
-            $response = $this->post('/api/tokens', [
-                'username' => $username,
-                'password' => $password,
-            ])->getResponse();
-
-            if (200 === $response->getStatusCode()) {
-                $data = json_decode($response->getContent(), true);
-
-                if (isset($data['token'])) {
-                    $server['HTTP_Authorization'] = 'Bearer ' . $data['token'];
-                }
-            }
+            $tokenContainer = $this->createToken($username, $password);
+            $server['HTTP_Authorization'] = 'Bearer ' . $tokenContainer->getToken();
         }
 
         $this->client->request($method, $uri, $parameters, $files, array_merge([
@@ -145,6 +138,30 @@ abstract class ApiTestCase extends WebTestCase
         ], $server), $content, $changeHistory);
 
         return $this->client;
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return TokenContainer
+     *
+     * @throws RuntimeException
+     */
+    protected function createToken(string $username, string $password): TokenContainer
+    {
+        $response = $this->post('/api/tokens', [
+            'username' => $username,
+            'password' => $password,
+        ])->getResponse();
+
+        $status = $response->getStatusCode();
+
+        if (Response::HTTP_OK !== $status) {
+            throw new RuntimeException('Couldn\'t create token: response is ' . $status);
+        }
+
+        return new TokenContainer(json_decode($response->getContent(), true));
     }
 
     /**

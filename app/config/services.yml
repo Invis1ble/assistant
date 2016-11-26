@@ -29,6 +29,13 @@ services:
         tags:
             - { name: form.type }
 
+    app.form.type.refresh_token_form_type:
+        class: AppBundle\Form\Type\RefreshTokenFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.refresh_token.' ] ]
+        tags:
+            - { name: form.type }
+
     app.form.type.task_form_type:
         class: AppBundle\Form\Type\TaskFormType
         calls:
