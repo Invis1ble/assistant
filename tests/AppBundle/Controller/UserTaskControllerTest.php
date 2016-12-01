@@ -2,6 +2,8 @@
 
 namespace Tests\AppBundle\Controller;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 /**
  * UserTaskControllerTest
  *
@@ -41,6 +43,30 @@ class UserTaskControllerTest extends ApiTestCase
 
         $this->assertOk($response);
         $this->assertResponsePayloadContains('entities', $response);
+        $this->assertResponseItemEquals('offset', null, $response);
+
+        $defaultNum = 10;
+
+        $this->assertResponseItemEquals('limit', $defaultNum, $response);
+        $this->assertResponseItemCount('entities', $defaultNum, $response);
+
+        $offset = 1;
+        $limit = 1;
+
+        $client = $this->get(
+            '/api/users/' . $alice->getId() . '/tasks',
+            $alice->getUsername(),
+            'alice_plain_password',
+            ['offset' => $offset, 'limit' => $limit]
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertOk($response);
+        $this->assertResponsePayloadContains('entities', $response);
+        $this->assertResponseItemEquals('offset', $offset, $response);
+        $this->assertResponseItemEquals('limit', $limit, $response);
+        $this->assertResponseItemCount('entities', $limit, $response);
     }
 
     public function testPostTask()

@@ -16,7 +16,8 @@ use Tests\AppBundle\Controller\Constraint\{
     ResponseHasLocationHeader,
     ResponseStatusCodeIs,
     ResponsePayloadContains,
-    ResponseItemEquals
+    ResponseItemEquals,
+    ResponseItemCount
 };
 
 /**
@@ -55,12 +56,13 @@ abstract class ApiTestCase extends WebTestCase
      * @param string      $uri
      * @param string|null $username
      * @param string|null $password
+     * @param array       $parameters
      *
      * @return Client
      */
-    protected function get(string $uri, string $username = null, string $password = null): Client
+    protected function get(string $uri, string $username = null, string $password = null, array $parameters = []): Client
     {
-        return $this->request('GET', $uri, [], [], [], null, true, $username, $password);
+        return $this->request('GET', $uri, $parameters, [], [], null, true, $username, $password);
     }
 
     /**
@@ -242,6 +244,22 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
+     * @param string   $path
+     * @param int      $expectedCount
+     * @param Response $response
+     * @param string   $message
+     */
+    public static function assertResponseItemCount(
+        string $path,
+        int $expectedCount,
+        Response $response,
+        string $message = ''
+    )
+    {
+        static::assertThat($response, static::responseItemCount($path, $expectedCount), $message);
+    }
+
+    /**
      * @param Response $response
      * @param string   $message
      */
@@ -416,5 +434,16 @@ abstract class ApiTestCase extends WebTestCase
     public static function responseItemEquals(string $path, $expectedValue): ResponseItemEquals
     {
         return new ResponseItemEquals($path, $expectedValue);
+    }
+
+    /**
+     * @param string  $path
+     * @param integer $expectedCount
+     *
+     * @return ResponseItemCount
+     */
+    public static function responseItemCount(string $path, int $expectedCount): ResponseItemCount
+    {
+        return new ResponseItemCount($path, $expectedCount);
     }
 }
