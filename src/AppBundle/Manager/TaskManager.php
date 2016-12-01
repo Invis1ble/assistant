@@ -14,11 +14,6 @@ use AppBundle\Entity\Task;
 class TaskManager extends AbstractManager
 {
     /**
-     * @var PeriodManager
-     */
-    protected $periodManager;
-
-    /**
      * @return Task
      */
     public function createTask(): Task
@@ -48,10 +43,6 @@ class TaskManager extends AbstractManager
      */
     public function remove(Task $task)
     {
-        foreach ($task->getPeriods() as $period) {
-            $this->getPeriodManager()->remove($period);
-        }
-
         $this->objectManager->remove($task);
     }
 
@@ -62,25 +53,5 @@ class TaskManager extends AbstractManager
     {
         $this->remove($task);
         $this->objectManager->flush();
-    }
-
-    /**
-     * @return PeriodManager
-     */
-    public function getPeriodManager(): PeriodManager
-    {
-        return $this->periodManager;
-    }
-
-    /**
-     * @param PeriodManager $periodManager
-     *
-     * @return TaskManager
-     */
-    public function setPeriodManager(PeriodManager $periodManager): TaskManager
-    {
-        $this->periodManager = $periodManager;
-
-        return $this;
     }
 }
