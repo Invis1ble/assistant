@@ -1,0 +1,36 @@
+refresh_tokens:
+    type: rest
+    resource: '@AppBundle/Controller/RefreshTokenController.php'
+    name_prefix: api_
+
+tokens:
+    type: rest
+    resource: '@AppBundle/Controller/TokenController.php'
+    name_prefix: api_
+
+users:
+    type: rest
+    resource: '@AppBundle/Controller/UserController.php'
+    name_prefix: api_
+
+user_tasks:
+    type: rest
+    resource: '@AppBundle/Controller/UserTaskController.php'
+    parent: users
+    name_prefix: api_
+
+tasks:
+    type: rest
+    resource: '@AppBundle/Controller/TaskController.php'
+    name_prefix: api_
+
+task_periods:
+    type: rest
+    resource: '@AppBundle/Controller/TaskPeriodController.php'
+    parent: tasks
+    name_prefix: api_
+
+periods:
+    type: rest
+    resource: '@AppBundle/Controller/PeriodController.php'
+    name_prefix: api_

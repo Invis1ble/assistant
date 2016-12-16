@@ -1,0 +1,32 @@
+engines:
+    duplication:
+        enabled: true
+        config:
+            languages:
+                - php
+    fixme:
+        enabled: true
+    phpmd:
+        enabled: true
+        exclude_fingerprints:
+            # Short name $id
+            - 23c4efefeca367a6c1b10f9834d36845
+            - f6c8c9863ae92a323290dd063127eae4
+            - ad3564a6b3f89669dc6339d2a72f8d04
+            - e4391998d5a9cca851d916f08a374d07
+            # Unused $options in FormTypes
+            - ef6dad5ce8078d0f11d70751337d9f75
+            - d580226e687f2b49566ee5109853b8ab
+            - c5f61af32b2169af8ad9d6eefffedac1
+            - 4fca95937cd6b20f9e2fb534b19128b2
+
+ratings:
+    paths:
+        - "**.php"
+
+exclude_paths:
+    - app/**/*
+    - bin/**/*
+    - var/**/*
+    - vendor/**/*
+    - web/**/*

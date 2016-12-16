@@ -1,0 +1,21 @@
+AppBundle\Entity\Task:
+    alice_task_{1..25}:
+        title: <realText(400)>
+        description: 30%? <realText(1000)>
+        rate: '30%? <randomFloat(2, 10.00, 19.99)> : 20'
+        createdAt: <dateTimeBetween('-35 days', 'now')>
+        user: '@alice'
+
+    user_1_task_{1..25}:
+        title: <realText(400)>
+        description: 30%? <realText(1000)>
+        rate: '30%? <randomFloat(2, 10.00, 19.99)> : 20'
+        createdAt: <dateTimeBetween('-35 days', 'now')>
+        user: '@user_1'
+
+    user_2_task_{1..25}:
+        title: <realText(400)>
+        description: 30%? <realText(1000)>
+        rate: '30%? <randomFloat(2, 10.00, 19.99)> : 20'
+        createdAt: <dateTimeBetween('-35 days', 'now')>
+        user: '@user_2'

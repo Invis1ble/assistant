@@ -1,0 +1,50 @@
+AppBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: username
+            message: user.username.already_used
+    properties:
+        username:
+            - NotBlank:
+                message: user.username.blank
+            - Length:
+                min: 2
+                minMessage: user.username.short
+                max: 255
+                maxMessage: user.username.long
+        plainPassword:
+            - NotBlank:
+                message: user.password.blank
+            - Length:
+                min: 6
+                minMessage: user.password.short
+                max: 255
+                maxMessage: user.password.long
+
+AppBundle\Entity\Task:
+    properties:
+        title:
+            - NotBlank:
+                message: task.title.blank
+            - Length:
+                max: 65535
+                maxMessage: task.title.long
+        description:
+            - Length:
+                max: 65535
+                maxMessage: task.description.long
+        createdAt:
+            - DateTime:
+                message: task.created_at.not_timestamp
+
+AppBundle\Entity\Period:
+    constraints:
+        - AppBundle\Validator\Constraints\PeriodIsCoherent:
+            message: period.incoherent
+    properties:
+        startedAt:
+            - NotBlank:
+                message: period.started_at.blank
+        task:
+            - NotBlank:
+                message: period.task.blank

@@ -25,3 +25,10 @@ monolog:
             level: debug
         console:
             type:  console
+
+nelmio_cors:
+    paths:
+        '^/api/':
+            origin_regex: true
+            allow_origin:
+                - '^https?://localhost:[0-9]+'

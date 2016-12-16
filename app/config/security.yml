@@ -1,17 +1,47 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
+    encoders:
+        AppBundle\Security\UserInterface:
+            algorithm: bcrypt
+            cost: 15
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        database:
+            entity:
+                class: AppBundle:User
+                property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/tokens$
+            provider: database
+            stateless: true
+            gfreeau_get_jwt: ~
+
+        registration:
+            pattern: ^/api/users$
+            methods: [ POST ]
+            anonymous: ~
+
+        token_refreshing:
+            pattern: ^/api/refresh-tokens$
+            methods: [ POST ]
+            anonymous: ~
+            stateless: true
+
+        api:
+            pattern: ^/api
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
             anonymous: ~
@@ -22,3 +52,9 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_control:
+        - { path: ^/api/users$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST ] }
+        - { path: ^/api/refresh-tokens$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [ POST ] }
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }

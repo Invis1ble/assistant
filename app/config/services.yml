@@ -1,9 +1,120 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
-parameters:
-#    parameter_name: value
-
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.data_fixtures.faker.provider.abstract_provider:
+        abstract: true
+        public: false
+
+    app.data_fixtures.faker.provider.period_provider:
+        parent: app.data_fixtures.faker.provider.abstract_provider
+        class: AppBundle\DataFixtures\Faker\Provider\PeriodProvider
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    app.data_fixtures.faker.provider.user_provider:
+        parent: app.data_fixtures.faker.provider.abstract_provider
+        class: AppBundle\DataFixtures\Faker\Provider\UserProvider
+        arguments: ['@security.password_encoder']
+        tags:
+            - { name: hautelook_alice.faker.provider }
+
+    app.form.type.user_form_type:
+        class: AppBundle\Form\Type\UserFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.user.' ] ]
+        tags:
+            - { name: form.type }
+
+    app.form.type.authentication_form_type:
+        parent: app.form.type.user_form_type
+        class: AppBundle\Form\Type\AuthenticationFormType
+        tags:
+            - { name: form.type }
+
+    app.form.type.refresh_token_form_type:
+        class: AppBundle\Form\Type\RefreshTokenFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.refresh_token.' ] ]
+        tags:
+            - { name: form.type }
+
+    app.form.type.task_form_type:
+        class: AppBundle\Form\Type\TaskFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.task.' ] ]
+        tags:
+            - { name: form.type }
+
+    app.form.type.task_period_form_type:
+        class: AppBundle\Form\Type\TaskPeriodFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.task_period.' ] ]
+        tags:
+            - { name: form.type }
+
+    app.manager.abstract_manager:
+        abstract: true
+        class: AppBundle\Manager\AbstractManager
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.manager.task_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\TaskManager
+
+    app.manager.period_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\PeriodManager
+
+    app.manager.user_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\UserManager
+        calls:
+            - [ setUserPasswordEncoder, [ '@security.password_encoder' ] ]
+
+    app.security.authorization.voter.abstract_voter:
+        abstract: true
+        arguments: ['@security.access.decision_manager']
+
+    app.security.authorization.voter.user_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\UserVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.user_task_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\UserTaskVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.task_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\TaskVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.task_period_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\TaskPeriodVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.period_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\PeriodVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.event_listener.authentication_success_listener:
+       class: AppBundle\EventListener\AuthenticationSuccessListener
+       tags:
+           - name: kernel.event_listener
+             event: lexik_jwt_authentication.on_authentication_success
+             method: onAuthenticationSuccessResponse
+
+    app.controller.exception_controller:
+        parent: fos_rest.exception.controller
+        class: AppBundle\Controller\ExceptionController

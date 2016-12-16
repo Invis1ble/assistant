@@ -1,0 +1,28 @@
+AppBundle\EntityCollection\UserTaskCollection:
+    exclusion_policy: ALL
+    properties:
+        entities:
+            expose: true
+            type: array<AppBundle\Entity\Task>
+        offset:
+            expose: true
+            type: integer
+        limit:
+            expose: true
+            type: integer
+    relations:
+        -
+            rel: self
+            href:
+                route: api_get_user_tasks
+                parameters:
+                    id: expr(object.getUser().getId().toString())
+        -
+            rel: entity
+            href:
+                route: api_get_task
+                generator: templated_uri
+                parameters:
+                    id: '{id}'
+            attributes:
+                templated: true

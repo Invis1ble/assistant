@@ -1,0 +1,22 @@
+AppBundle\Entity\Period:
+    exclusion_policy: ALL
+    properties:
+        id:
+            type: string
+        startedAt: ~
+        finishedAt: ~
+    relations:
+        -
+            rel: self
+            href:
+                route: api_get_period
+                parameters:
+                    id: expr(object.getId())
+        -
+            rel: task
+            href:
+                route: api_get_task
+                parameters:
+                    id: expr(object.getTask().getId())
+            embed:
+                content: expr(object.getTask())

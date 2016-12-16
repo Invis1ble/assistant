@@ -1,0 +1,22 @@
+AppBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            type: string
+        username: ~
+        createdAt: ~
+    relations:
+        -
+            rel: self
+            href:
+                route: api_get_user
+                parameters:
+                    id: expr(object.getId())
+        -
+            rel: tasks
+            href:
+                route: api_get_user_tasks
+                parameters:
+                    id: expr(object.getId())
+            embed:
+                content: expr(object.getTasks())

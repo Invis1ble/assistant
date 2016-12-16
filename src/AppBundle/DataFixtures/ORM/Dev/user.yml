@@ -1,0 +1,12 @@
+AppBundle\Entity\User:
+    alice:
+        username: alice
+        plainPassword: 111111
+        password: <encodedPassword(@self)>
+        createdAt: <dateTimeBetween('-135 days', '-35 days')>
+
+    user_{1..2}:
+        username (unique): <username()>
+        plainPassword: <password()>
+        password: <encodedPassword(@self)>
+        createdAt: <dateTimeBetween('-135 days', '-35 days')>
