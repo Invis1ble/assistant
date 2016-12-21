@@ -2,6 +2,18 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="form.category.label.description">
+                <source>form.category.label.description</source>
+                <target>Описание</target>
+            </trans-unit>
+            <trans-unit id="form.category.label.name">
+                <source>form.category.label.name</source>
+                <target>Название</target>
+            </trans-unit>
+            <trans-unit id="form.category.label.rate">
+                <source>form.category.label.rate</source>
+                <target>Рейт</target>
+            </trans-unit>
             <trans-unit id="form.user.label.password">
                 <source>form.user.label.password</source>
                 <target>Пароль</target>

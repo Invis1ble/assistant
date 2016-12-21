@@ -3,9 +3,10 @@
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Security\Authorization\Voter\PeriodVoter;
-use AppBundle\Entity\User;
-use AppBundle\Entity\Period;
-use AppBundle\Entity\Task;
+use AppBundle\Entity\{
+    Period,
+    User
+};
 
 /**
  * PeriodVoterTest
@@ -18,6 +19,8 @@ use AppBundle\Entity\Task;
  */
 class PeriodVoterTest extends AbstractVoterTestCase
 {
+    use CreateUserTaskTrait;
+
     /**
      * @return array[]
      */
@@ -29,35 +32,39 @@ class PeriodVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
+        $alicePeriod = $this->createUserPeriod($alice);
+        $bobPeriod = $this->createUserPeriod($bob);
+
         $aliceToken = $this->createJWTToken($alice);
-
-        $aliceTask = new Task();
-        $aliceTask->setUser($alice);
-
-        $bobTask = new Task();
-        $bobTask->setUser($bob);
-        
-        $aliceTaskPeriod = new Period();
-        $aliceTaskPeriod->setTask($aliceTask);
-        
-        $bobTaskPeriod = new Period();
-        $bobTaskPeriod->setTask($bobTask);
-
         $anonymousToken = $this->createAnonymousToken();
 
         return [
-            [$aliceToken, $aliceTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_GRANTED],
-            [$aliceToken, $bobTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
-            [$anonymousToken, $aliceTaskPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
+            [$aliceToken, $alicePeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_GRANTED],
+            [$aliceToken, $bobPeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $alicePeriod, PeriodVoter::SHOW, PeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), PeriodVoter::SHOW, PeriodVoter::ACCESS_ABSTAIN],
 
-            [$aliceToken, $aliceTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_GRANTED],
-            [$aliceToken, $bobTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
-            [$anonymousToken, $bobTaskPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
+            [$aliceToken, $alicePeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_GRANTED],
+            [$aliceToken, $bobPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
+            [$anonymousToken, $bobPeriod, PeriodVoter::EDIT, PeriodVoter::ACCESS_DENIED],
             [$aliceToken, new \stdClass(), PeriodVoter::EDIT, PeriodVoter::ACCESS_ABSTAIN],
 
-            [$aliceToken, $aliceTaskPeriod, 'not_supported_attribute', PeriodVoter::ACCESS_ABSTAIN],
+            [$aliceToken, $alicePeriod, 'not_supported_attribute', PeriodVoter::ACCESS_ABSTAIN],
         ];
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Period
+     */
+    protected function createUserPeriod(User $user): Period
+    {
+        $userTask = $this->createUserTask($user);
+        $userPeriod = new Period();
+        $userPeriod->setTask($userTask);
+
+        return $userPeriod;
     }
 
     protected function populateVariables()

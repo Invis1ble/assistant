@@ -72,15 +72,15 @@ class User implements UserInterface
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="user", cascade={"remove"})
      */
-    protected $tasks;
+    protected $categories;
 
     public function __construct()
     {
         $this->setSalt(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
         $this->setRoles([]);
-        $this->tasks = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -92,25 +92,25 @@ class User implements UserInterface
     }
 
     /**
-     * @param Task $task
+     * @param Category $category
      *
      * @return User
      */
-    public function addTask(Task $task): User
+    public function addCategory(Category $category): User
     {
-        $this->getTasks()->add($task);
+        $this->getCategories()->add($category);
 
         return $this;
     }
 
     /**
-     * @param Task $task
+     * @param Category $category
      *
      * @return User
      */
-    public function removeTask(Task $task): User
+    public function removeCategory(Category $category): User
     {
-        $this->getTasks()->removeElement($task);
+        $this->getCategories()->removeElement($category);
 
         return $this;
     }
@@ -118,9 +118,9 @@ class User implements UserInterface
     /**
      * @return Collection
      */
-    public function getTasks(): Collection
+    public function getCategories(): Collection
     {
-        return $this->tasks;
+        return $this->categories;
     }
 
     /**

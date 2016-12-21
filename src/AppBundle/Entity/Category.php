@@ -6,22 +6,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\Uuid;
-use Utils\Entity\CreatedAtTrait;
 
 /**
- * Task
+ * Category
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskRepository")
+ * @ORM\Table(
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(columns={"name", "user_id"})
+ *     }
+ * )
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
  */
-class Task
+class Category
 {
-    use CreatedAtTrait;
-    
-    const NUM_ITEMS = 10;
+    const DEFAULT_RATE = '20.00';
 
     /**
      * @var Uuid
@@ -36,9 +38,9 @@ class Task
     /**
      * @var string|null
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected $name;
 
     /**
      * @var string|null
@@ -48,30 +50,31 @@ class Task
     protected $description;
 
     /**
-     * @var null|string
+     * @var string
      *
-     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     * @ORM\Column(type="decimal", scale=2)
      */
     protected $rate;
 
     /**
-     * @var Category
+     * @var User
      *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="tasks")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="categories")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
-    protected $category;
+    protected $user;
     
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="Period", mappedBy="task", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="category", cascade={"remove"})
      */
-    protected $periods;
+    protected $tasks;
 
     public function __construct()
     {
-        $this->periods = new ArrayCollection();
+        $this->setRate(static::DEFAULT_RATE);
+        $this->tasks = new ArrayCollection();
     }
 
     /**
@@ -85,19 +88,19 @@ class Task
     /**
      * @return null|string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
-     * @param string|null $title
+     * @param string|null $name
      *
-     * @return Task
+     * @return Category
      */
-    public function setTitle(string $title = null): Task
+    public function setName(string $name = null): Category
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
@@ -113,9 +116,9 @@ class Task
     /**
      * @param null|string $description
      *
-     * @return Task
+     * @return Category
      */
-    public function setDescription(string $description = null): Task
+    public function setDescription(string $description = null): Category
     {
         $this->description = $description;
 
@@ -127,15 +130,15 @@ class Task
      */
     public function getRate(): string
     {
-        return $this->rate ?? $this->getCategory()->getRate();
+        return $this->rate;
     }
 
     /**
      * @param string $rate
      *
-     * @return Task
+     * @return Category
      */
-    public function setRate(string $rate = null): Task
+    public function setRate(string $rate): Category
     {
         $this->rate = $rate;
 
@@ -143,45 +146,45 @@ class Task
     }
 
     /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
      * @return Category
      */
-    public function getCategory(): Category
+    public function setUser(User $user): Category
     {
-        return $this->category;
-    }
-
-    /**
-     * @param Category $category
-     *
-     * @return Task
-     */
-    public function setCategory(Category $category): Task
-    {
-        $this->category = $category;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * @param Period $period
+     * @param Task $task
      *
-     * @return Task
+     * @return Category
      */
-    public function addPeriod(Period $period): Task
+    public function addTask(Task $task): Category
     {
-        $this->getPeriods()->add($period);
+        $this->getTasks()->add($task);
 
         return $this;
     }
 
     /**
-     * @param Period $period
+     * @param Task $task
      *
-     * @return Task
+     * @return Category
      */
-    public function removePeriod(Period $period): Task
+    public function removeTask(Task $task): Category
     {
-        $this->getPeriods()->removeElement($period);
+        $this->getTasks()->removeElement($task);
 
         return $this;
     }
@@ -189,8 +192,8 @@ class Task
     /**
      * @return Collection
      */
-    public function getPeriods(): Collection
+    public function getTasks(): Collection
     {
-        return $this->periods;
+        return $this->tasks;
     }
 }

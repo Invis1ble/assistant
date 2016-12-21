@@ -27,9 +27,9 @@ abstract class AbstractEntityCollection
     /**
      * @param object[] $entities
      *
-     * @return AbstractEntityCollection
+     * @return $this
      */
-    public function setEntities(array $entities): AbstractEntityCollection
+    public function setEntities(array $entities)
     {
         $this->entities = $entities;
 

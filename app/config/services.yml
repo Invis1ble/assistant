@@ -35,6 +35,13 @@ services:
             - [ setTranslationNamespace, [ 'form.refresh_token.' ] ]
         tags:
             - { name: form.type }
+    
+    app.form.type.category_form_type:
+        class: AppBundle\Form\Type\CategoryFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.category.' ] ]
+        tags:
+            - { name: form.type }
 
     app.form.type.task_form_type:
         class: AppBundle\Form\Type\TaskFormType
@@ -54,6 +61,10 @@ services:
         abstract: true
         class: AppBundle\Manager\AbstractManager
         arguments: ['@doctrine.orm.entity_manager']
+
+    app.manager.category_manager:
+        parent: app.manager.abstract_manager
+        class: AppBundle\Manager\CategoryManager
 
     app.manager.task_manager:
         parent: app.manager.abstract_manager
@@ -80,9 +91,23 @@ services:
            - { name: security.voter }
            - { name: app.private_testable }
 
-    app.security.authorization.voter.user_task_voter:
+    app.security.authorization.voter.user_category_voter:
         parent: app.security.authorization.voter.abstract_voter
-        class: AppBundle\Security\Authorization\Voter\UserTaskVoter
+        class: AppBundle\Security\Authorization\Voter\UserCategoryVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.category_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\CategoryVoter
+        tags:
+           - { name: security.voter }
+           - { name: app.private_testable }
+
+    app.security.authorization.voter.category_task_voter:
+        parent: app.security.authorization.voter.abstract_voter
+        class: AppBundle\Security\Authorization\Voter\CategoryTaskVoter
         tags:
            - { name: security.voter }
            - { name: app.private_testable }

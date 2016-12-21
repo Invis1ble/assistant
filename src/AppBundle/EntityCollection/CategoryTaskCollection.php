@@ -3,23 +3,23 @@
 namespace AppBundle\EntityCollection;
 
 use AppBundle\Entity\{
-    User,
+    Category,
     Task
 };
 
 /**
- * UserTaskCollection
+ * CategoryTaskCollection
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class UserTaskCollection extends AbstractEntityCollection
+class CategoryTaskCollection extends AbstractEntityCollection
 {
     /**
-     * @var User
+     * @var Category
      */
-    protected $user;
+    protected $category;
 
     /**
      * @var int
@@ -35,34 +35,36 @@ class UserTaskCollection extends AbstractEntityCollection
      * TaskCollection constructor.
      *
      * @param Task[]   $entities
-     * @param User     $user
+     * @param Category     $category
      * @param int|null $offset
      * @param int|null $limit
      */
-    public function __construct(array $entities = [], User $user, int $offset = null, int $limit = null)
+    public function __construct(array $entities = [], Category $category, int $offset = null, int $limit = null)
     {
-        $this->setEntities($entities);
-        $this->setUser($user);
-        $this->setLimit($limit);
-        $this->setOffset($offset);
+        $this
+            ->setEntities($entities)
+            ->setCategory($category)
+            ->setLimit($limit)
+            ->setOffset($offset)
+        ;
     }
 
     /**
-     * @return User
+     * @return Category
      */
-    public function getUser(): User
+    public function getCategory(): Category
     {
-        return $this->user;
+        return $this->category;
     }
 
     /**
-     * @param User $user
+     * @param Category $category
      *
-     * @return UserTaskCollection
+     * @return CategoryTaskCollection
      */
-    public function setUser(User $user): UserTaskCollection
+    public function setCategory(Category $category): CategoryTaskCollection
     {
-        $this->user = $user;
+        $this->category = $category;
 
         return $this;
     }
@@ -78,9 +80,9 @@ class UserTaskCollection extends AbstractEntityCollection
     /**
      * @param int|null $offset
      *
-     * @return UserTaskCollection
+     * @return CategoryTaskCollection
      */
-    public function setOffset(int $offset = null): UserTaskCollection
+    public function setOffset(int $offset = null): CategoryTaskCollection
     {
         $this->offset = $offset;
 
@@ -98,9 +100,9 @@ class UserTaskCollection extends AbstractEntityCollection
     /**
      * @param int|null $limit
      *
-     * @return UserTaskCollection
+     * @return CategoryTaskCollection
      */
-    public function setLimit(int $limit = null): UserTaskCollection
+    public function setLimit(int $limit = null): CategoryTaskCollection
     {
         $this->limit = $limit;
 

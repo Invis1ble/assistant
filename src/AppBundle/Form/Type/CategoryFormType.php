@@ -6,16 +6,17 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use AppBundle\Entity\Category;
 use Utils\TranslationNamespaceAwareTrait;
 
 /**
- * TaskFormType
+ * CategoryFormType
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskFormType extends DisabledCsrfProtectionFormType
+class CategoryFormType extends DisabledCsrfProtectionFormType
 {
     use TranslationNamespaceAwareTrait;
 
@@ -24,13 +25,14 @@ class TaskFormType extends DisabledCsrfProtectionFormType
         $translationNamespace = $this->getTranslationNamespace();
 
         $builder
-            ->add('title', null, [
-                'label' => $translationNamespace . 'label.title',
+            ->add('name', null, [
+                'label' => $translationNamespace . 'label.name',
             ])
             ->add('description', null, [
                 'label' => $translationNamespace . 'label.description',
             ])
             ->add('rate', MoneyType::class, [
+                'empty_data' => Category::DEFAULT_RATE,
                 'label' => $translationNamespace . 'label.rate',
                 'currency' => 'USD',
             ])
@@ -45,7 +47,7 @@ class TaskFormType extends DisabledCsrfProtectionFormType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Task',
+            'data_class' => 'AppBundle\Entity\Category',
             'intention' => $this->getName(),
         ]);
     }
@@ -55,6 +57,6 @@ class TaskFormType extends DisabledCsrfProtectionFormType
      */
     public function getName(): string
     {
-        return 'task';
+        return 'category';
     }
 }

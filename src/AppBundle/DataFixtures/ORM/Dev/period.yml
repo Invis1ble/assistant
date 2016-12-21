@@ -1,24 +1,24 @@
 AppBundle\Entity\Period:
-    alice_period_{1..60}:
-        setTaskAndAddSelfToPeriodsCollection: ['@alice_task*']
+    alice_period_{1..600}:
+        setTaskAndAddSelfToPeriodsCollection: ['@alice_task_*']
         startedAt: <startedAt(@self)>
         finishedAt: <dateTimeBetween(@self->startedAt)>
     alice_runned_period:
-        task: '@alice_task*'
+        task: '@alice_task_*'
         startedAt: <startedAt(@self)>
 
-    user_1_period_{1..60}:
-        setTaskAndAddSelfToPeriodsCollection: ['@user_1_task*']
+    user_1_period_{1..600}:
+        setTaskAndAddSelfToPeriodsCollection: ['@user_1_task_*']
         startedAt: <startedAt(@self)>
         finishedAt: <dateTimeBetween(@self->startedAt)>
     user_1_runned_period:
-        task: '@user_1_task*'
+        task: '@user_1_task_*'
         startedAt: <startedAt(@self)>
 
-    user_2_period_{1..60}:
-        setTaskAndAddSelfToPeriodsCollection: ['@user_2_task*']
+    user_2_period_{1..600}:
+        setTaskAndAddSelfToPeriodsCollection: ['@user_2_task_*']
         startedAt: <startedAt(@self)>
         finishedAt: <dateTimeBetween(@self->startedAt)>
     user_2_runned_period:
-        task: '@user_2_task*'
+        task: '@user_2_task_*'
         startedAt: <startedAt(@self)>

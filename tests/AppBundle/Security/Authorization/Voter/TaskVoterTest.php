@@ -3,10 +3,7 @@
 namespace Tests\AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Security\Authorization\Voter\TaskVoter;
-use AppBundle\Entity\{
-    Task,
-    User
-};
+use AppBundle\Entity\User;
 
 /**
  * TaskVoterTest
@@ -19,6 +16,8 @@ use AppBundle\Entity\{
  */
 class TaskVoterTest extends AbstractVoterTestCase
 {
+    use CreateUserTaskTrait;
+
     /**
      * @return array[]
      */
@@ -30,14 +29,10 @@ class TaskVoterTest extends AbstractVoterTestCase
         $bob = new User();
         $bob->setUsername('bob');
 
+        $aliceTask = $this->createUserTask($alice);
+        $bobTask = $this->createUserTask($bob);
+
         $aliceToken = $this->createJWTToken($alice);
-
-        $aliceTask = new Task();
-        $aliceTask->setUser($alice);
-
-        $bobTask = new Task();
-        $bobTask->setUser($bob);
-
         $anonymousToken = $this->createAnonymousToken();
 
         return [

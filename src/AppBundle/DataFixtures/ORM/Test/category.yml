@@ -1,0 +1,12 @@
+AppBundle\Entity\Category:
+    alice_category_{1..15}:
+        name (unique): <realText(120)>
+        description: 10%? <realText(400)>
+        rate: '30%? <randomFloat(2, 10.00, 19.99)> : 20'
+        user: '@alice'
+
+    bob_category_{1..15}:
+        name (unique): <realText(120)>
+        description: 10%? <realText(400)>
+        rate: '30%? <randomFloat(2, 10.00, 19.99)> : 20'
+        user: '@bob'

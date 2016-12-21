@@ -13,10 +13,21 @@ users:
     resource: '@AppBundle/Controller/UserController.php'
     name_prefix: api_
 
-user_tasks:
+user_categories:
     type: rest
-    resource: '@AppBundle/Controller/UserTaskController.php'
+    resource: '@AppBundle/Controller/UserCategoryController.php'
     parent: users
+    name_prefix: api_
+
+categories:
+    type: rest
+    resource: '@AppBundle/Controller/CategoryController.php'
+    name_prefix: api_
+
+category_tasks:
+    type: rest
+    resource: '@AppBundle/Controller/CategoryTaskController.php'
+    parent: categories
     name_prefix: api_
 
 tasks:

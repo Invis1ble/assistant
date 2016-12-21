@@ -106,9 +106,10 @@ class TaskPeriodControllerTest extends ApiTestCase
         return $queryBuilder
             ->addSelect($queryBuilder->expr()->count($alias . '__periods.id') . ' HIDDEN ' . $alias . '__periods__count')
             ->leftJoin($alias . '.periods', $alias . '__periods')
+            ->leftJoin($alias . '.category', $alias . '__category')
             ->andWhere($queryBuilder->expr()->isNull($alias . '__periods.finishedAt'))
-            ->andWhere($alias . '.user = :' . $alias . '__user')
-            ->setParameter($alias . '__user', $user)
+            ->andWhere($alias . '__category.user = :' . $alias . '__category__user')
+            ->setParameter($alias . '__category__user', $user)
             ->addGroupBy($alias . '.id')
             ->andHaving($alias . '__periods__count = :' . $alias . '__periods__count')
             ->setParameter($alias . '__periods__count', 0)

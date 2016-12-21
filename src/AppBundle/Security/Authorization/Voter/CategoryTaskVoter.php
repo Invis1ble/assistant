@@ -6,14 +6,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use AppBundle\Entity\Category;
+
 /**
- * UserTaskVoter
+ * CategoryTaskVoter
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class UserTaskVoter extends Voter
+class CategoryTaskVoter extends Voter
 {
     const LIST = 'task_list';
     const CREATE = 'task_create';
@@ -37,7 +39,7 @@ class UserTaskVoter extends Voter
             return false;
         }
 
-        if (!$subject instanceof UserInterface) {
+        if (!$subject instanceof Category) {
             return false;
         }
 
@@ -48,29 +50,35 @@ class UserTaskVoter extends Voter
      * Perform a single access check operation on a given attribute, subject and token.
      *
      * @param string         $attribute
-     * @param UserInterface  $subject
+     * @param Category       $category
      * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $category, TokenInterface $token)
     {
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
             return false;
         }
+        
+        $username = $user->getUsername();
+        
+        $categoryOwnerUsername = $category->getUser()
+            ->getUsername()
+        ;
 
         switch ($attribute) {
             case self::LIST:
-                if ($user->getUsername() === $subject->getUsername()) {
+                if ($username === $categoryOwnerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::CREATE:
-                if ($user->getUsername() === $subject->getUsername()) {
+                if ($username === $categoryOwnerUsername) {
                     return true;
                 }
 
