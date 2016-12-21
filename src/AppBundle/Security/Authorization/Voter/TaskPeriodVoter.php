@@ -65,21 +65,21 @@ class TaskPeriodVoter extends Voter
 
         $username = $user->getUsername();
 
-        $taskOwnerUsername = $task->getCategory()
+        $ownerUsername = $task->getCategory()
             ->getUser()
             ->getUsername()
         ;
 
         switch ($attribute) {
             case self::LIST:
-                if ($username === $taskOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::CREATE:
-                if ($username === $taskOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 

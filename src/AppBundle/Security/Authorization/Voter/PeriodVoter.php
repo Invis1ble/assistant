@@ -65,7 +65,7 @@ class PeriodVoter extends Voter
 
         $username = $user->getUsername();
 
-        $periodOwnerUsername = $period->getTask()
+        $ownerUsername = $period->getTask()
             ->getCategory()
             ->getUser()
             ->getUsername()
@@ -73,14 +73,14 @@ class PeriodVoter extends Voter
 
         switch ($attribute) {
             case self::SHOW:
-                if ($username === $periodOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::EDIT:
-                if ($username === $periodOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 

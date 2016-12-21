@@ -67,27 +67,27 @@ class CategoryVoter extends Voter
         
         $username = $user->getUsername();
         
-        $categoryOwnerUsername = $category->getUser()
+        $ownerUsername = $category->getUser()
             ->getUsername()
         ;
 
         switch ($attribute) {
             case self::SHOW:
-                if ($username === $categoryOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::EDIT:
-                if ($username === $categoryOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::DELETE:
-                if ($username === $categoryOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 

@@ -65,20 +65,20 @@ class CategoryTaskVoter extends Voter
         
         $username = $user->getUsername();
         
-        $categoryOwnerUsername = $category->getUser()
+        $ownerUsername = $category->getUser()
             ->getUsername()
         ;
 
         switch ($attribute) {
             case self::LIST:
-                if ($username === $categoryOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::CREATE:
-                if ($username === $categoryOwnerUsername) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
