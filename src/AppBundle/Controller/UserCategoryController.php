@@ -39,7 +39,7 @@ class UserCategoryController extends FOSRestController
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {
@@ -88,7 +88,7 @@ class UserCategoryController extends FOSRestController
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {

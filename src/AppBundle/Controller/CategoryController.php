@@ -38,7 +38,7 @@ class CategoryController extends FOSRestController
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     requirements = {
@@ -84,7 +84,7 @@ class CategoryController extends FOSRestController
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {
@@ -137,7 +137,7 @@ class CategoryController extends FOSRestController
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {
