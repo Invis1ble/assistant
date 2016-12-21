@@ -16,8 +16,36 @@ engines:
             - f6c8c9863ae92a323290dd063127eae4
             - ad3564a6b3f89669dc6339d2a72f8d04
             - e4391998d5a9cca851d916f08a374d07
-            # Unused $tags in HideTestableDefinitionsPass
+            # Short name $id in Category
+            - 8df643b6dca377edd6f2925d42791683
+            # Unused parameter $options in AuthenticationFormType::buildForm()
+            - ef6dad5ce8078d0f11d70751337d9f75
+            # Unused parameter $options in CategoryTaskFormType::buildForm()
+            - 3aa8d915daf14e5c9d4841d4008cd6bf
+            # Unused parameter $options in RefreshTokenFormType::buildForm()
+            - ef7c02c36f4ba1d57d8e8d8d4e57ed8a
+            # Unused parameter $options in TaskPeriodFormType::buildForm()
+            - c5f61af32b2169af8ad9d6eefffedac1
+            # Unused parameter $options in UserCategoryFormType::buildForm()
+            - c7a6764a9268391d5c50f0bafb349973
+            # Unused parameter $options in UserFormType::buildForm()
+            - 4fca95937cd6b20f9e2fb534b19128b2
+            # Unused parameter $options in UserFormType::buildForm()
+            - 4fca95937cd6b20f9e2fb534b19128b2
+            # Unused parameter $response ResponseHasLocationHeader::failureDescription()
+            - 9152af851ffb62726b84bc2c2fa3ba5f
+            # Unused $tags in HideTestableDefinitionsPass::process()
             - 2ed3a6e392041062b126d7a48efc4477
+            # Identical code in CategoryController
+            - 98b950c857dd513d8549f50547bf8199
+            # Identical code in TaskController
+            - 8de30add0edde57834475eb2950415b1
+            # Identical code in TaskPeriodController
+            - 7e256a104c8e6552b8f329c4c1673942
+            # Identical code in UserCategoryController
+            - 4e9f020fc432eade1a92b9acca1a1cec
+            # Identical code in UserCategoryController
+            - 4e9f020fc432eade1a92b9acca1a1cec
 
 ratings:
     paths:
