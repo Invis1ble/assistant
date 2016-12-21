@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Task;
-use AppBundle\Form\Type\TaskFormType;
+use AppBundle\Form\Type\CategoryTaskFormType;
 
 /**
  * TaskController
@@ -70,7 +70,7 @@ class TaskController extends FOSRestController
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\TaskFormType",
+     *         "class" = "AppBundle\Form\Type\CategoryTaskFormType",
      *         "name" = ""
      *     },
      *     requirements = {
@@ -108,7 +108,7 @@ class TaskController extends FOSRestController
      */
     public function patchTaskAction(Request $request, Task $task)
     {
-        $form = $this->createForm(TaskFormType::class, $task);
+        $form = $this->createForm(CategoryTaskFormType::class, $task);
         $form->submit(json_decode($request->getContent(), true), false);
 
         if ($form->isValid()) {

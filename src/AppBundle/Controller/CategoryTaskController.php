@@ -13,7 +13,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Category;
 use AppBundle\EntityCollection\CategoryTaskCollection;
-use AppBundle\Form\Type\TaskFormType;
+use AppBundle\Form\Type\CategoryTaskFormType;
 
 /**
  * CategoryTaskController
@@ -93,7 +93,7 @@ class CategoryTaskController extends FOSRestController
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\TaskFormType",
+     *         "class" = "AppBundle\Form\Type\CategoryTaskFormType",
      *         "name" = ""
      *     },
      *     requirements = {
@@ -136,7 +136,7 @@ class CategoryTaskController extends FOSRestController
         $task = $taskManager->createTask();
         $task->setCategory($category);
 
-        $form = $this->createForm(TaskFormType::class, $task);
+        $form = $this->createForm(CategoryTaskFormType::class, $task);
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {

@@ -12,7 +12,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\User;
 use AppBundle\EntityCollection\UserCategoryCollection;
-use AppBundle\Form\Type\CategoryFormType;
+use AppBundle\Form\Type\UserCategoryFormType;
 
 /**
  * UserCategoryController
@@ -74,7 +74,7 @@ class UserCategoryController extends FOSRestController
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\CategoryFormType",
+     *         "class" = "AppBundle\Form\Type\UserCategoryFormType",
      *         "name" = ""
      *     },
      *     requirements = {
@@ -117,7 +117,7 @@ class UserCategoryController extends FOSRestController
         $category = $categoryManager->createCategory();
         $category->setUser($fetchedUser);
 
-        $form = $this->createForm(CategoryFormType::class, $category);
+        $form = $this->createForm(UserCategoryFormType::class, $category);
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {

@@ -36,15 +36,15 @@ services:
         tags:
             - { name: form.type }
     
-    app.form.type.category_form_type:
-        class: AppBundle\Form\Type\CategoryFormType
+    app.form.type.user_category_form_type:
+        class: AppBundle\Form\Type\UserCategoryFormType
         calls:
             - [ setTranslationNamespace, [ 'form.category.' ] ]
         tags:
             - { name: form.type }
 
-    app.form.type.task_form_type:
-        class: AppBundle\Form\Type\TaskFormType
+    app.form.type.category_task_form_type:
+        class: AppBundle\Form\Type\CategoryTaskFormType
         calls:
             - [ setTranslationNamespace, [ 'form.task.' ] ]
         tags:

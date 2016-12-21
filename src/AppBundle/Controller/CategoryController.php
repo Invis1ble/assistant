@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Category;
-use AppBundle\Form\Type\CategoryFormType;
+use AppBundle\Form\Type\UserCategoryFormType;
 
 /**
  * CategoryController
@@ -70,7 +70,7 @@ class CategoryController extends FOSRestController
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\CategoryFormType",
+     *         "class" = "AppBundle\Form\Type\UserCategoryFormType",
      *         "name" = ""
      *     },
      *     requirements = {
@@ -108,7 +108,7 @@ class CategoryController extends FOSRestController
      */
     public function patchCategoryAction(Request $request, Category $category)
     {
-        $form = $this->createForm(CategoryFormType::class, $category);
+        $form = $this->createForm(UserCategoryFormType::class, $category);
         $form->submit(json_decode($request->getContent(), true), false);
 
         if ($form->isValid()) {
