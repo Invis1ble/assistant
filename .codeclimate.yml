@@ -4,6 +4,15 @@ engines:
         config:
             languages:
                 - php
+        exclude_fingerprints:
+            # Identical code in CategoryController
+            - 98b950c857dd513d8549f50547bf8199
+            # Identical code in TaskController
+            - 8de30add0edde57834475eb2950415b1
+            # Identical code in TaskPeriodController
+            - 7e256a104c8e6552b8f329c4c1673942
+            # Identical code in UserCategoryController
+            - 4e9f020fc432eade1a92b9acca1a1cec
         exclude_paths:
             - tests/**/*
     fixme:
@@ -36,14 +45,6 @@ engines:
             - 9152af851ffb62726b84bc2c2fa3ba5f
             # Unused $tags in HideTestableDefinitionsPass::process()
             - 2ed3a6e392041062b126d7a48efc4477
-            # Identical code in CategoryController
-            - 98b950c857dd513d8549f50547bf8199
-            # Identical code in TaskController
-            - 8de30add0edde57834475eb2950415b1
-            # Identical code in TaskPeriodController
-            - 7e256a104c8e6552b8f329c4c1673942
-            # Identical code in UserCategoryController
-            - 4e9f020fc432eade1a92b9acca1a1cec
 
 ratings:
     paths:
