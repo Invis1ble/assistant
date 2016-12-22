@@ -44,8 +44,6 @@ engines:
             - 7e256a104c8e6552b8f329c4c1673942
             # Identical code in UserCategoryController
             - 4e9f020fc432eade1a92b9acca1a1cec
-            # Identical code in UserCategoryController
-            - 4e9f020fc432eade1a92b9acca1a1cec
 
 ratings:
     paths:
