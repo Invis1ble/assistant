@@ -136,8 +136,9 @@ class PeriodControllerTest extends ApiTestCase
         return $this->getRepository('AppBundle:Period')
             ->createQueryBuilder($alias)
             ->leftJoin($alias . '.task', $alias . '__task')
-            ->andWhere($alias . '__task.user = :' . $alias . '__task__user')
-            ->setParameter($alias . '__task__user', $user)
+            ->leftJoin($alias . '__task.category', $alias . '__task__category')
+            ->andWhere($alias . '__task__category.user = :' . $alias . '__task__category__user')
+            ->setParameter($alias . '__task__category__user', $user)
             ->setMaxResults(1)
         ;
     }

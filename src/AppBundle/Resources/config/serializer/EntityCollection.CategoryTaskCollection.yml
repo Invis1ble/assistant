@@ -1,0 +1,28 @@
+AppBundle\EntityCollection\CategoryTaskCollection:
+    exclusion_policy: ALL
+    properties:
+        entities:
+            expose: true
+            type: array<AppBundle\Entity\Task>
+        offset:
+            expose: true
+            type: integer
+        limit:
+            expose: true
+            type: integer
+    relations:
+        -
+            rel: self
+            href:
+                route: api_get_category_tasks
+                parameters:
+                    id: expr(object.getCategory().getId().toString())
+        -
+            rel: entity
+            href:
+                route: api_get_task
+                generator: templated_uri
+                parameters:
+                    id: '{id}'
+            attributes:
+                templated: true

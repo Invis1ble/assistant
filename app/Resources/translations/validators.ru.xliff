@@ -2,6 +2,18 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="category.description.long">
+                <source>category.description.long</source>
+                <target>Длина описания категории превышает {{ limit }} символа|Длина описания категории превышает {{ limit }} символов|Длина описания категории превышает {{ limit }} символов</target>
+            </trans-unit>
+            <trans-unit id="category.name.blank">
+                <source>category.name.blank</source>
+                <target>Не указано название категории</target>
+            </trans-unit>
+            <trans-unit id="category.name.long">
+                <source>category.name.long</source>
+                <target>Длина названия категории превышает {{ limit }} символа|Длина названия категории превышает {{ limit }} символов|Длина названия категории превышает {{ limit }} символов</target>
+            </trans-unit>
             <trans-unit id="user.password.blank">
                 <source>user.password.blank</source>
                 <target>Не указан пароль</target>

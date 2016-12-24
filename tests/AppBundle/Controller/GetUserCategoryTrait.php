@@ -3,30 +3,27 @@
 namespace tests\AppBundle\Controller;
 
 use AppBundle\Entity\{
-    Task,
+    Category,
     User
 };
 
 /**
- * Trait GetUserTaskTrait
+ * Trait GetUserCategory
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-trait GetUserTaskTrait
+trait GetUserCategoryTrait
 {
-    use GetUserCategoryTrait;
-
     /**
      * @param User $user
      *
-     * @return Task|null
+     * @return Category
      */
-    protected function getUserTask(User $user)
+    protected function getUserCategory(User $user): Category
     {
-        return $this->getUserCategory($user)
-            ->getTasks()
+        return $user->getCategories()
             ->get(0);
     }
 }

@@ -1,22 +1,23 @@
-AppBundle\Entity\User:
+AppBundle\Entity\Category:
     exclusion_policy: ALL
     properties:
         id:
             type: string
-        username: ~
-        createdAt: ~
+        name: ~
+        description: ~
+        rate: ~
     relations:
         -
             rel: self
             href:
-                route: api_get_user
+                route: api_get_category
                 parameters:
                     id: expr(object.getId())
         -
-            rel: categories
+            rel: tasks
             href:
-                route: api_get_user_categories
+                route: api_get_category_tasks
                 parameters:
                     id: expr(object.getId())
             embed:
-                content: expr(object.getCategories())
+                content: expr(object.getTasks())

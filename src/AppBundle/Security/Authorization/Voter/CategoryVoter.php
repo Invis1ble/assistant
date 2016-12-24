@@ -6,17 +6,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use AppBundle\Entity\Category;
+
 /**
- * UserTaskVoter
+ * CategoryVoter
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class UserTaskVoter extends Voter
+class CategoryVoter extends Voter
 {
-    const LIST = 'task_list';
-    const CREATE = 'task_create';
+    const SHOW = 'show';
+    const EDIT = 'edit';
+    const DELETE = 'delete';
 
     /**
      * Determines if the attribute and subject are supported by this voter.
@@ -31,13 +34,14 @@ class UserTaskVoter extends Voter
         $attribute = strtolower($attribute);
 
         if (!in_array($attribute, [
-            self::LIST,
-            self::CREATE,
+            self::SHOW,
+            self::EDIT,
+            self::DELETE,
         ])) {
             return false;
         }
 
-        if (!$subject instanceof UserInterface) {
+        if (!$subject instanceof Category) {
             return false;
         }
 
@@ -48,29 +52,42 @@ class UserTaskVoter extends Voter
      * Perform a single access check operation on a given attribute, subject and token.
      *
      * @param string         $attribute
-     * @param UserInterface  $subject
+     * @param Category       $category
      * @param TokenInterface $token
      *
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $category, TokenInterface $token)
     {
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
             return false;
         }
+        
+        $username = $user->getUsername();
+        
+        $ownerUsername = $category->getUser()
+            ->getUsername()
+        ;
 
         switch ($attribute) {
-            case self::LIST:
-                if ($user->getUsername() === $subject->getUsername()) {
+            case self::SHOW:
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
-            case self::CREATE:
-                if ($user->getUsername() === $subject->getUsername()) {
+            case self::EDIT:
+                if ($username === $ownerUsername) {
+                    return true;
+                }
+
+                break;
+
+            case self::DELETE:
+                if ($username === $ownerUsername) {
                     return true;
                 }
 

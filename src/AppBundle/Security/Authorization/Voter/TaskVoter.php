@@ -65,23 +65,30 @@ class TaskVoter extends Voter
             return false;
         }
 
+        $username = $user->getUsername();
+
+        $ownerUsername = $task->getCategory()
+            ->getUser()
+            ->getUsername()
+        ;
+
         switch ($attribute) {
             case self::SHOW:
-                if ($user->getUsername() === $task->getUser()->getUsername()) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::EDIT:
-                if ($user->getUsername() === $task->getUser()->getUsername()) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 
                 break;
 
             case self::DELETE:
-                if ($user->getUsername() === $task->getUser()->getUsername()) {
+                if ($username === $ownerUsername) {
                     return true;
                 }
 

@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -11,20 +10,21 @@ use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use AppBundle\Entity\Period;
-use AppBundle\Form\Type\TaskPeriodFormType;
+use AppBundle\Entity\User;
+use AppBundle\EntityCollection\UserCategoryCollection;
+use AppBundle\Form\Type\UserCategoryFormType;
 
 /**
- * PeriodController
+ * UserCategoryController
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class PeriodController extends FOSRestController
+class UserCategoryController extends FOSRestController
 {
     /**
-     * Get single period
+     * List user's categories
      *
      * @ApiDoc(
      *     resource = true,
@@ -32,7 +32,7 @@ class PeriodController extends FOSRestController
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "Period ID"
+     *             "description" = "ID of the user for which categories are requested"
      *         }
      *     },
      *     headers = {
@@ -46,38 +46,42 @@ class PeriodController extends FOSRestController
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
      *         403 = "Returned when not permitted",
-     *         404 = "Returned when the period is not found"
+     *         404 = "Returned when user is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="periods/{id}")
+     * @Annotations\Route(path="users/{id}/categories")
      *
-     * @Security("is_granted('show', period)")
+     * @Security("is_granted('category_list', fetchedUser)")
      *
      * @Annotations\View()
      *
-     * @param Period $period
+     * @param User $fetchedUser
      *
-     * @return Period
+     * @return UserCategoryCollection
      */
-    public function getPeriodAction(Period $period): Period
+    public function getCategoriesAction(User $fetchedUser): UserCategoryCollection
     {
-        return $period;
+        return new UserCategoryCollection(
+            $this->getDoctrine()->getRepository('AppBundle:Category')
+                ->findBy(['user' => $fetchedUser], ['name' => 'ASC']),
+            $fetchedUser
+        );
     }
 
     /**
-     * Patch existing period from the submitted data.
+     * Creates a new category from the submitted data.
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\TaskPeriodFormType",
+     *         "class" = "AppBundle\Form\Type\UserCategoryFormType",
      *         "name" = ""
      *     },
      *     requirements = {
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "Period ID"
+     *             "description" = "ID of the user for which category is created"
      *         }
      *     },
      *     headers = {
@@ -88,35 +92,40 @@ class PeriodController extends FOSRestController
      *         }
      *     },
      *     statusCodes = {
-     *         204 = "Returned when successful",
+     *         201 = "Returned when a new category is created",
      *         400 = "Returned when the form has errors",
      *         401 = "Returned when unauthorized",
-     *         404 = "Returned when the period is not found"
+     *         403 = "Returned when not permitted",
+     *         404 = "Returned when user is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="periods/{id}")
+     * @Annotations\Route(path="users/{id}/categories")
      *
-     * @Security("is_granted('edit', period)")
+     * @Security("is_granted('category_create', fetchedUser)")
      *
      * @Annotations\View()
      *
      * @param Request $request
-     * @param Period  $period
+     * @param User    $fetchedUser
      *
      * @return View|Form
      */
-    public function patchPeriodAction(Request $request, Period $period)
+    public function postCategoryAction(Request $request, User $fetchedUser)
     {
-        $form = $this->createForm(TaskPeriodFormType::class, $period);
-        $form->submit(json_decode($request->getContent(), true), false);
+        $categoryManager = $this->get('app.manager.category_manager');
+        $category = $categoryManager->createCategory();
+        $category->setUser($fetchedUser);
+
+        $form = $this->createForm(UserCategoryFormType::class, $category);
+        $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {
-            $this->get('app.manager.period_manager')->saveAndFlush($period);
+            $categoryManager->saveAndFlush($category);
 
-            return $this->routeRedirectView('api_get_period', [
-                'id' => $period->getId(),
-            ], Response::HTTP_NO_CONTENT);
+            return $this->routeRedirectView('api_get_category', [
+                'id' => $category->getId(),
+            ]);
         }
 
         return $form;

@@ -1,26 +1,20 @@
-AppBundle\EntityCollection\UserTaskCollection:
+AppBundle\EntityCollection\UserCategoryCollection:
     exclusion_policy: ALL
     properties:
         entities:
             expose: true
-            type: array<AppBundle\Entity\Task>
-        offset:
-            expose: true
-            type: integer
-        limit:
-            expose: true
-            type: integer
+            type: array<AppBundle\Entity\Category>
     relations:
         -
             rel: self
             href:
-                route: api_get_user_tasks
+                route: api_get_user_categories
                 parameters:
                     id: expr(object.getUser().getId().toString())
         -
             rel: entity
             href:
-                route: api_get_task
+                route: api_get_category
                 generator: templated_uri
                 parameters:
                     id: '{id}'

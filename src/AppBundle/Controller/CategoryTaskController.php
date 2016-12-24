@@ -11,22 +11,21 @@ use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use AppBundle\Entity\User;
-use AppBundle\Entity\Task;
-use AppBundle\EntityCollection\UserTaskCollection;
-use AppBundle\Form\Type\TaskFormType;
+use AppBundle\Entity\Category;
+use AppBundle\EntityCollection\CategoryTaskCollection;
+use AppBundle\Form\Type\CategoryTaskFormType;
 
 /**
- * UserTaskController
+ * CategoryTaskController
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class UserTaskController extends FOSRestController
+class CategoryTaskController extends FOSRestController
 {
     /**
-     * List user's tasks
+     * List category's tasks
      *
      * @ApiDoc(
      *     resource = true,
@@ -34,27 +33,27 @@ class UserTaskController extends FOSRestController
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "ID of the user for which tasks are requested"
+     *             "description" = "ID of the category for which tasks are requested"
      *         }
      *     },
      *     headers = {
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
      *         403 = "Returned when not permitted",
-     *         404 = "Returned when user is not found"
+     *         404 = "Returned when category is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="users/{id}/tasks")
+     * @Annotations\Route(path="categories/{id}/tasks")
      *
-     * @Security("is_granted('task_list', fetchedUser)")
+     * @Security("is_granted('task_list', category)")
      *
      * @Annotations\QueryParam(
      *     name="offset",
@@ -65,25 +64,25 @@ class UserTaskController extends FOSRestController
      * @Annotations\QueryParam(
      *     name="limit",
      *     requirements="\d+",
-     *     default=Task::NUM_ITEMS,
+     *     default=\AppBundle\Entity\Task::NUM_ITEMS,
      *     description="How many tasks to return."
      * )
      *
      * @Annotations\View()
      *
      * @param ParamFetcherInterface $paramFetcher
-     * @param User                  $fetchedUser
+     * @param Category              $category
      *
-     * @return UserTaskCollection
+     * @return CategoryTaskCollection
      */
-    public function getTasksAction(ParamFetcherInterface $paramFetcher, User $fetchedUser): UserTaskCollection
+    public function getTasksAction(ParamFetcherInterface $paramFetcher, Category $category): CategoryTaskCollection
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
 
-        return new UserTaskCollection(
-            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatestCreatedBy($fetchedUser, $limit, $offset),
-            $fetchedUser,
+        return new CategoryTaskCollection(
+            $this->getDoctrine()->getRepository('AppBundle:Task')->findLatestInCategory($category, $limit, $offset),
+            $category,
             $offset,
             $limit
         );
@@ -94,21 +93,21 @@ class UserTaskController extends FOSRestController
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\TaskFormType",
+     *         "class" = "AppBundle\Form\Type\CategoryTaskFormType",
      *         "name" = ""
      *     },
      *     requirements = {
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "ID of the user for which tasks are requested"
+     *             "description" = "ID of the category for which task is created"
      *         }
      *     },
      *     headers = {
      *         {
      *             "name" = "Authorization",
      *             "default" = "Bearer ",
-     *             "description" = "Authorization JSON Web Token",
+     *             "description" = "api_doc.jwt",
      *         }
      *     },
      *     statusCodes = {
@@ -116,28 +115,28 @@ class UserTaskController extends FOSRestController
      *         400 = "Returned when the form has errors",
      *         401 = "Returned when unauthorized",
      *         403 = "Returned when not permitted",
-     *         404 = "Returned when user is not found"
+     *         404 = "Returned when category is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="users/{id}/tasks")
+     * @Annotations\Route(path="categories/{id}/tasks")
      *
-     * @Security("is_granted('task_create', fetchedUser)")
+     * @Security("is_granted('task_create', category)")
      *
      * @Annotations\View()
      *
-     * @param Request $request
-     * @param User    $fetchedUser
+     * @param Request  $request
+     * @param Category $category
      *
      * @return View|Form
      */
-    public function postTaskAction(Request $request, User $fetchedUser)
+    public function postTaskAction(Request $request, Category $category)
     {
         $taskManager = $this->get('app.manager.task_manager');
         $task = $taskManager->createTask();
-        $task->setUser($fetchedUser);
+        $task->setCategory($category);
 
-        $form = $this->createForm(TaskFormType::class, $task);
+        $form = $this->createForm(CategoryTaskFormType::class, $task);
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid()) {

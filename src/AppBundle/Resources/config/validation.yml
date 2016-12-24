@@ -37,6 +37,19 @@ AppBundle\Entity\Task:
             - DateTime:
                 message: task.created_at.not_timestamp
 
+AppBundle\Entity\Category:
+    properties:
+        name:
+            - NotBlank:
+                message: category.name.blank
+            - Length:
+                max: 255
+                maxMessage: category.name.long
+        description:
+            - Length:
+                max: 65535
+                maxMessage: category.description.long
+
 AppBundle\Entity\Period:
     constraints:
         - AppBundle\Validator\Constraints\PeriodIsCoherent:

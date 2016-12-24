@@ -2,6 +2,26 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="api_doc.jwt">
+                <source>api_doc.jwt</source>
+                <target>JSON Web Token</target>
+            </trans-unit>
+            <trans-unit id="form.category.label.description">
+                <source>form.category.label.description</source>
+                <target>Описание</target>
+            </trans-unit>
+            <trans-unit id="form.category.label.name">
+                <source>form.category.label.name</source>
+                <target>Название</target>
+            </trans-unit>
+            <trans-unit id="form.category.label.rate">
+                <source>form.category.label.rate</source>
+                <target>Рейт</target>
+            </trans-unit>
+            <trans-unit id="form.refresh_token.label.refresh_token">
+                <source>form.refresh_token.label.refresh_token</source>
+                <target>Токен для обновления</target>
+            </trans-unit>
             <trans-unit id="form.user.label.password">
                 <source>form.user.label.password</source>
                 <target>Пароль</target>

@@ -11,20 +11,20 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use AppBundle\Entity\Task;
-use AppBundle\Form\Type\CategoryTaskFormType;
+use AppBundle\Entity\Category;
+use AppBundle\Form\Type\UserCategoryFormType;
 
 /**
- * TaskController
+ * CategoryController
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  */
-class TaskController extends FOSRestController
+class CategoryController extends FOSRestController
 {
     /**
-     * Get single task
+     * Get single category
      *
      * @ApiDoc(
      *     resource = true,
@@ -32,7 +32,7 @@ class TaskController extends FOSRestController
      *         200 = "Returned when successful",
      *         401 = "Returned when unauthorized",
      *         403 = "Returned when not permitted",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the category is not found"
      *     },
      *     headers = {
      *         {
@@ -45,39 +45,39 @@ class TaskController extends FOSRestController
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "Task ID"
+     *             "description" = "Category ID"
      *         }
      *     }
      * )
      *
-     * @Annotations\Route(path="tasks/{id}")
+     * @Annotations\Route(path="categories/{id}")
      *
-     * @Security("is_granted('show', task)")
+     * @Security("is_granted('show', category)")
      *
      * @Annotations\View()
      *
-     * @param Task $task
+     * @param Category $category
      *
-     * @return Task
+     * @return Category
      */
-    public function getTaskAction(Task $task): Task
+    public function getCategoryAction(Category $category): Category
     {
-        return $task;
+        return $category;
     }
 
     /**
-     * Patch existing task from the submitted data.
+     * Patch existing category from the submitted data.
      *
      * @ApiDoc(
      *     input = {
-     *         "class" = "AppBundle\Form\Type\CategoryTaskFormType",
+     *         "class" = "AppBundle\Form\Type\UserCategoryFormType",
      *         "name" = ""
      *     },
      *     requirements = {
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "Task ID"
+     *             "description" = "Category ID"
      *         }
      *     },
      *     headers = {
@@ -91,31 +91,31 @@ class TaskController extends FOSRestController
      *         204 = "Returned when successful",
      *         400 = "Returned when the form has errors",
      *         401 = "Returned when unauthorized",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the category is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="tasks/{id}")
+     * @Annotations\Route(path="categories/{id}")
      *
-     * @Security("is_granted('edit', task)")
+     * @Security("is_granted('edit', category)")
      *
      * @Annotations\View()
      *
-     * @param Request $request
-     * @param Task    $task
+     * @param Request  $request
+     * @param Category $category
      *
      * @return View|Form
      */
-    public function patchTaskAction(Request $request, Task $task)
+    public function patchCategoryAction(Request $request, Category $category)
     {
-        $form = $this->createForm(CategoryTaskFormType::class, $task);
+        $form = $this->createForm(UserCategoryFormType::class, $category);
         $form->submit(json_decode($request->getContent(), true), false);
 
         if ($form->isValid()) {
-            $this->get('app.manager.task_manager')->saveAndFlush($task);
+            $this->get('app.manager.category_manager')->saveAndFlush($category);
 
-            return $this->routeRedirectView('api_get_task', [
-                'id' => $task->getId(),
+            return $this->routeRedirectView('api_get_category', [
+                'id' => $category->getId(),
             ], Response::HTTP_NO_CONTENT);
         }
 
@@ -123,14 +123,14 @@ class TaskController extends FOSRestController
     }
 
     /**
-     * Deletes a task.
+     * Deletes a category.
      *
      * @ApiDoc(
      *     requirements = {
      *         {
      *             "name" = "id",
      *             "dataType" = "UUID string",
-     *             "description" = "Task ID"
+     *             "description" = "Category ID"
      *         }
      *     },
      *     headers = {
@@ -143,26 +143,26 @@ class TaskController extends FOSRestController
      *     statusCodes = {
      *         204 = "Returned when successful",
      *         401 = "Returned when unauthorized",
-     *         404 = "Returned when the task is not found"
+     *         404 = "Returned when the category is not found"
      *     }
      * )
      *
-     * @Annotations\Route(path="tasks/{id}")
+     * @Annotations\Route(path="categories/{id}")
      *
-     * @Security("is_granted('delete', task)")
+     * @Security("is_granted('delete', category)")
      *
      * @Annotations\View()
      *
-     * @param Task $task
+     * @param Category $category
      *
      * @return View
      */
-    public function deleteTaskAction(Task $task): View
+    public function deleteCategoryAction(Category $category): View
     {
-        $this->get('app.manager.task_manager')->removeAndFlush($task);
+        $this->get('app.manager.category_manager')->removeAndFlush($category);
 
-        return $this->routeRedirectView('api_get_category_tasks', [
-            'id' => $task->getCategory()->getId(),
+        return $this->routeRedirectView('api_get_user_categories', [
+            'id' => $category->getUser()->getId(),
         ], Response::HTTP_NO_CONTENT);
     }
 }

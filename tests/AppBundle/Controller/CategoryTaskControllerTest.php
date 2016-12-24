@@ -2,10 +2,8 @@
 
 namespace Tests\AppBundle\Controller;
 
-use Symfony\Component\PropertyAccess\PropertyAccess;
-
 /**
- * UserTaskControllerTest
+ * CategoryTaskControllerTest
  *
  * @author     Max Invis1ble
  * @copyright  (c) 2016, Max Invis1ble
@@ -13,8 +11,10 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  *
  * @group smoke
  */
-class UserTaskControllerTest extends ApiTestCase
+class CategoryTaskControllerTest extends ApiTestCase
 {
+    use GetUserCategoryTrait;
+
     public function testGetTasks()
     {
         $uuid4 = $this->getUUID4stub();
@@ -22,22 +22,25 @@ class UserTaskControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
+        $aliceCategory = $this->getUserCategory($alice);
+        $bobCategory = $this->getUserCategory($bob);
+
         $this->assertUnauthorized(
-            $this->get('/api/users/' . $uuid4 . '/tasks')
+            $this->get('/api/categories/' . $uuid4 . '/tasks')
                 ->getResponse()
         );
 
         $this->assertNotFound(
-            $this->get('/api/users/' . $uuid4 . '/tasks', $alice->getUsername(), 'alice_plain_password')
+            $this->get('/api/categories/' . $uuid4 . '/tasks', $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertForbidden(
-            $this->get('/api/users/' . $bob->getId() . '/tasks', $alice->getUsername(), 'alice_plain_password')
+            $this->get('/api/categories/' . $bobCategory->getId() . '/tasks', $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
-        $client = $this->get('/api/users/' . $alice->getId() . '/tasks', $alice->getUsername(), 'alice_plain_password');
+        $client = $this->get('/api/categories/' . $aliceCategory->getId() . '/tasks', $alice->getUsername(), 'alice_plain_password');
 
         $response = $client->getResponse();
 
@@ -54,7 +57,7 @@ class UserTaskControllerTest extends ApiTestCase
         $limit = 1;
 
         $client = $this->get(
-            '/api/users/' . $alice->getId() . '/tasks',
+            '/api/categories/' . $aliceCategory->getId() . '/tasks',
             $alice->getUsername(),
             'alice_plain_password',
             ['offset' => $offset, 'limit' => $limit]
@@ -76,28 +79,31 @@ class UserTaskControllerTest extends ApiTestCase
         $alice = $this->getUser('alice');
         $bob = $this->getUser('bob');
 
+        $aliceCategory = $this->getUserCategory($alice);
+        $bobCategory = $this->getUserCategory($bob);
+
         $this->assertUnauthorized(
-            $this->post('/api/users/' . $uuid4 . '/tasks')
+            $this->post('/api/categories/' . $uuid4 . '/tasks')
                 ->getResponse()
         );
 
         $this->assertNotFound(
-            $this->post('/api/users/' . $uuid4 . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
+            $this->post('/api/categories/' . $uuid4 . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertForbidden(
-            $this->post('/api/users/' . $bob->getId() . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
+            $this->post('/api/categories/' . $bobCategory->getId() . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertValidationFailed(
-            $this->post('/api/users/' . $alice->getId() . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
+            $this->post('/api/categories/' . $aliceCategory->getId() . '/tasks', [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
 
         $this->assertCreated(
-            $this->post('/api/users/' . $alice->getId() . '/tasks', [
+            $this->post('/api/categories/' . $aliceCategory->getId() . '/tasks', [
                 'title' => 'Alice\'s new task',
                 'description' => 'Description of the task',
             ], $alice->getUsername(), 'alice_plain_password')
