@@ -7,6 +7,7 @@ AppBundle\Entity\Task:
         description: ~
         rate: ~
         createdAt: ~
+        categoryId: expr(object.category.getId().toString())
     relations:
         -
             rel: self

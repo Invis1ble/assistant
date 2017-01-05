@@ -43,10 +43,17 @@ services:
         tags:
             - { name: form.type }
 
+    app.form.type.task_form_type:
+        class: AppBundle\Form\Type\TaskFormType
+        calls:
+            - [ setTranslationNamespace, [ 'form.task.' ] ]
+        tags:
+            - { name: form.type }
+
     app.form.type.category_task_form_type:
         class: AppBundle\Form\Type\CategoryTaskFormType
         calls:
-            - [ setTranslationNamespace, [ 'form.task.' ] ]
+            - [ setTranslationNamespace, [ 'form.category_task.' ] ]
         tags:
             - { name: form.type }
 

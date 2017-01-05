@@ -66,8 +66,16 @@
                 <source>period.task.blank</source>
                 <target>Не указана задача</target>
             </trans-unit>
+            <trans-unit id="task.category.invalid">
+                <source>task.category.invalid</source>
+                <target>Некорректная категория</target>
+            </trans-unit>
             <trans-unit id="task.created_at.not_timestamp">
                 <source>task.created_at.not_timestamp</source>
+                <target>Некорректный timestamp создания задачи</target>
+            </trans-unit>
+            <trans-unit id="task.category.not_timestamp">
+                <source>task.category.not_timestamp</source>
                 <target>Некорректный timestamp создания задачи</target>
             </trans-unit>
             <trans-unit id="task.description.long">
