@@ -2,11 +2,15 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Entity\Category;
+use AppBundle\Entity\User;
+use AppBundle\Repository\CategoryRepository;
+
 /**
  * TaskControllerTest
  *
  * @author     Max Invis1ble
- * @copyright  (c) 2016, Max Invis1ble
+ * @copyright  (c) 2016-2017, Max Invis1ble
  * @license    http://www.opensource.org/licenses/mit-license.php MIT
  *
  * @group smoke
@@ -84,6 +88,14 @@ class TaskControllerTest extends ApiTestCase
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
+
+        $this->assertPatched(
+            $this->patch('/api/tasks/' . $aliceTask->getId(), [
+                'category' => $this->findAnotherUserCategories($alice, $aliceTask->getCategory(), 1)[0]
+                ->getId(),
+            ], $alice->getUsername(), 'alice_plain_password')
+                ->getResponse()
+        );
     }
 
     public function testDeleteTask()
@@ -115,5 +127,31 @@ class TaskControllerTest extends ApiTestCase
             $this->delete('/api/tasks/' . $aliceTask->getId(), [], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
+    }
+
+    /**
+     * @param User     $user
+     * @param Category $category
+     * @param int      $limit
+     *
+     * @return Category[]
+     */
+    protected function findAnotherUserCategories(User $user, Category $category, int $limit = null): array
+    {
+        $alias = 'category';
+
+        $categoryRepository = $this->getRepository('AppBundle:Category');
+        /* @var $categoryRepository CategoryRepository */
+
+        return $categoryRepository->createQueryBuilder($alias)
+            ->andWhere($alias . '.user = :' . $alias . '__user')
+            ->setParameter($alias . '__user', $user)
+            ->andWhere($alias . ' != :' . $alias)
+            ->setParameter($alias, $category)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+
     }
 }
