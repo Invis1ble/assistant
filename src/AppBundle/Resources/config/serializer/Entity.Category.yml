@@ -6,6 +6,7 @@ AppBundle\Entity\Category:
         name: ~
         description: ~
         rate: ~
+        userId: expr(object.user.getId().toString())
     relations:
         -
             rel: self

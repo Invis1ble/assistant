@@ -83,6 +83,11 @@ class User implements UserInterface
         $this->categories = new ArrayCollection();
     }
 
+    public function setId(string $id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * @return Uuid
      */
