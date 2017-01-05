@@ -88,7 +88,7 @@ class TaskControllerTest extends ApiTestCase
             ], $alice->getUsername(), 'alice_plain_password')
                 ->getResponse()
         );
-        
+
         $this->assertPatched(
             $this->patch('/api/tasks/' . $aliceTask->getId(), [
                 'category' => $this->findAnotherUserCategories($alice, $aliceTask->getCategory(), 1)[0]
