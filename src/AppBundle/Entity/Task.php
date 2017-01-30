@@ -193,4 +193,13 @@ class Task
     {
         return $this->periods;
     }
+
+    /**
+     * @return string
+     */
+    public function getCategoryId(): string
+    {
+        return $this->getCategory()
+            ->getId();
+    }
 }
